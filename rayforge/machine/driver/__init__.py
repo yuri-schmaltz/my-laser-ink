@@ -1,4 +1,5 @@
 from .grbl_adapter import GrblAdapter
+from .meerk40t_adapter import Meerk40tAdapter
 
 # ... existing imports ...
 from .driver import Driver
@@ -38,6 +39,7 @@ __all__ = [
     "NoDeviceDriver",
     "GrblNetworkDriver",
     "GrblSerialDriver",
-    "GrblAdapter", # New
+    "GrblAdapter",
+    "Meerk40tAdapter",
     "SmoothieDriver",
 ]

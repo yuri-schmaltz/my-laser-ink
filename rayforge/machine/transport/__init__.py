@@ -5,6 +5,7 @@ from .serial import SerialTransport
 from .telnet import TelnetTransport
 from .udp import UdpTransport
 from .websocket import WebSocketTransport
+from .laserweb import LaserWebTransport
 
 
 __all__ = [
@@ -15,4 +16,5 @@ __all__ = [
     "TelnetTransport",
     "UdpTransport",
     "WebSocketTransport",
+    "LaserWebTransport",
 ]

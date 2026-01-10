@@ -8,6 +8,7 @@ from .material_test_grid import MaterialTestGridProducer, MaterialTestGridType
 from .shrinkwrap import ShrinkWrapProducer
 from .rasterize import Rasterizer
 from .advanced_raster import AdvancedRasterizer
+from .galvo import GalvoProducer
 
 producer_by_name = dict(
     [
@@ -29,5 +30,7 @@ __all__ = [
     "MaterialTestGridType",
     "ShrinkWrapProducer",
     "Rasterizer",
+    "AdvancedRasterizer",
+    "GalvoProducer",
     "producer_by_name",
 ]
