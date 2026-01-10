@@ -1,5 +1,15 @@
 import asyncio
-import asyncudp
+try:
+    import asyncudp
+except ImportError:
+    class _DummySocket:
+        async def recvfrom(self):
+            return b'', None
+        def sendto(self, data):
+            pass
+    async def create_socket(*args, **kwargs):
+        return _DummySocket()
+    asyncudp = type('asyncudp', (), {'Socket': _DummySocket, 'create_socket': create_socket})
 import socket
 import logging
 from typing import Optional

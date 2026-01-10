@@ -31,11 +31,14 @@ class ActionManager:
         """Creates all Gio.SimpleActions and adds them to the window."""
         # Menu & File Actions
         self._add_action("quit", self.win.on_quit_action)
+        self._add_action("open-project", self.win.on_open_project_clicked)
+        self._add_action("save-project", self.win.on_save_project_clicked)
         self._add_action("import", self.win.on_menu_import)
         self._add_action("export", self.win.on_export_clicked)
         self._add_action("about", self.win.show_about_dialog)
         self._add_action("settings", self.win.show_settings)
         self._add_action("machine-settings", self.win.show_machine_settings)
+        self._add_action("macro-editor", self.win.on_macro_editor_clicked)
 
         # Tools Actions
         self._add_action("material_test", self.win.on_show_material_test)
@@ -336,6 +339,8 @@ class ActionManager:
             "win.import": "<Primary>i",
             "win.export": "<Primary>e",
             "win.quit": "<Primary>q",
+            "win.open-project": "<Primary>o",
+            "win.save-project": "<Primary>s",
             # Edit
             "win.undo": "<Primary>z",
             "win.redo": "<Primary>y",

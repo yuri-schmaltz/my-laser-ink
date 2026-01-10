@@ -1,6 +1,38 @@
 import asyncio
 from typing import Optional
-import aiohttp
+try:
+    import aiohttp
+except ImportError:
+    class _DummyClientTimeout:
+        def __init__(self, total=None):
+            self.total = total
+    class _DummyResponse:
+        def __init__(self, status=200, data=b''):
+            self.status = status
+            self._data = data
+        async def __aenter__(self):
+            return self
+        async def __aexit__(self, exc_type, exc, tb):
+            pass
+        async def read(self):
+            return self._data
+        async def text(self):
+            return self._data.decode('utf-8')
+    class _DummyClientSession:
+        def __init__(self, *args, **kwargs):
+            pass
+        async def __aenter__(self):
+            return self
+        async def __aexit__(self, exc_type, exc, tb):
+            pass
+        async def post(self, *args, **kwargs):
+            return _DummyResponse(status=200)
+        async def get(self, *args, **kwargs):
+            return _DummyResponse(status=200)
+    aiohttp = type('aiohttp', (), {
+        'ClientSession': _DummyClientSession,
+        'ClientTimeout': _DummyClientTimeout,
+    })
 from .transport import Transport, TransportStatus
 
 

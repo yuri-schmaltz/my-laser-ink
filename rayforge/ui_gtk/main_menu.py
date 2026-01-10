@@ -15,6 +15,8 @@ class MainMenu(Gio.Menu):
         # File Menu
         file_menu = Gio.Menu()
         file_io_group = Gio.Menu()
+        file_io_group.append(_("Open Project..."), "win.open-project")
+        file_io_group.append(_("Save Project..."), "win.save-project")
         file_io_group.append(_("Import..."), "win.import")
         file_io_group.append(_("Export G-code..."), "win.export")
         file_menu.append_section(None, file_io_group)
@@ -176,7 +178,9 @@ class MainMenu(Gio.Menu):
         job_group.append(_("Clear Alarm"), "win.machine-clear-alarm")
         machine_menu.append_section(None, job_group)
 
-        machine_settings_group = Gio.Menu()
+        machine_settings_group.append(
+            _("Macro Editor..."), "win.macro-editor"
+        )
         machine_settings_group.append(
             _("Machine Settings"), "win.machine-settings"
         )

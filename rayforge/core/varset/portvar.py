@@ -1,4 +1,6 @@
 from typing import Optional
+import gettext
+_ = gettext.gettext
 from .intvar import IntVar, ValidationError
 
 

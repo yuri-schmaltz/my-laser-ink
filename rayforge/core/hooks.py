@@ -1,4 +1,10 @@
-import pluggy
+try:
+    import pluggy
+except ImportError:
+    pluggy = type('pluggy', (), {
+        'HookspecMarker': lambda name: lambda func: func,
+        'HookimplMarker': lambda name: lambda func: func,
+    })
 
 hookspec = pluggy.HookspecMarker("rayforge")
 hookimpl = pluggy.HookimplMarker("rayforge")

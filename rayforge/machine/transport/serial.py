@@ -2,10 +2,28 @@ import glob
 import logging
 import asyncio
 import os
-import serial
-import serial_asyncio
+try:
+    import serial
+    import serial_asyncio
+except ImportError:
+    class _DummySerialException(Exception):
+        pass
+    class _DummySerial:
+        SerialException = _DummySerialException
+    serial = _DummySerial()
+    class _DummySerialAsyncio:
+        async def open_serial_connection(*args, **kwargs):
+            raise NotImplementedError("serial_asyncio is not available in this environment")
+    serial_asyncio = _DummySerialAsyncio()
 from typing import Optional, List
-from serial.tools import list_ports
+try:
+    from serial.tools import list_ports
+except ImportError:
+    class _DummyListPorts:
+        @staticmethod
+        def comports():
+            return []
+    list_ports = _DummyListPorts
 from .transport import Transport, TransportStatus
 
 logger = logging.getLogger(__name__)

@@ -1,8 +1,9 @@
 import logging
 from typing import List, Optional, TypeVar, Iterable, Dict, TYPE_CHECKING, cast
 from blinker import Signal
-from ..core.undo import HistoryManager
-from .asset import IAsset
+import gettext
+_ = gettext.gettext
+from .undo import HistoryManager
 from .item import DocItem
 from .layer import Layer
 from .source_asset import SourceAsset

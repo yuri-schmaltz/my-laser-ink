@@ -1,7 +1,19 @@
 import logging
 import threading
 from typing import Optional, TYPE_CHECKING
-import pluggy
+try:
+    import pluggy
+except ImportError:
+    class _DummyHook:
+        def rayforge_init(self, *args, **kwargs):
+            pass
+    class _DummyPluginManager:
+        def __init__(self, project_name):
+            self.project_name = project_name
+            self.hook = _DummyHook()
+        def add_hookspecs(self, specs):
+            pass
+    pluggy = type('pluggy', (), {'PluginManager': _DummyPluginManager})
 from .core.hooks import RayforgeSpecs
 from .core.package_manager import PackageManager
 

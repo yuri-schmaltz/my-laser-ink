@@ -1,7 +1,8 @@
 from abc import ABC, abstractmethod
 from enum import Enum, auto
 from blinker import Signal
-
+import gettext
+_ = gettext.gettext
 
 class TransportStatus(Enum):
     UNKNOWN = auto()

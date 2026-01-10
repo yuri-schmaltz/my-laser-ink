@@ -766,6 +766,7 @@ class WorkPieceElement(CanvasElement):
             if vertex_data.travel_vertices.size > 0:
                 travel_v = vertex_data.travel_vertices.reshape(-1, 2, 3)
                 ctx.set_source_rgba(*self._color_set.get_rgba("travel"))
+                ctx.set_dash([4.0, 4.0], 0.0)
                 for start, end in travel_v:
                     ctx.move_to(
                         start[0] * scale_x,
@@ -775,10 +776,12 @@ class WorkPieceElement(CanvasElement):
                         end[0] * scale_x, drawable_height - end[1] * scale_y
                     )
                 ctx.stroke()
+                ctx.set_dash([], 0.0)  # Reset dash
 
             if vertex_data.zero_power_vertices.size > 0:
                 zero_v = vertex_data.zero_power_vertices.reshape(-1, 2, 3)
                 ctx.set_source_rgba(*self._color_set.get_rgba("zero_power"))
+                ctx.set_dash([2.0, 2.0], 0.0)
                 for start, end in zero_v:
                     ctx.move_to(
                         start[0] * scale_x,
@@ -788,6 +791,7 @@ class WorkPieceElement(CanvasElement):
                         end[0] * scale_x, drawable_height - end[1] * scale_y
                     )
                 ctx.stroke()
+                ctx.set_dash([], 0.0)  # Reset dash
 
         # --- Draw Powered Moves (Grouped by Color for performance) ---
         if vertex_data.powered_vertices.size > 0:

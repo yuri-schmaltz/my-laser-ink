@@ -19,10 +19,14 @@ from dataclasses import asdict
 from copy import deepcopy
 import math
 import numpy as np
-
+logger = logging.getLogger(__name__)
 with warnings.catch_warnings():
     warnings.simplefilter("ignore", DeprecationWarning)
-    import pyvips
+    try:
+        import pyvips
+    except ImportError:
+        pyvips = None
+        logger.warning("pyvips library not found; image processing features will be disabled.")
 
 from ..context import get_context
 from .geo import Geometry

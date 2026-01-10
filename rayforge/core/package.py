@@ -3,7 +3,42 @@ import importlib
 import logging
 import re
 import yaml
-import semver
+try:
+    import semver
+except ImportError:
+    class _DummyVersionInfo(tuple):
+        @classmethod
+        def parse(cls, v):
+            parts = v.lstrip('v').split('.')
+            nums = []
+            for p in parts:
+                try:
+                    nums.append(int(p))
+                except ValueError:
+                    nums.append(0)
+            while len(nums) < 3:
+                nums.append(0)
+            return cls(nums)
+        @property
+        def major(self):
+            return self[0]
+        @property
+        def minor(self):
+            return self[1]
+        @property
+        def patch(self):
+            return self[2]
+        def __gt__(self, other):
+            return tuple(self) > tuple(other)
+        def __lt__(self, other):
+            return tuple(self) < tuple(other)
+        def __eq__(self, other):
+            return tuple(self) == tuple(other)
+        def __ge__(self, other):
+            return tuple(self) >= tuple(other)
+        def __le__(self, other):
+            return tuple(self) <= tuple(other)
+    semver = type('semver', (), {'VersionInfo': _DummyVersionInfo})
 from pathlib import Path
 from dataclasses import dataclass, field, asdict
 from typing import Optional, List, Dict, Any

@@ -134,3 +134,38 @@ def show_export_sketch_dialog(
     dialog.set_default_filter(sketch_filter)
 
     dialog.save(win, None, callback, win)
+
+
+def show_open_project_dialog(win: "MainWindow", callback: Callable):
+    """Shows the open file dialog for Rayforge Projects (.plf)."""
+    dialog = Gtk.FileDialog.new()
+    dialog.set_title(_("Open Rayforge Project"))
+
+    filter_list = Gio.ListStore.new(Gtk.FileFilter)
+    plf_filter = Gtk.FileFilter()
+    plf_filter.set_name(_("Rayforge Project"))
+    plf_filter.add_pattern("*.plf")
+    filter_list.append(plf_filter)
+
+    dialog.set_filters(filter_list)
+    dialog.set_default_filter(plf_filter)
+
+    dialog.open(win, None, callback, None)
+
+
+def show_save_project_dialog(win: "MainWindow", callback: Callable):
+    """Shows the save file dialog for Rayforge Projects (.plf)."""
+    dialog = Gtk.FileDialog.new()
+    dialog.set_title(_("Save Rayforge Project"))
+    dialog.set_initial_name("project.plf")
+
+    filter_list = Gio.ListStore.new(Gtk.FileFilter)
+    plf_filter = Gtk.FileFilter()
+    plf_filter.set_name(_("Rayforge Project"))
+    plf_filter.add_pattern("*.plf")
+    filter_list.append(plf_filter)
+
+    dialog.set_filters(filter_list)
+    dialog.set_default_filter(plf_filter)
+
+    dialog.save(win, None, callback, None)

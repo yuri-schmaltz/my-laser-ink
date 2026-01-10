@@ -148,8 +148,33 @@ class Meerk40tAdapter(Driver):
                     last_pt = end
 
             # 2. Inject into MeerK40t
-            # We use console for maximum compatibility with MeerK40t versions
-            # Path can be added via console command in some versions, or direct node manipulation.
+            elements = self.kernel.elements
+            elements.activate_service(self.device_path)
+            
+            # Clear previous elements to avoid accumulation
+            elements.clear_all()
+            
+            # Add path as a node
+            node = elements.elem_branch.add(
+                path=mk_path,
+                type="elem path",
+                stroke="black"
+            )
+            
+            # Select the node for planning
+            elements.set_selected([node])
+            
+            # 3. Spool the job
+            # Standard MeerK40t planning sequence:
+            # - plan0: The default plan
+            # - copy: Copy elements to plan
+            # - pre-process: Handle offsets/scaling
+            # - validate: Ensure ops are valid
+            # - preop: Handle pre-job gcode/commands
+            # - optimize: Path optimization
+            # - spool: Send to device spooler
+            self.kernel.console("plan0 clear copy pre-process validate preop optimize spool\n")
+            
             logger.info("MeerK40tAdapter: Spooling job to MeerK40t kernel")
             
         except ImportError as e:

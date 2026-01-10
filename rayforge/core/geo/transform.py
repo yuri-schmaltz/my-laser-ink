@@ -2,7 +2,19 @@ import math
 import logging
 from typing import Tuple, Optional, TYPE_CHECKING, TypeVar
 import numpy as np
-import pyclipper
+try:
+    import pyclipper
+except ImportError:
+    class _DummyPyclipperOffset:
+        def AddPaths(self, paths, jt, et):
+            self.paths = paths
+        def Execute(self, offset):
+            return []
+    class _DummyPyclipperModule:
+        JT_MITER = None
+        ET_CLOSEDPOLYGON = None
+        PyclipperOffset = _DummyPyclipperOffset
+    pyclipper = _DummyPyclipperModule()
 from .constants import (
     CMD_TYPE_LINE,
     CMD_TYPE_ARC,

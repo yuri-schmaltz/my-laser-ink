@@ -1,4 +1,5 @@
 import asyncio
+import os
 import logging
 from concurrent.futures import Future
 from pathlib import Path
@@ -14,6 +15,7 @@ from ..core.step import Step
 from ..core.stock import StockItem
 from ..core.undo import Command, HistoryManager, ListItemCommand
 from ..core.workpiece import WorkPiece
+from ..core.plf import PLFManager
 from ..doceditor.editor import DocEditor
 from ..image.sketch.exporter import SketchExporter
 from ..machine.cmd import MachineCmd
@@ -36,6 +38,7 @@ from .canvas2d.simulator_cmd import SimulatorCmd
 from .canvas2d.surface import WorkSurface
 from .canvas3d import Canvas3D, initialized as canvas3d_initialized
 from .doceditor import file_dialogs
+from .doceditor.file_dialogs import show_open_project_dialog, show_save_project_dialog
 from .doceditor.asset_list_view import AssetListView
 from .doceditor.import_handler import start_interactive_import
 from .doceditor.item_properties import DocItemPropertiesWidget
@@ -46,6 +49,7 @@ from .doceditor.workflow_view import WorkflowView
 from .machine.jog_dialog import JogDialog
 from .machine.log_dialog import MachineLogDialog
 from .machine.console_view import ConsoleView
+from .machine.macro_editor import MacroEditorDialog
 from .machine.settings_dialog import MachineSettingsDialog
 from .main_menu import MainMenu
 from .settings.settings_dialog import SettingsWindow
@@ -897,6 +901,14 @@ class MainWindow(Adw.ApplicationWindow):
         action.set_state(value)
         self.console_revealer.set_reveal_child(is_visible)
 
+    def on_toggle_travel_view_state_change(
+        self, action: Gio.SimpleAction, value: GLib.Variant
+    ):
+        """Handles the state change for the Travel Moves visibility."""
+        is_visible = value.get_boolean()
+        action.set_state(value)
+        self.surface.set_travel_view_visible(is_visible)
+
     def on_view_top(self, action, param):
         """Action handler to set the 3D view to top-down."""
         self.view_cmd.set_view_top(self.canvas3d)
@@ -1614,6 +1626,17 @@ class MainWindow(Adw.ApplicationWindow):
         has_workpieces = len(doc.active_layer.get_descendants(WorkPiece)) > 0
         am.get_action("layout-pixel-perfect").set_enabled(has_workpieces)
 
+    def on_macro_editor_clicked(self, action, param=None):
+        """Shows the macro editor dialog."""
+        config = get_context().config
+        if not config.machine:
+            return
+        dialog = MacroEditorDialog(
+            machine=config.machine,
+            transient_for=self,
+        )
+        dialog.present()
+
     def on_machine_warning_clicked(self, sender):
         """Opens the machine settings dialog for the current machine."""
         config = get_context().config
@@ -1641,6 +1664,56 @@ class MainWindow(Adw.ApplicationWindow):
 
     def on_menu_import(self, action, param=None):
         start_interactive_import(self, self.doc_editor)
+
+    def on_open_project_clicked(self, action, param=None):
+        show_open_project_dialog(self, self._on_open_project_response)
+
+    def on_save_project_clicked(self, action, param=None):
+        show_save_project_dialog(self, self._on_save_project_response)
+
+    def _on_open_project_response(self, dialog, result, user_data):
+        try:
+            file = dialog.open_finish(result)
+            if not file:
+                return
+            file_path = file.get_path()
+            
+            # Load the project
+            new_doc = PLFManager.load(file_path)
+            
+            # Update the editor
+            self.doc_editor.set_doc(new_doc)
+            
+            # Reattach listeners
+            self._initialize_document()
+            
+            toast = Adw.Toast.new(_("Project loaded: {name}").format(name=os.path.basename(file_path)))
+            self._add_toast(toast)
+            
+        except Exception as e:
+            logger.error(f"Error opening project: {e}")
+            toast = Adw.Toast.new(_("Failed to load project: {error}").format(error=str(e)))
+            self._add_toast(toast)
+
+    def _on_save_project_response(self, dialog, result, user_data):
+        try:
+            file = dialog.save_finish(result)
+            if not file:
+                return
+            file_path = file.get_path()
+            if not file_path.endswith(".plf"):
+                file_path += ".plf"
+            
+            # Save the project
+            PLFManager.save(self.doc_editor.doc, file_path)
+            
+            toast = Adw.Toast.new(_("Project saved: {name}").format(name=os.path.basename(file_path)))
+            self._add_toast(toast)
+            
+        except Exception as e:
+            logger.error(f"Error saving project: {e}")
+            toast = Adw.Toast.new(_("Failed to save project: {error}").format(error=str(e)))
+            self._add_toast(toast)
 
     def on_open_clicked(self, sender):
         self.on_menu_import(sender)

@@ -1,4 +1,6 @@
 from typing import Optional, Callable, Dict, Any
+import gettext
+_ = gettext.gettext
 from .var import Var, ValidationError
 
 
