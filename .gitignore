@@ -3,6 +3,8 @@ venv
 *.swp
 *.py[oc]
 __pycache__
+.pixi/
+**/.pixi/
 
 dist
 build
