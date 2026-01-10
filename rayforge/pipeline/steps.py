@@ -10,6 +10,7 @@ from .producer import (
     FrameProducer,
     MaterialTestGridProducer,
     Rasterizer,
+    AdvancedRasterizer,
     ShrinkWrapProducer,
 )
 from .transformer import (
@@ -18,6 +19,7 @@ from .transformer import (
     Smooth,
     TabOpsTransformer,
     OverscanTransformer,
+    TopologySorter,
 )
 
 
@@ -39,6 +41,7 @@ def create_contour_step(
         ToGrayscale().to_dict(),
     ]
     step.per_workpiece_transformers_dicts = [
+        TopologySorter(enabled=False).to_dict(),
         Smooth(enabled=False, amount=20).to_dict(),
         TabOpsTransformer().to_dict(),
     ]
@@ -76,6 +79,43 @@ def create_raster_step(
     )
     step.capabilities = {ENGRAVE}
     step.opsproducer_dict = Rasterizer().to_dict()
+    step.modifiers_dicts = [
+        MakeTransparent().to_dict(),
+        ToGrayscale().to_dict(),
+    ]
+    step.per_workpiece_transformers_dicts = [
+        OverscanTransformer(
+            enabled=True, distance_mm=auto_distance, auto=True
+        ).to_dict(),
+        Optimize().to_dict(),
+    ]
+    step.per_step_transformers_dicts = [
+        MultiPassTransformer(passes=1, z_step_down=0.0).to_dict(),
+    ]
+    step.selected_laser_uid = default_head.uid
+    step.max_cut_speed = machine.max_cut_speed
+    step.max_travel_speed = machine.max_travel_speed
+    return step
+
+
+def create_advanced_raster_step(
+    context: RayforgeContext, name: Optional[str] = None
+) -> Step:
+    """Factory to create and configure an Advanced Raster step."""
+    machine = context.machine
+    assert machine is not None
+    default_head = machine.get_default_head()
+
+    auto_distance = OverscanTransformer.calculate_auto_distance(
+        machine.max_cut_speed, machine.acceleration
+    )
+
+    step = Step(
+        typelabel=_("Advanced Engrave"),
+        name=name,
+    )
+    step.capabilities = {ENGRAVE}
+    step.opsproducer_dict = AdvancedRasterizer(mode="dither").to_dict()
     step.modifiers_dicts = [
         MakeTransparent().to_dict(),
         ToGrayscale().to_dict(),
@@ -224,7 +264,9 @@ def create_material_test_step(
 STEP_FACTORIES: List[Callable[[RayforgeContext, Optional[str]], Step]] = [
     create_contour_step,
     create_raster_step,
+    create_advanced_raster_step,
     create_depth_engrave_step,
     create_shrinkwrap_step,
     create_frame_step,
+    create_material_test_step,
 ]

@@ -179,3 +179,22 @@ class AdvancedRasterizer(OpsProducer):
 
     def is_vector_producer(self) -> bool:
         return False
+
+    def to_dict(self) -> dict:
+        return {
+            "type": self.__class__.__name__,
+            "params": {
+                "mode": self.mode,
+                "threshold": self.threshold,
+                "resolution_check": self.resolution_check,
+            },
+        }
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "AdvancedRasterizer":
+        params = data.get("params", {})
+        return cls(
+            mode=params.get("mode", "threshold"),
+            threshold=params.get("threshold", 128),
+            resolution_check=params.get("resolution_check", False),
+        )

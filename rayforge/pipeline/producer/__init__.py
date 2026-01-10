@@ -7,6 +7,7 @@ from .frame import FrameProducer
 from .material_test_grid import MaterialTestGridProducer, MaterialTestGridType
 from .shrinkwrap import ShrinkWrapProducer
 from .rasterize import Rasterizer
+from .advanced_raster import AdvancedRasterizer
 
 producer_by_name = dict(
     [

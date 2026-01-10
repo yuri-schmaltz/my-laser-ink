@@ -6,6 +6,7 @@ from .optimize import Optimize
 from .overscan import OverscanTransformer
 from .smooth import Smooth
 from .tabs import TabOpsTransformer
+from .sort_shapes import TopologySorter
 
 transformer_by_name = dict(
     (name, obj)
