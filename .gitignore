@@ -2,7 +2,7 @@ venv
 .venv
 *.swp
 *.py[oc]
-__pycache__
+__pycache__/
 .pixi/
 **/.pixi/
 
@@ -23,3 +23,5 @@ debian/.debhelper
 *.mo
 *.po~
 *.mo~
+
+.DS_Store
