@@ -45,6 +45,7 @@ from .doceditor.sketch_properties import SketchPropertiesWidget
 from .doceditor.workflow_view import WorkflowView
 from .machine.jog_dialog import JogDialog
 from .machine.log_dialog import MachineLogDialog
+from .machine.console_view import ConsoleView
 from .machine.settings_dialog import MachineSettingsDialog
 from .main_menu import MainMenu
 from .settings.settings_dialog import SettingsWindow
@@ -208,10 +209,23 @@ class MainWindow(Adw.ApplicationWindow):
         self._connect_toolbar_signals()
         main_ui_box.append(self.toolbar)
 
-        # Create the Paned splitting the window into left and right sections.
+        # Create the vertical Paned to allow showing the console at the bottom
+        self.vpaned = Gtk.Paned(orientation=Gtk.Orientation.VERTICAL)
+        self.vpaned.set_vexpand(True)
+        main_ui_box.append(self.vpaned)
+
+        # Create the horizontal Paned splitting the window into left and right sections.
         self.paned = Gtk.Paned(orientation=Gtk.Orientation.HORIZONTAL)
         self.paned.set_vexpand(True)
-        main_ui_box.append(self.paned)
+        self.vpaned.set_start_child(self.paned)
+
+        # Create the Console View in a revealer at the bottom
+        self.console_revealer = Gtk.Revealer()
+        self.console_revealer.set_transition_type(Gtk.RevealerTransitionType.SLIDE_UP)
+        self.console_view = ConsoleView()
+        self.console_view.set_size_request(-1, 200)
+        self.console_revealer.set_child(self.console_view)
+        self.vpaned.set_end_child(self.console_revealer)
 
         # Apply styles
         self.paned.add_css_class("mainpaned")
@@ -874,6 +888,14 @@ class MainWindow(Adw.ApplicationWindow):
             self.refresh_previews()
         else:
             self.left_content_pane.set_position(0)
+
+    def on_toggle_console_state_change(
+        self, action: Gio.SimpleAction, value: GLib.Variant
+    ):
+        """Handles the state change for the Console visibility."""
+        is_visible = value.get_boolean()
+        action.set_state(value)
+        self.console_revealer.set_reveal_child(is_visible)
 
     def on_view_top(self, action, param):
         """Action handler to set the 3D view to top-down."""

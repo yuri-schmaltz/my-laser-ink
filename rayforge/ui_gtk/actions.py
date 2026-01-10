@@ -66,6 +66,11 @@ class ActionManager:
             self.win.on_toggle_gcode_preview_state_change,
             GLib.Variant.new_boolean(False),
         )
+        self._add_stateful_action(
+            "toggle_console",
+            self.win.on_toggle_console_state_change,
+            GLib.Variant.new_boolean(False),
+        )
 
         self._add_stateful_action(
             "simulate_mode",
@@ -351,6 +356,7 @@ class ActionManager:
             "win.toggle_gcode_preview": "<Primary><Shift>g",
             "win.show_3d_view": "F12",
             "win.simulate_mode": "<Primary><Shift>s",
+            "win.toggle_console": "<Primary><Alt>c",
             "win.view_top": "1",
             "win.view_front": "2",
             "win.view_iso": "7",

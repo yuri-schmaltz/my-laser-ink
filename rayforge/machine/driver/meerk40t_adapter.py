@@ -4,7 +4,7 @@ from typing import Any, List, Optional, Dict, Union, Callable, Awaitable
 from ...context import RayforgeContext
 from ...core.ops import Ops
 from ...core.doc import Doc
-from ...core.varset import VarSet, Var
+from ...core.varset import VarSet, Var, ChoiceVar, IntVar
 from ..models.machine import Machine, Axis
 from ..models.laser import Laser
 from .driver import Driver, DriverSetupError, DeviceState, DeviceStatus, TransportStatus
@@ -37,7 +37,19 @@ class Meerk40tAdapter(Driver):
     @classmethod
     def get_setup_vars(cls) -> VarSet:
         vs = VarSet()
-        # In a real scenario, we might want to list available MeerK40t devices
+        vs.add(ChoiceVar(
+            "backend", 
+            "Device Type", 
+            choices=["grbl", "lihuiyu", "moshi", "balor", "dummy"],
+            default="grbl",
+            description="The underlying hardware driver to use in MeerK40t."
+        ))
+        vs.add(IntVar(
+            "device_index",
+            "Device Index",
+            default=0,
+            description="The index of the device if multiple are present."
+        ))
         return vs
 
     @classmethod
@@ -49,10 +61,14 @@ class Meerk40tAdapter(Driver):
         if not MEERK40T_AVAILABLE:
             raise DriverSetupError("meerk40t package not installed")
         
+        backend = kwargs.get("backend", "grbl")
+        index = kwargs.get("device_index", 0)
+        self.device_path = str(index)
+
         self.kernel = Kernel("Rayforge")
         self.kernel.bootstrap()
-        # Initialize default device
-        self.kernel.console(f"device add {self._machine.driver_name or 'grbl'} {self.device_path}\n")
+        # Initialize selected device
+        self.kernel.console(f"device add {backend} {self.device_path}\n")
         self.kernel.console(f"device {self.device_path}\n")
 
     def get_encoder(self):

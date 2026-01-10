@@ -12,6 +12,7 @@ from .producer import (
     Rasterizer,
     AdvancedRasterizer,
     ShrinkWrapProducer,
+    GalvoProducer,
 )
 from .transformer import (
     MultiPassTransformer,
@@ -234,8 +235,6 @@ def create_frame_step(
     step.max_cut_speed = machine.max_cut_speed
     step.max_travel_speed = machine.max_travel_speed
     return step
-
-
 def create_material_test_step(
     context: RayforgeContext, name: Optional[str] = None
 ) -> Step:
@@ -261,6 +260,33 @@ def create_material_test_step(
     return step
 
 
+def create_galvo_step(
+    context: RayforgeContext, name: Optional[str] = None
+) -> Step:
+    """Factory to create and configure a Galvo (Vector) marking step."""
+    machine = context.machine
+    assert machine is not None
+    default_head = machine.get_default_head()
+    step = Step(
+        typelabel=_("Galvo Marking"),
+        name=name,
+    )
+    step.capabilities = {SCORE}
+    step.opsproducer_dict = GalvoProducer().to_dict()
+    step.modifiers_dicts = [
+        MakeTransparent().to_dict(),
+        ToGrayscale().to_dict(),
+    ]
+    step.per_workpiece_transformers_dicts = [
+        Optimize().to_dict(),
+    ]
+    step.per_step_transformers_dicts = []
+    step.selected_laser_uid = default_head.uid
+    step.max_cut_speed = machine.max_cut_speed
+    step.max_travel_speed = machine.max_travel_speed
+    return step
+
+
 STEP_FACTORIES: List[Callable[[RayforgeContext, Optional[str]], Step]] = [
     create_contour_step,
     create_raster_step,
@@ -269,4 +295,5 @@ STEP_FACTORIES: List[Callable[[RayforgeContext, Optional[str]], Step]] = [
     create_shrinkwrap_step,
     create_frame_step,
     create_material_test_step,
+    create_galvo_step,
 ]
