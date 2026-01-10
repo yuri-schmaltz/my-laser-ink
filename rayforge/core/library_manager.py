@@ -304,6 +304,26 @@ class LibraryManager:
 
         return list(self._libraries.keys())
 
+
+    def sync_library_to_settings(self, library: MaterialLibrary):
+        """
+        Synchronizes a legacy MaterialLibrary to the new SettingsManager.
+        """
+        from core.models.material import MaterialLibrary as CoreMaterialLibrary
+        context = get_context()
+        if not context._settings_mgr:
+            return
+
+        try:
+            core_lib = CoreMaterialLibrary(
+                name=library.display_name,
+                materials=[m.to_profile() for m in library.get_all_materials()]
+            )
+            context.settings_mgr.save_materials(core_lib)
+            logger.info(f"Synced library '{library.display_name}' to SettingsManager")
+        except Exception as e:
+            logger.error(f"Failed to sync library to SettingsManager: {e}")
+
     def __len__(self) -> int:
         """Get the total number of materials across all libraries."""
         return len(self.get_all_materials())

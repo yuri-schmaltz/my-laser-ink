@@ -1,5 +1,6 @@
-import inspect
-from typing import Type, cast
+from .grbl_adapter import GrblAdapter
+
+# ... existing imports ...
 from .driver import Driver
 from .dummy import NoDeviceDriver
 from .grbl import GrblNetworkDriver
@@ -21,6 +22,9 @@ driver_by_classname = dict([(o.__name__, o) for o in drivers])
 
 
 def get_driver_cls(classname: str, default=NoDeviceDriver):
+    # Map old "GrblSerialDriver" name to new Adapter if preferred, 
+    # or just let user select "GrblAdapter" (Label: GRBL (New)).
+    # For integration, let's expose GrblAdapter.
     return driver_by_classname.get(classname, default)
 
 
@@ -34,5 +38,6 @@ __all__ = [
     "NoDeviceDriver",
     "GrblNetworkDriver",
     "GrblSerialDriver",
+    "GrblAdapter", # New
     "SmoothieDriver",
 ]

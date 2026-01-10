@@ -44,6 +44,9 @@ class Material:
     description: str = ""
     category: str = ""
     appearance: MaterialAppearance = field(default_factory=MaterialAppearance)
+    thickness: float = 0.0
+    speed: float = 1000.0
+    power: float = 100.0
     file_path: Optional[Path] = None
 
     def __post_init__(self):
@@ -95,6 +98,9 @@ class Material:
             appearance=MaterialAppearance.from_dict(
                 data.get("appearance", {})
             ),
+            thickness=float(data.get("thickness", 0.0)),
+            speed=float(data.get("speed", 1000.0)),
+            power=float(data.get("power", 100.0)),
             file_path=file_path,
         )
 
@@ -113,6 +119,9 @@ class Material:
             "description": self.description,
             "category": self.category,
             "appearance": self.appearance.to_dict(),
+            "thickness": self.thickness,
+            "speed": self.speed,
+            "power": self.power,
         }
 
     def save_to_file(self, file_path: Optional[Path] = None) -> None:
@@ -186,4 +195,24 @@ class Material:
         return (
             f"Material(uid='{self.uid}', name='{self.name}', "
             f"category='{self.category}', description='{self.description}')"
+        )
+
+    def to_profile(self):
+        """
+        Converts this legacy Material object to the new core Material model.
+        """
+        from core.models.material import Material as CoreMaterial, Operation
+        
+        op = Operation(
+            name="Cut",
+            type="vector",
+            speed=self.speed,
+            power=self.power,
+            passes=1
+        )
+        
+        return CoreMaterial(
+            name=self.name,
+            thickness=self.thickness,
+            operations=[op]
         )

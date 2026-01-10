@@ -38,6 +38,27 @@ class AddMaterialDialog(Adw.MessageDialog):
 
         self.name_entry = Adw.EntryRow(title=_("Name"))
         self.category_entry = Adw.EntryRow(title=_("Category"))
+        self.thickness_row = Adw.SpinRow(
+            title=_("Thickness (mm)"),
+            adjustment=Gtk.Adjustment(
+                lower=0, upper=100, step_increment=0.1, page_increment=1.0
+            ),
+            digits=2,
+        )
+
+        self.speed_row = Adw.SpinRow(
+            title=_("Cut Speed (mm/min)"),
+            adjustment=Gtk.Adjustment(
+                lower=1, upper=10000, step_increment=10, page_increment=100
+            ),
+        )
+
+        self.power_row = Adw.SpinRow(
+            title=_("Cut Power (%)"),
+            adjustment=Gtk.Adjustment(
+                lower=1, upper=100, step_increment=1, page_increment=10
+            ),
+        )
 
         self.color_button = Gtk.ColorButton(margin_bottom=0)
         self.color_button.set_size_request(32, 32)
@@ -50,6 +71,9 @@ class AddMaterialDialog(Adw.MessageDialog):
         group = Adw.PreferencesGroup()
         group.add(self.name_entry)
         group.add(self.category_entry)
+        group.add(self.thickness_row)
+        group.add(self.speed_row)
+        group.add(self.power_row)
         group.add(self.color_row)
 
         self.set_extra_child(group)
@@ -96,6 +120,14 @@ class AddMaterialDialog(Adw.MessageDialog):
 
         self.name_entry.set_text(self.material.name)
         self.category_entry.set_text(self.material.category)
+        
+        # Populate new fields if they exist in legacy material
+        if hasattr(self.material, "thickness"):
+            self.thickness_row.set_value(getattr(self.material, "thickness"))
+        if hasattr(self.material, "speed"):
+            self.speed_row.set_value(getattr(self.material, "speed"))
+        if hasattr(self.material, "power"):
+            self.power_row.set_value(getattr(self.material, "power"))
 
         # Set the color button to the material's color
         color_hex = self.material.appearance.color
@@ -111,4 +143,7 @@ class AddMaterialDialog(Adw.MessageDialog):
             "name": self.get_name().strip(),
             "category": self.get_category().strip() or _("Custom"),
             "color": self.get_color_hex(),
+            "thickness": self.thickness_row.get_value(),
+            "speed": self.speed_row.get_value(),
+            "power": self.power_row.get_value(),
         }

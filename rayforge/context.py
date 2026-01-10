@@ -15,6 +15,7 @@ if TYPE_CHECKING:
     from .machine.models.machine import Machine, MachineManager
     from .machine.models.dialect_manager import DialectManager
     from .debug import DebugDumpManager
+    from core.persistence import SettingsManager
 
 
 logger = logging.getLogger(__name__)
@@ -59,6 +60,7 @@ class RayforgeContext:
         self._camera_mgr: Optional["CameraManager"] = None
         self._material_mgr: Optional["LibraryManager"] = None
         self._recipe_mgr: Optional["RecipeManager"] = None
+        self._settings_mgr: Optional["SettingsManager"] = None
         self._debug_dump_manager = DebugDumpManager()
 
     @property
@@ -123,6 +125,13 @@ class RayforgeContext:
         """Returns the debug dump manager."""
         return self._debug_dump_manager
 
+    @property
+    def settings_mgr(self) -> "SettingsManager":
+        """Returns the settings manager. Raises an error if not initialized."""
+        if self._settings_mgr is None:
+            raise RuntimeError("Settings manager is not initialized.")
+        return self._settings_mgr
+
     def initialize_full_context(self):
         """
         Initializes the full application context with managers that should
@@ -149,7 +158,22 @@ class RayforgeContext:
         )
         from .core.config import ConfigManager as CoreConfigManager
 
+        # Path hacks for internal packages
+        import sys
+        import os
+        root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../"))
+        packages_dir = os.path.join(root_dir, "packages")
+        core_src = os.path.join(packages_dir, "core/src")
+        if core_src not in sys.path:
+            sys.path.append(core_src)
+        
+        from core.persistence import SettingsManager
+
         logger.info(f"Initializing full application context from {CONFIG_DIR}")
+
+        # Initialize SettingsManager
+        self._settings_mgr = SettingsManager(str(CONFIG_DIR))
+        logger.info(f"SettingsManager initialized at {CONFIG_DIR}")
 
         # Load all machines. If none exist, create a default machine.
         self._machine_mgr = MachineManager(MACHINE_DIR)

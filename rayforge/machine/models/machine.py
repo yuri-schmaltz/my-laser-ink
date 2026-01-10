@@ -143,6 +143,35 @@ class Machine:
         self._connect_driver_signals()
         self.add_head(Laser())
 
+    def to_profile(self) -> "MachineProfile":
+        """
+        Converts this legacy Machine object to the new MachineProfile model.
+        """
+        from core.models.machine import (
+            MachineProfile,
+            MachineDims,
+            MachineConnection,
+            LaserConfig,
+        )
+
+        return MachineProfile(
+            name=self.name,
+            driver=self.driver_name or "grbl",
+            dimensions=MachineDims(
+                width=float(self.dimensions[0]),
+                height=float(self.dimensions[1]),
+                auto_home=self.home_on_start,
+            ),
+            connection=MachineConnection(
+                port=str(self.driver_args.get("port", "")),
+                baud=int(self.driver_args.get("baudrate", 115200)),
+            ),
+            laser=LaserConfig(
+                max_power=int(self.get_default_head().max_power),
+                max_speed=int(self.max_cut_speed),
+            ),
+        )
+
     async def connect(self):
         """Public method to connect the driver."""
         if self.driver is not None:
@@ -1542,6 +1571,15 @@ class MachineManager:
         with open(machine_file, "w") as f:
             data = machine.to_dict(include_frozen_dialect=False)
             yaml.safe_dump(data, f)
+
+        # Also save to the new SettingsManager if initialized
+        context = get_context()
+        if context._settings_mgr:
+            try:
+                profile = machine.to_profile()
+                context.settings_mgr.save_machine(profile)
+            except Exception as e:
+                logger.error(f"Failed to save profile to SettingsManager: {e}")
 
     def load_machine(self, machine_id: str) -> Optional["Machine"]:
         machine_file = self.filename_from_id(machine_id)

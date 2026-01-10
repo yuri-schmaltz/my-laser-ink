@@ -241,6 +241,9 @@ class MaterialListWidget(PreferencesGroupWithButton):
         material.name = data["name"]
         material.category = data["category"]
         material.appearance.color = data["color"]
+        material.thickness = data["thickness"]
+        material.speed = data["speed"]
+        material.power = data["power"]
 
         # Save the updated material
         if material.file_path:
@@ -251,6 +254,10 @@ class MaterialListWidget(PreferencesGroupWithButton):
                     f"Updated material '{data['name']}' in library "
                     f"'{library.library_id}'"
                 )
+                
+                # Sync to SettingsManager
+                get_context().material_mgr.sync_library_to_settings(library)
+
                 self.material_added.send(self, library=library)
             except Exception as e:
                 logger.error(f"Failed to update material: {e}")
@@ -296,6 +303,9 @@ class MaterialListWidget(PreferencesGroupWithButton):
             description="",
             category=data["category"],
             appearance=MaterialAppearance(color=data["color"]),
+            thickness=data["thickness"],
+            speed=data["speed"],
+            power=data["power"],
         )
 
         if library.add_material(material):
@@ -304,6 +314,10 @@ class MaterialListWidget(PreferencesGroupWithButton):
                 f"Added material '{data['name']}' to library "
                 f"'{library.library_id}'"
             )
+
+            # Sync to SettingsManager
+            get_context().material_mgr.sync_library_to_settings(library)
+
             self.material_added.send(self, library=library)
         else:
             root = self.get_root()
