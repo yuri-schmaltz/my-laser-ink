@@ -11,6 +11,11 @@ from .overscan import OverscanSettingsWidget
 from .rasterizer import RasterizerSettingsWidget
 from .shrinkwrap import ShrinkWrapProducerSettingsWidget
 from .smooth import SmoothSettingsWidget
+from .advanced_rasterizer import AdvancedRasterizerSettingsWidget
+from .topology_sorter import TopologySorterSettingsWidget
+from .lead_in_out import LeadInOutSettingsWidget
+from .corner_power import CornerPowerSettingsWidget
+from .array import ArraySettingsWidget
 
 
 # This registry maps the class names of pipeline components (str)
@@ -27,6 +32,11 @@ WIDGET_REGISTRY: Dict[str, Type[StepComponentSettingsWidget]] = {
     "Rasterizer": RasterizerSettingsWidget,
     "ShrinkWrapProducer": ShrinkWrapProducerSettingsWidget,
     "Smooth": SmoothSettingsWidget,
+    "AdvancedRasterizer": AdvancedRasterizerSettingsWidget,
+    "TopologySorter": TopologySorterSettingsWidget,
+    "LeadInOutTransformer": LeadInOutSettingsWidget,
+    "CornerPowerTransformer": CornerPowerSettingsWidget,
+    "ArrayTransformer": ArraySettingsWidget,
 }
 
 __all__ = [
@@ -42,5 +52,10 @@ __all__ = [
     "RasterizerSettingsWidget",
     "ShrinkWrapProducerSettingsWidget",
     "SmoothSettingsWidget",
+    "AdvancedRasterizerSettingsWidget",
+    "TopologySorterSettingsWidget",
+    "LeadInOutSettingsWidget",
+    "CornerPowerSettingsWidget",
+    "ArraySettingsWidget",
     "StepComponentSettingsWidget",
 ]

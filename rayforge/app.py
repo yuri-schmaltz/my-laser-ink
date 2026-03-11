@@ -104,13 +104,19 @@ def main():
 
             self.win = MainWindow(application=self)
 
-            # Don't load files until the window is fully mapped and
-            # allocated on screen. The 'map' signal guarantees this.
-            if self.args.filenames:
-                # We connect a one-shot handler to the 'map' event.
-                self.win.connect("map", self._load_initial_files)
-
-            self.win.present()
+            if self.args.output or self.args.headless:
+                # Non-interactive path: skip window presentation and
+                # load files (if any) directly via an idle callback.
+                if self.args.filenames:
+                    GLib.idle_add(self._load_initial_files, None)
+                elif self.args.output:
+                    # No input files — run export on empty document.
+                    GLib.idle_add(self._headless_export_and_quit)
+            else:
+                # Normal interactive path.
+                if self.args.filenames:
+                    self.win.connect("map", self._load_initial_files)
+                self.win.present()
 
             # Now that the UI is active, trigger the initial machine connections.
             context = get_context()
@@ -122,17 +128,11 @@ def main():
             Loads files passed via the command line. This is called from the
             'map' signal handler to ensure the main window is fully initialized.
             """
-            # This import must be inside the method.
             from rayforge.core.vectorization_spec import TraceSpec
 
             assert self.win is not None
-            # self.args.filenames will be a list of paths
             for filename in self.args.filenames:
                 mime_type, _ = mimetypes.guess_type(filename)
-
-                # Default to tracing any file that supports it. If
-                # --direct-vector is passed, attempt to use vectors
-                # directly by passing a None spec.
                 vectorization_spec = (
                     None if self.args.direct_vector else TraceSpec()
                 )
@@ -142,7 +142,75 @@ def main():
                     vectorization_spec=vectorization_spec,
                 )
 
+            if self.args.output:
+                editor = self.win.doc_editor
+
+                def _on_settled(sender, **kwargs):
+                    editor.document_settled.disconnect(_on_settled)
+                    self._headless_export_and_quit()
+
+                editor.document_settled.connect(_on_settled)
+
             return GLib.SOURCE_REMOVE  # ensure this handler only runs once
+
+        def _headless_export_and_quit(self):
+            """
+            Assembles the job G-code, writes it to --output, then quits.
+            """
+            from rayforge.context import get_context
+
+            assert self.win is not None
+            artifact_store = get_context().artifact_store
+            output_path = Path(self.args.output)
+
+            def when_done(handle, error):
+                try:
+                    if error:
+                        logger.error(
+                            "Headless export failed: %s",
+                            error,
+                            exc_info=error,
+                        )
+                        return
+                    if not handle:
+                        logger.error(
+                            "Headless export: pipeline returned no artifact."
+                        )
+                        return
+                    from rayforge.core.artifact import JobArtifact
+
+                    artifact = artifact_store.get(handle)
+                    if not isinstance(artifact, JobArtifact):
+                        logger.error(
+                            "Headless export: unexpected artifact type."
+                        )
+                        return
+                    if artifact.machine_code_bytes is None:
+                        logger.error(
+                            "Headless export: artifact contains no G-code."
+                        )
+                        return
+                    gcode_str = (
+                        artifact.machine_code_bytes.tobytes().decode("utf-8")
+                    )
+                    output_path.write_text(gcode_str, encoding="utf-8")
+                    logger.info(
+                        "Headless: G-code exported to %s", output_path
+                    )
+                except Exception as e:
+                    logger.error(
+                        "Headless export to %s failed.",
+                        output_path,
+                        exc_info=e,
+                    )
+                finally:
+                    if handle:
+                        artifact_store.release(handle)
+                    GLib.idle_add(self.quit)
+
+            self.win.doc_editor.file.assemble_job_in_background(
+                when_done=when_done
+            )
 
     # Import version for the --version flag.
     from rayforge import __version__
@@ -168,6 +236,22 @@ def main():
         default="INFO",
         choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
         help=_("Set the logging level (default: INFO)"),
+    )
+    parser.add_argument(
+        "--output",
+        metavar="PATH",
+        help=_(
+            "Export generated G-code to PATH and exit"
+            " (requires one or more input files)."
+        ),
+    )
+    parser.add_argument(
+        "--headless",
+        action="store_true",
+        help=_(
+            "Run without showing the GUI window."
+            " Combine with --output to export G-code non-interactively."
+        ),
     )
 
     args = parser.parse_args()
@@ -285,7 +369,6 @@ def main():
     logger.info("Task manager shut down.")
 
     return exit_code
-
 
 if __name__ == "__main__":
     from multiprocessing import freeze_support

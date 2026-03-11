@@ -191,6 +191,39 @@ class JogDialog(Adw.Window):
         self._update_button_sensitivity()
         self._update_wcs_ui()
 
+            # --- Test Fire Group ---
+            fire_group = Adw.PreferencesGroup(title=_("Test Fire"))
+            page.add(fire_group)
+
+            fire_power_adj = Gtk.Adjustment(
+                value=10, lower=0, upper=100, step_increment=1
+            )
+            self.fire_power_row = Adw.SpinRow(
+                title=_("Power"),
+                subtitle=_("Laser power (%)"),
+                adjustment=fire_power_adj,
+            )
+            fire_group.add(self.fire_power_row)
+
+            fire_duration_adj = Gtk.Adjustment(
+                value=100, lower=10, upper=5000, step_increment=10
+            )
+            self.fire_duration_row = Adw.SpinRow(
+                title=_("Duration"),
+                subtitle=_("Pulse duration (ms)"),
+                adjustment=fire_duration_adj,
+            )
+            fire_group.add(self.fire_duration_row)
+
+            self.fire_btn = Gtk.Button(label=_("Fire"))
+            self.fire_btn.add_css_class("destructive-action")
+            self.fire_btn.add_css_class("pill")
+            self.fire_btn.connect("clicked", self._on_test_fire_clicked)
+            fire_group.add(self.fire_btn)
+
+            # Initial Update
+            self._update_button_sensitivity()
+            self._update_wcs_ui()
     def _on_key_pressed(self, controller, keyval, keycode, state):
         """Handle key press events, closing the dialog on Escape or Ctrl+W."""
         has_ctrl = state & Gdk.ModifierType.CONTROL_MASK
@@ -226,6 +259,20 @@ class JogDialog(Adw.Window):
     def _on_distance_changed(self, spin_row):
         """Handle jog distance change."""
         self.jog_widget.jog_distance = get_spinrow_float(spin_row)
+
+        def _on_test_fire_clicked(self, button):
+            """Send a timed laser pulse at the configured power level."""
+            if not self.machine or not self.machine.is_connected():
+                return
+            power_pct = get_spinrow_int(self.fire_power_row) / 100.0
+            duration_ms = get_spinrow_int(self.fire_duration_row)
+            head = self.machine.get_default_head()
+            s_val = int(power_pct * head.max_power)
+            duration_s = duration_ms / 1000.0
+            gcode = f"M3 S{s_val}\nG4 P{duration_s:.3f}\nM5"
+            task_mgr.add_coroutine(
+                lambda ctx: self.machine.run_raw(gcode), key="test-fire"
+            )
 
     def _on_home_x_clicked(self, button):
         """Handle Home X button click."""
@@ -364,6 +411,7 @@ class JogDialog(Adw.Window):
 
         # Update WCS UI (buttons depend on connection)
         self._update_wcs_ui()
+            self.fire_btn.set_sensitive(is_connected)
 
     def _on_connection_status_changed(self, machine, status, message=None):
         """Handle machine connection status changes."""

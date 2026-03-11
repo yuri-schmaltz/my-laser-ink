@@ -22,6 +22,11 @@ from .transformer import (
     OverscanTransformer,
     TopologySorter,
 )
+from .transformer import LeadInOutTransformer
+from .transformer import CornerPowerTransformer
+from .transformer import LeadInOutTransformer
+from .transformer import CornerPowerTransformer
+from .transformer import ArrayTransformer
 
 
 def create_contour_step(
@@ -44,6 +49,10 @@ def create_contour_step(
     step.per_workpiece_transformers_dicts = [
         TopologySorter(enabled=False).to_dict(),
         Smooth(enabled=False, amount=20).to_dict(),
+        LeadInOutTransformer(
+            enabled=False, lead_in_mm=1.0, lead_out_mm=0.5
+        ).to_dict(),
+        CornerPowerTransformer(enabled=False).to_dict(),
         TabOpsTransformer().to_dict(),
     ]
     if optimize:
@@ -92,6 +101,10 @@ def create_raster_step(
     ]
     step.per_step_transformers_dicts = [
         MultiPassTransformer(passes=1, z_step_down=0.0).to_dict(),
+        ArrayTransformer(
+            enabled=False, rows=1, cols=1,
+            x_spacing_mm=10.0, y_spacing_mm=10.0,
+        ).to_dict(),
     ]
     step.selected_laser_uid = default_head.uid
     step.max_cut_speed = machine.max_cut_speed
@@ -129,6 +142,10 @@ def create_advanced_raster_step(
     ]
     step.per_step_transformers_dicts = [
         MultiPassTransformer(passes=1, z_step_down=0.0).to_dict(),
+        ArrayTransformer(
+            enabled=False, rows=1, cols=1,
+            x_spacing_mm=10.0, y_spacing_mm=10.0,
+        ).to_dict(),
     ]
     step.selected_laser_uid = default_head.uid
     step.max_cut_speed = machine.max_cut_speed
@@ -168,16 +185,20 @@ def create_depth_engrave_step(
         Optimize().to_dict(),
     ]
     step.per_step_transformers_dicts = [
-        # MultiPassTransformer(passes=1, z_step_down=0.0).to_dict()
+        MultiPassTransformer(passes=1, z_step_down=0.0).to_dict(),
+        ArrayTransformer(
+            enabled=False, rows=1, cols=1,
+            x_spacing_mm=10.0, y_spacing_mm=10.0,
+        ).to_dict(),
     ]
     step.selected_laser_uid = default_head.uid
+    step.kerf_mm = default_head.spot_size_mm[0]
     step.max_cut_speed = machine.max_cut_speed
     step.max_travel_speed = machine.max_travel_speed
     return step
 
 
-def create_shrinkwrap_step(
-    context: RayforgeContext, name: Optional[str] = None
+def create_raster_step(
 ) -> Step:
     """Factory to create and configure a Shrinkwrap (concave hull) step."""
     machine = context.machine
@@ -200,6 +221,10 @@ def create_shrinkwrap_step(
     ]
     step.per_step_transformers_dicts = [
         MultiPassTransformer(passes=1, z_step_down=0.0).to_dict(),
+        ArrayTransformer(
+            enabled=False, rows=1, cols=1,
+            x_spacing_mm=10.0, y_spacing_mm=10.0,
+        ).to_dict(),
     ]
     step.selected_laser_uid = default_head.uid
     step.kerf_mm = default_head.spot_size_mm[0]
@@ -229,6 +254,10 @@ def create_frame_step(
     ]
     step.per_step_transformers_dicts = [
         MultiPassTransformer(passes=1, z_step_down=0.0).to_dict(),
+        ArrayTransformer(
+            enabled=False, rows=1, cols=1,
+            x_spacing_mm=10.0, y_spacing_mm=10.0,
+        ).to_dict(),
     ]
     step.selected_laser_uid = default_head.uid
     step.kerf_mm = default_head.spot_size_mm[0]

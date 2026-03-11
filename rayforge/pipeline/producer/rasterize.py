@@ -4,6 +4,7 @@ import math
 import logging
 from typing import Optional, TYPE_CHECKING, Dict, Any
 from ...core.ops import Ops, SectionType
+from ...core.ops import MoveToCommand, ScanLinePowerCommand
 from ..artifact import WorkPieceArtifact
 from ..coord import CoordinateSystem
 from .base import OpsProducer
@@ -241,15 +242,103 @@ def rasterize_vertically(
 
 
 class Rasterizer(OpsProducer):
+    def rasterize_horizontally_grayscale(
+        surface,
+        ymax,
+        pixels_per_mm=(10, 10),
+        raster_size_mm=0.1,
+        y_offset_mm=0.0,
+    ):
+        """
+        Generate a variable-power (S-value) engraving path from a Cairo surface.
+        Dark pixels map to high laser power; transparent/white pixels are skipped.
+        Emits ScanLinePowerCommand for use with lasers that support M4 S-value
+        modulation.
+        """
+        surface_format = surface.get_format()
+        if surface_format != cairo.FORMAT_ARGB32:
+            raise ValueError("Unsupported Cairo surface format")
+
+        width = surface.get_width()
+        height = surface.get_height()
+        if width == 0 or height == 0:
+            return Ops()
+
+        data = np.frombuffer(surface.get_data(), dtype=np.uint8)
+        data = data.reshape((height, width, 4))
+
+        blue = data[:, :, 0]
+        green = data[:, :, 1]
+        red = data[:, :, 2]
+        alpha = data[:, :, 3]
+
+        grayscale = (0.2989 * red + 0.5870 * green + 0.1140 * blue).astype(
+            np.uint8
+        )
+        power = (255 - grayscale).astype(np.uint8)
+        power[alpha == 0] = 0
+
+        pixels_per_mm_x, pixels_per_mm_y = pixels_per_mm
+
+        occupied_rows = np.any(power > 0, axis=1)
+        occupied_cols = np.any(power > 0, axis=0)
+        if not np.any(occupied_rows) or not np.any(occupied_cols):
+            return Ops()
+
+        y_min, y_max = np.where(occupied_rows)[0][[0, -1]]
+        x_min, x_max = np.where(occupied_cols)[0][[0, -1]]
+
+        y_min_mm = y_min / pixels_per_mm_y
+        global_y_min_mm = y_offset_mm + y_min_mm
+        first_global_y_mm = (
+            math.ceil(global_y_min_mm / raster_size_mm) * raster_size_mm
+        )
+        y_start_mm = first_global_y_mm - y_offset_mm
+        y_pixel_center_offset_mm = 0.5 / pixels_per_mm_y
+        y_extent_mm = (y_max + 1) / pixels_per_mm_y
+
+        ops = Ops()
+        for y_mm in np.arange(y_start_mm, y_extent_mm, raster_size_mm):
+            y_px = y_mm * pixels_per_mm_y
+            y1 = int(round(y_px))
+            if y1 >= height:
+                continue
+
+            row = power[y1, x_min : x_max + 1]
+            non_zero = np.where(row > 0)[0]
+            if non_zero.size == 0:
+                continue
+
+            start_idx = int(non_zero[0])
+            end_idx = int(non_zero[-1])
+            start_x_mm = (x_min + start_idx + 0.5) / pixels_per_mm_x
+            end_x_mm = (x_min + end_idx + 0.5) / pixels_per_mm_x
+
+            line_y_mm = ymax - (y_mm + y_pixel_center_offset_mm)
+            power_bytes = row[start_idx : end_idx + 1].tobytes()
+
+            ops.add(MoveToCommand((start_x_mm, line_y_mm)))
+            ops.add(ScanLinePowerCommand((end_x_mm, line_y_mm), power_bytes))
+
+        return ops
+
+
+class Rasterizer(OpsProducer):
     """
-    Generates rastered movements (using only straight lines)
-    across filled pixels in the surface.
+    Generates rastered movements across filled pixels in the surface.
+    Supports binary threshold mode and variable S-power grayscale mode.
     """
 
-    def __init__(self, cross_hatch: bool = False, threshold: int = 128):
+    def __init__(
+        self,
+        cross_hatch: bool = False,
+        threshold: int = 128,
+        power_mode: str = "threshold",
+    ):
         super().__init__()
         self.cross_hatch = cross_hatch
         self.threshold = threshold
+        self.power_mode = power_mode
 
     def to_dict(self):
         return {
@@ -257,6 +346,7 @@ class Rasterizer(OpsProducer):
             "params": {
                 "cross_hatch": self.cross_hatch,
                 "threshold": self.threshold,
+                "power_mode": self.power_mode,
             },
         }
 
@@ -266,6 +356,7 @@ class Rasterizer(OpsProducer):
         return cls(
             cross_hatch=params.get("cross_hatch", False),
             threshold=params.get("threshold", 128),
+            power_mode=params.get("power_mode", "threshold"),
         )
 
     def run(
@@ -283,7 +374,6 @@ class Rasterizer(OpsProducer):
             raise ValueError("Rasterizer requires a workpiece context.")
 
         final_ops = Ops()
-        # Always add section markers
         final_ops.ops_section_start(SectionType.RASTER_FILL, workpiece.uid)
 
         width = surface.get_width()
@@ -294,27 +384,37 @@ class Rasterizer(OpsProducer):
         raster_ops = Ops()
         if width > 0 and height > 0:
             ymax = height / pixels_per_mm[1]
-            raster_ops = rasterize_horizontally(
-                surface,
-                ymax,  # y max for axis inversion
-                pixels_per_mm,
-                laser.spot_size_mm[1],
-                y_offset_mm=y_offset_mm,
-                threshold=self.threshold,
-            )
-
-            if self.cross_hatch:
-                logger.info("Cross-hatch enabled, performing vertical pass.")
-                x_offset_mm = workpiece.bbox[0]
-                vertical_ops = rasterize_vertically(
+            if self.power_mode == "grayscale":
+                raster_ops = rasterize_horizontally_grayscale(
                     surface,
                     ymax,
                     pixels_per_mm,
-                    laser.spot_size_mm[0],
-                    x_offset_mm=x_offset_mm,
+                    laser.spot_size_mm[1],
+                    y_offset_mm=y_offset_mm,
+                )
+            else:
+                raster_ops = rasterize_horizontally(
+                    surface,
+                    ymax,
+                    pixels_per_mm,
+                    laser.spot_size_mm[1],
+                    y_offset_mm=y_offset_mm,
                     threshold=self.threshold,
                 )
-                raster_ops.extend(vertical_ops)
+                if self.cross_hatch:
+                    logger.info(
+                        "Cross-hatch enabled, performing vertical pass."
+                    )
+                    x_offset_mm = workpiece.bbox[0]
+                    vertical_ops = rasterize_vertically(
+                        surface,
+                        ymax,
+                        pixels_per_mm,
+                        laser.spot_size_mm[0],
+                        x_offset_mm=x_offset_mm,
+                        threshold=self.threshold,
+                    )
+                    raster_ops.extend(vertical_ops)
 
         if not raster_ops.is_empty():
             final_ops.set_laser(laser.uid)
