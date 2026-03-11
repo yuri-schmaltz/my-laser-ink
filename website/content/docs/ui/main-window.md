@@ -1,6 +1,6 @@
 # Main Window
 
-The Rayforge main window is your primary workspace for creating and managing laser jobs.
+The Laser Ink main window is your primary workspace for creating and managing laser jobs.
 
 ## Window Layout
 
@@ -8,7 +8,7 @@ The Rayforge main window is your primary workspace for creating and managing las
 
 ### 1. Menu Bar
 
-Access all Rayforge functions through organized menus:
+Access all Laser Ink functions through organized menus:
 
 - **File**: Open, save, import, export, and recent files
 - **Edit**: Undo, redo, copy, paste, preferences
@@ -99,3 +99,4 @@ Customize the interface in **Edit → Preferences**:
 ---
 
 **Next**: [Canvas Tools →](canvas-tools.md)
+

@@ -1,6 +1,6 @@
 # Multi-Laser Setup
 
-Some laser machines have multiple laser modules (e.g., a diode laser and a CO tube, or multiple diodes at different wavelengths). Rayforge supports multi-laser setups through tool selection and head configuration.
+Some laser machines have multiple laser modules (e.g., a diode laser and a CO tube, or multiple diodes at different wavelengths). Laser Ink supports multi-laser setups through tool selection and head configuration.
 
 ## Overview
 
@@ -11,7 +11,7 @@ Multi-laser systems allow:
 - **Varied power levels**: Low-power engraving head + high-power cutting head
 - **Specialized applications**: UV for special materials, fiber for metals
 
-Rayforge handles multi-laser machines through:
+Laser Ink handles multi-laser machines through:
 
 - **Laser head configuration**: Define each laser's properties
 - **Tool selection**: Switch between lasers via G-code commands
@@ -192,7 +192,7 @@ spot_size_mm: [0.08, 0.08]
 
 ## Tool Selection in G-code
 
-Rayforge automatically generates tool change commands when switching between laser heads.
+Laser Ink automatically generates tool change commands when switching between laser heads.
 
 ### Tool Change Command
 
@@ -209,7 +209,7 @@ T1             ; Select second laser (tool 1)
 
 ### Automatic Tool Selection
 
-When you assign operations to different laser heads, Rayforge:
+When you assign operations to different laser heads, Laser Ink:
 
 1. Groups operations by tool number
 2. Inserts tool change commands between groups
@@ -287,7 +287,7 @@ alt: "Laser head selector in operation settings"
 ### Default Head Assignment
 
 When adding operations:
-- Rayforge uses primary head (T0) by default
+- Laser Ink uses primary head (T0) by default
 - Change in operation settings if needed
 - Settings persist for similar operations
 
@@ -351,7 +351,7 @@ Different lasers may not be perfectly co-located:
 **Physical offset:**
 - Measure distance between laser focal points
 - Account for X/Y offset in designs
-- Or use Rayforge's future "head offset" feature
+- Or use Laser Ink's future "head offset" feature
 
 **Z-axis (focus) offset:**
 - Different lasers may have different focal lengths
@@ -408,7 +408,7 @@ Power levels are **not** interchangeable between lasers!
 1. Import design with logo and outline
 2. Create raster operation for logo  Assign to Tool 0 (diode)
 3. Create contour operation for outline  Assign to Tool 1 (CO)
-4. Rayforge generates:
+4. Laser Ink generates:
    ```gcode
    T0                ; Select diode
    ; ... raster engraving commands
@@ -530,7 +530,7 @@ Check your controller documentation for macro support and syntax.
 
 ## Future Enhancements
 
-Rayforge may add in future versions:
+Laser Ink may add in future versions:
 
 - **Head offset configuration**: Define X/Y offset between laser focal points
 - **Auto Z-adjustment**: Automatic Z movement for different focal lengths
@@ -544,3 +544,4 @@ Rayforge may add in future versions:
 - **[GRBL Settings](grbl-settings.md)** - Controller-level parameters
 - **[Material Test Grid](../features/operations/material-test-grid.md)** - Calibrating power/speed for each laser
 - **[Simulation Mode](../features/simulation-mode.md)** - Previewing multi-tool jobs
+

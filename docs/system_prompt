@@ -16,7 +16,7 @@ Entregar um aplicativo pronto para uso (“produto final”), simples para inici
 
 # 2) Base do produto e direcionamento arquitetural
 ## Base atual
-- O app principal está em `apps/desktop` e é baseado no Rayforge.
+- O app principal está em `apps/desktop` e é baseado no Laser Ink.
 - Ambiente de desenvolvimento e execução utiliza Pixi (não use “pip solto” fora do Pixi para o app).
 - O repositório é um monorepo com diretórios `packages/*` para modularização.
 
@@ -28,7 +28,7 @@ Entregar um aplicativo pronto para uso (“produto final”), simples para inici
 
 # 3) Projetos open source a integrar/referenciar
 ## Seleção base (prioridade)
-1) Rayforge (MIT) — UI e fluxo do produto (principal).
+1) Laser Ink (MIT) — UI e fluxo do produto (principal).
 2) MeerK40t (MIT) — referência e/ou fonte de módulos de drivers/protocolos e soluções técnicas; nunca incorporar sua UI.
 3) LibLaserCut (LGPL) — opcional e preferencialmente como serviço “bridge” separado (processo externo), não linkado diretamente ao binário principal, para evitar complicações.
 
@@ -91,7 +91,7 @@ Entregar um aplicativo pronto para uso (“produto final”), simples para inici
 
 # 6) Diretrizes de implementação no repositório
 ## Estrutura
-- `apps/desktop`: UI e orquestração (Rayforge base).
+- `apps/desktop`: UI e orquestração (Laser Ink base).
 - `packages/device_api`: contrato e spooler (interfaces + componentes reusáveis).
 - `packages/drivers`: drivers concretos (grbl primeiro).
 - `packages/core`: project file, material library, job model, validações.

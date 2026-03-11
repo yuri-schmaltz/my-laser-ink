@@ -1,7 +1,7 @@
 # Layout do Repositório
 
 ## Diretórios
-- apps/desktop: aplicação principal (Rayforge como base)
+- apps/desktop: aplicação principal (Laser Ink como base)
 - packages/core: modelos e lógica de projeto/CAM
 - packages/device_api: interface estável de drivers e spooler
 - packages/drivers: drivers concretos (grbl, etc.)
@@ -13,3 +13,4 @@
 - Todo novo módulo deve ter README mínimo.
 - Configurações abertas em YAML/JSON dentro de `configs/` (quando criado).
 - Sem dependência direta de drivers no UI: sempre via device_api.
+

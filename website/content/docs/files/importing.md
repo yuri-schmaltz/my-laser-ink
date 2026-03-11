@@ -1,6 +1,6 @@
 # Importing Files
 
-Rayforge supports importing various file formats, both vector and raster. This page explains
+Laser Ink supports importing various file formats, both vector and raster. This page explains
 how to import files and optimize them for best results.
 
 ## Supported File Formats
@@ -31,7 +31,7 @@ All raster images are **traced** to create vector paths that can be used for las
 
 ### The Import Dialog
 
-Rayforge features a unified import dialog that provides live preview and
+Laser Ink features a unified import dialog that provides live preview and
 configuration options for all supported file types. The dialog allows you to:
 
 - **Preview your import** before adding it to the document
@@ -52,7 +52,7 @@ configuration options for all supported file types. The dialog allows you to:
 ### Method 2: Drag and Drop
 
 1. **Drag file** from your file manager
-2. **Drop onto** the Rayforge canvas
+2. **Drop onto** the Laser Ink canvas
 3. **Configure import settings** in the import dialog
 4. **Preview** the result before importing
 5. **Click Import** to add to canvas and document tree
@@ -60,7 +60,7 @@ configuration options for all supported file types. The dialog allows you to:
 ### Method 3: Command Line
 
 ```bash
-# Open Rayforge with a file
+# Open Laser Ink with a file
 rayforge myfile.svg
 
 # Multiple files
@@ -69,7 +69,7 @@ rayforge file1.svg file2.dxf
 
 ### Auto-Resize on Import
 
-When importing files that are larger than your machine's work area, Rayforge will
+When importing files that are larger than your machine's work area, Laser Ink will
 automatically:
 
 1. **Scale down** the imported content to fit within the machine boundaries
@@ -103,7 +103,7 @@ This option is enabled by default in the import dialog.
 
 **How it works:**
 
-- Parses SVG and converts paths directly to Rayforge geometry
+- Parses SVG and converts paths directly to Laser Ink geometry
 - High-fidelity preservation of curves and shapes
 - Maintains exact vector data
 
@@ -191,7 +191,7 @@ The import dialog shows a live preview of how your SVG will be imported:
 
 6. **Check document units:**
    - Set to mm or inches as appropriate
-   - Rayforge uses mm internally
+   - Laser Ink uses mm internally
 
 **Common SVG features that may not import:**
 
@@ -209,7 +209,7 @@ DXF (Drawing Exchange Format) is common for CAD software.
 
 ### DXF Versions
 
-Rayforge supports standard DXF formats:
+Laser Ink supports standard DXF formats:
 
 - **R12/LT2** (recommended) - Best compatibility
 - **R13, R14** - Good support
@@ -230,7 +230,7 @@ Rayforge supports standard DXF formats:
 2. **Check units:**
 
    - Verify drawing units (mm vs inches)
-   - Rayforge assumes mm by default
+   - Laser Ink assumes mm by default
 
 3. **Flatten layers:**
 
@@ -255,7 +255,7 @@ PDF files can contain vector graphics, raster images, or both.
 
 ### How PDF Import Works
 
-When importing PDF files through the import dialog, Rayforge **renders the PDF**
+When importing PDF files through the import dialog, Laser Ink **renders the PDF**
 to an image, then **traces** it to create vectors.
 
 **Process:**
@@ -401,7 +401,7 @@ before importing.
 
 ### File Won't Import
 
-**Problem:** Rayforge doesn't recognize or can't open the file.
+**Problem:** Laser Ink doesn't recognize or can't open the file.
 
 **Solutions:**
 
@@ -532,3 +532,4 @@ Before importing:
 - [Supported Formats](formats.md) - Detailed format specifications
 - [Exporting G-code](exporting.md) - Output options
 - [Quick Start](../getting-started/quick-start.md) - First import tutorial
+

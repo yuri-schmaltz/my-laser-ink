@@ -1,10 +1,10 @@
 # First Time Setup
 
-After installing Rayforge, you'll need to configure your laser cutter or engraver. This guide will walk you through creating your first machine profile and establishing a connection.
+After installing Laser Ink, you'll need to configure your laser cutter or engraver. This guide will walk you through creating your first machine profile and establishing a connection.
 
-## Step 1: Launch Rayforge
+## Step 1: Launch Laser Ink
 
-Start Rayforge from your application menu or by running `rayforge` in a terminal. You should see the main interface with an empty canvas.
+Start Laser Ink from your application menu or by running `Laser Ink` in a terminal. You should see the main interface with an empty canvas.
 
 ## Step 2: Open Machine Settings
 
@@ -14,7 +14,7 @@ Navigate to **Settings → Machine Settings** or press ++ctrl+comma++ to open th
 
 ## Step 3: Create a Machine Profile
 
-Rayforge supports multiple machine profiles, allowing you to switch between different laser cutters quickly.
+Laser Ink supports multiple machine profiles, allowing you to switch between different laser cutters quickly.
 
 ### General Settings
 
@@ -43,7 +43,7 @@ Rayforge supports multiple machine profiles, allowing you to switch between diff
 
 ## Step 4: Configure Device Connection
 
-Switch to the **Device** tab to configure how Rayforge connects to your machine.
+Switch to the **Device** tab to configure how Laser Ink connects to your machine.
 
 ![Device Settings](../images/machine-device.png)
 
@@ -95,7 +95,7 @@ Switch to the **Device** tab to configure how Rayforge connects to your machine.
 ![Connection Status](../images/machine-device.png)
 
 !!! success "Connected!"
-    If your machine responds correctly, you're ready to start using Rayforge!
+    If your machine responds correctly, you're ready to start using Laser Ink!
 
 ## Step 6: Save Your Profile
 
@@ -156,3 +156,4 @@ For more help, see [Connection Issues](../troubleshooting/connection.md).
 ---
 
 **Next:** [Quick Start Guide →](quick-start.md)
+

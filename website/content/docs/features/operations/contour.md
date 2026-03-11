@@ -306,7 +306,7 @@ Contour operations work in:
 
 ### Path Generation
 
-Rayforge converts vector shapes to G-code:
+Laser Ink converts vector shapes to G-code:
 
 1. Offset path (if inside/outside cutting)
 2. Optimize path order (minimize travel)
@@ -334,3 +334,4 @@ M5                  ; Laser off
 - **[Holding Tabs](../holding-tabs.md)** - Keeping parts secured during cutting
 - **[Kerf](../kerf.md)** - Improving cut accuracy
 - **[Material Test Grid](material-test-grid.md)** - Finding optimal power/speed settings
+

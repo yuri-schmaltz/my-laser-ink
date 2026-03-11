@@ -1,10 +1,10 @@
 # Multi-Layer Workflow
 
-Rayforge's multi-layer system allows you to organize complex jobs into separate processing stages, each with its own operations and settings. This is essential for combining different processes like engraving and cutting, or working with multiple materials.
+Laser Ink's multi-layer system allows you to organize complex jobs into separate processing stages, each with its own operations and settings. This is essential for combining different processes like engraving and cutting, or working with multiple materials.
 
 ## What Are Layers?
 
-A **layer** in Rayforge is:
+A **layer** in Laser Ink is:
 
 - **A container** for workpieces (imported shapes, images, text)
 - **A workflow** defining how those workpieces are processed
@@ -15,7 +15,7 @@ you to control the sequence of operations.
 
 !!! note "Layers and Workpieces"
     A layer contains one or more workpieces. When importing SVG files with
-    layers, each layer from your design becomes a separate layer in Rayforge.
+    layers, each layer from your design becomes a separate layer in Laser Ink.
     This lets you keep your design organized exactly as you created it.
 
 ---
@@ -76,7 +76,7 @@ Import SVG files with existing layer structure:
 - Import an SVG file that has layers
 - Enable "Use Original Vectors" in the import dialog
 - Select which layers to import from the detected layers list
-- Each layer becomes a separate layer in Rayforge
+- Each layer becomes a separate layer in Laser Ink
 
 **Requirements:**
 
@@ -110,7 +110,7 @@ Each layer has:
 
 !!! note "Layers as Containers"
     Layers are containers for your workpieces. When importing SVG files with
-    layers, each layer from your design becomes a separate layer in Rayforge.
+    layers, each layer from your design becomes a separate layer in Laser Ink.
 
 ### Reordering Layers
 
@@ -155,14 +155,14 @@ Layers Panel:
 When importing SVG files with "Use Original Vectors" enabled:
 
 1. **Enable "Use Original Vectors"** in the import dialog
-2. **Rayforge detects layers** from your SVG file
+2. **Laser Ink detects layers** from your SVG file
 3. **Select which layers** to import using the layer switches
 4. **Each selected layer** becomes a separate layer with its own workpiece
 
 !!! note "Layer Detection"
-    Rayforge automatically detects layers from your SVG file. Each layer
+    Laser Ink automatically detects layers from your SVG file. Each layer
     you created in your design software will appear as a separate layer in
-    Rayforge.
+    Laser Ink.
 
 !!! note "Vector Import Only"
     Layer selection is only available when using direct vector import.
@@ -202,7 +202,7 @@ layer handling:
 
 !!! tip "Preparing SVG Files for Layer Import"
     To use SVG layer import, create your design with layers in software like
-    Inkscape. Use the Layers panel to organize your design, and Rayforge
+    Inkscape. Use the Layers panel to organize your design, and Laser Ink
     will preserve that structure.
 
 ---
@@ -286,7 +286,7 @@ layer's operation or disable it in the layer settings.
 
 ### How Layers are Processed
 
-During job execution, Rayforge processes each layer in order from top to
+During job execution, Laser Ink processes each layer in order from top to
 bottom. Within each layer, all workpieces are processed before moving to
 the next layer.
 
@@ -351,7 +351,7 @@ Material 2 (3mm Plywood):
 
 ### Pausing Between Layers
 
-You can configure Rayforge to pause between layers. This is useful when you
+You can configure Laser Ink to pause between layers. This is useful when you
 need to:
 
 - Change materials mid-job
@@ -404,10 +404,10 @@ Each layer's workflow can have unique settings:
 1. **Use the Layers panel** in your design software to organize your design
 2. **Assign meaningful names** to each layer (e.g., "Engrave", "Cut")
 3. **Keep layers flat** - avoid putting layers inside other layers
-4. **Save your file** and import into Rayforge
+4. **Save your file** and import into Laser Ink
 5. **Verify layer detection** by checking the import dialog
 
-Rayforge works best with SVG files created in Inkscape or similar vector
+Laser Ink works best with SVG files created in Inkscape or similar vector
 design software that supports layers.
 
 ### Performance
@@ -503,3 +503,4 @@ design software that supports layers.
 - [Simulation Mode](simulation-mode.md) - Preview multi-layer execution
 - [Macros & Hooks](macros-hooks.md) - Layer-level hooks for automation
 - [3D Preview](../ui/3d-preview.md) - Visualize layer stack
+

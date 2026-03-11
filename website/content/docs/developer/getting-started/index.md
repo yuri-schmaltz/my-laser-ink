@@ -1,10 +1,10 @@
 # Getting the Code
 
-This guide covers how to obtain the Rayforge source code for development.
+This guide covers how to obtain the Laser Ink source code for development.
 
 ## Fork the Repository
 
-Fork the [Rayforge repository](https://github.com/barebaric/rayforge) on GitHub to create your own copy where you can make changes.
+Fork the [Laser Ink repository](https://github.com/barebaric/rayforge) on GitHub to create your own copy where you can make changes.
 
 ## Clone Your Fork
 

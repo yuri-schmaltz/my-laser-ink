@@ -1,6 +1,6 @@
 # Quick Start Guide
 
-Now that Rayforge is installed and your machine is configured, let's run your first laser job! This guide will walk you through importing a design, configuring operations, and sending G-code to your machine.
+Now that Laser Ink is installed and your machine is configured, let's run your first laser job! This guide will walk you through importing a design, configuring operations, and sending G-code to your machine.
 
 ## Workflow Overview
 
@@ -21,7 +21,7 @@ flowchart TB
 
 ## Step 1: Import a Design
 
-Rayforge supports various file formats including SVG, DXF, PDF, and raster images (JPEG, PNG, BMP).
+Laser Ink supports various file formats including SVG, DXF, PDF, and raster images (JPEG, PNG, BMP).
 
 1. **Click** **File → Open** or press ++ctrl+o++
 2. Navigate to your design file and select it
@@ -44,7 +44,7 @@ Use the canvas tools to position and adjust your design:
 
 ## Step 3: Assign an Operation
 
-Operations define how Rayforge will process your design. Common operations include:
+Operations define how Laser Ink will process your design. Common operations include:
 
 - **Contour**: Cut along the outline of shapes
 - **Raster Engrave**: Fill shapes with back-and-forth lines (for engraving)
@@ -98,7 +98,7 @@ Before sending to your machine, preview the toolpath in 3D:
 ## Step 5: Generate G-code
 
 1. Click **Machine → Generate G-code** or press ++ctrl+g++
-2. Rayforge will process your operations and generate the G-code
+2. Laser Ink will process your operations and generate the G-code
 3. The generated code appears in the G-code viewer
 
 ## Step 6: Send to Machine
@@ -145,7 +145,7 @@ Once the job completes:
 3. Clean the laser bed if necessary
 
 !!! success "Congratulations!"
-    You've completed your first Rayforge job! Now you can explore more advanced features.
+    You've completed your first Laser Ink job! Now you can explore more advanced features.
 
 ## Next Steps
 
@@ -167,3 +167,4 @@ Now that you've completed your first job, explore these features:
 ---
 
 **Need Help?** Check the [Troubleshooting](../troubleshooting/index.md) section or visit the [GitHub Issues](https://github.com/barebaric/rayforge/issues) page.
+

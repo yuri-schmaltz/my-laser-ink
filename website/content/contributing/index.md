@@ -1,11 +1,11 @@
-# Contributing to Rayforge
+# Contributing to Laser Ink
 
 ## Community & Support
 
 - **Report Issues**: [GitHub Issues](https://github.com/barebaric/rayforge/issues)
 - **Source Code**: [GitHub Repository](https://github.com/barebaric/rayforge)
 
-We welcome contributions of all kinds! Whether you're fixing bugs, adding features, improving documentation, or helping with packaging, your contributions make Rayforge better for everyone.
+We welcome contributions of all kinds! Whether you're fixing bugs, adding features, improving documentation, or helping with packaging, your contributions make Laser Ink better for everyone.
 
 ## Ways to Contribute
 
@@ -18,7 +18,7 @@ Found a bug? Help us fix it:
    - Clear description of the problem
    - Steps to reproduce
    - Expected vs. actual behavior
-   - System information (OS, Rayforge version)
+   - System information (OS, Laser Ink version)
    - Screenshots or error messages if applicable
 
 ### Suggest Features
@@ -50,4 +50,5 @@ code contributions.
 
 ## About This Documentation
 
-This documentation is designed for end-users of Rayforge. If you're looking for developer documentation, please see the [Developers Documentation](https://github.com/heathkh/rayforge/tree/main/docs) guide.
+This documentation is designed for end-users of Laser Ink. If you're looking for developer documentation, please see the [Developers Documentation](https://github.com/heathkh/rayforge/tree/main/docs) guide.
+

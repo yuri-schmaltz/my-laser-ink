@@ -1,6 +1,6 @@
 # Concepts
 
-This section explains fundamental concepts for understanding laser cutting and engraving with Rayforge.
+This section explains fundamental concepts for understanding laser cutting and engraving with Laser Ink.
 
 ## Why Read This Section?
 
@@ -26,13 +26,13 @@ Learn what operations are and when to use each type.
 - How operations process geometry
 - Operation execution order
 
-**Read this if:** You're confused about which operation to choose, or want to understand how Rayforge generates toolpaths.
+**Read this if:** You're confused about which operation to choose, or want to understand how Laser Ink generates toolpaths.
 
 ---
 
 ### [Coordinates and Origin](coordinates-and-origin.md)
 
-Understand how Rayforge handles coordinate systems and positioning.
+Understand how Laser Ink handles coordinate systems and positioning.
 
 **Topics covered:**
 
@@ -62,13 +62,13 @@ Learn the relationship between laser power, cutting speed, and material interact
 
 ### [G-code Basics](gcode-basics.md)
 
-Understand what G-code is and how Rayforge generates it.
+Understand what G-code is and how Laser Ink generates it.
 
 **Topics covered:**
 
 - What is G-code and how it controls machines
 - Common G-code commands explained
-- How Rayforge generates G-code from operations
+- How Laser Ink generates G-code from operations
 - When and how to edit G-code manually
 
 **Read this if:** You want to understand the output, customize G-code, or troubleshoot machine behavior.
@@ -216,6 +216,7 @@ For more terms, see the full glossary (if available) or search the documentation
 
 ## Related Sections
 
-- [Getting Started](../getting-started/index.md) - First steps with Rayforge
+- [Getting Started](../getting-started/index.md) - First steps with Laser Ink
 - [Features](../features/index.md) - Feature documentation
 - [Troubleshooting](../troubleshooting/index.md) - Problem solving
+

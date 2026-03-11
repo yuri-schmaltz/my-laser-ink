@@ -9,7 +9,7 @@ Manter clareza de licenças e obrigações de distribuição.
 - Componentes LGPL devem ser isolados (ex.: serviço separado), quando aplicável.
 
 ## Terceiros (preencher)
-- Rayforge (base do app)
+- Laser Ink (base do app)
 - MeerK40t (módulos/adapter, se usado)
 - Bibliotecas de parsing (SVG/DXF/PDF)
 - Renderização/GUI e dependências
@@ -18,3 +18,4 @@ Manter clareza de licenças e obrigações de distribuição.
 - LICENSE(s) presentes
 - NOTICE/THIRD_PARTY atualizado
 - Fontes redistribuídas quando exigido
+

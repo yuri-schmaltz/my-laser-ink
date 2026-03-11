@@ -1,6 +1,6 @@
 # Simulating Your Job
 
-Learn how to use Rayforge's simulation mode to preview your laser job, identify potential issues, and estimate completion time before running on real hardware.
+Learn how to use Laser Ink's simulation mode to preview your laser job, identify potential issues, and estimate completion time before running on real hardware.
 
 ## Overview
 
@@ -16,7 +16,7 @@ Simulation mode allows you to visualize your laser job execution without actuall
 
 ## Starting a Simulation
 
-1. **Load or create your design** in Rayforge
+1. **Load or create your design** in Laser Ink
 2. **Configure operations** with desired settings
 3. **Click the Simulate button** in the toolbar (or use keyboard shortcut)
 4. **Watch the simulation** play through your job
@@ -141,3 +141,4 @@ Simulation is highly accurate but:
 
 - [Simulation Mode Feature](../features/simulation-mode.md)
 - [Multi-Layer Workflow](../features/multi-layer.md)
+

@@ -5,7 +5,7 @@ hide:
   - title
 ---
 
-Rayforge transforms your laser cutter or engraver into a powerful creative tool. Whether you're a hobbyist working on personal projects or a professional running a business, Rayforge provides the features and reliability you need.
+Laser Ink transforms your laser cutter or engraver into a powerful creative tool. Whether you're a hobbyist working on personal projects or a professional running a business, Laser Ink provides the features and reliability you need.
 
 # Key Features
 
@@ -36,4 +36,5 @@ Rayforge transforms your laser cutter or engraver into a powerful creative tool.
 
 ---
 
-Ready to get started? Head to the [Installation Guide]({{ latest_docs }}/getting-started/installation.md) to install Rayforge on your system.
+Ready to get started? Head to the [Installation Guide]({{ latest_docs }}/getting-started/installation.md) to install Laser Ink on your system.
+

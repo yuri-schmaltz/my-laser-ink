@@ -1,6 +1,6 @@
-# Rayforge Architecture
+# Laser Ink Architecture
 
-This document provides a high-level architectural overview of Rayforge,
+This document provides a high-level architectural overview of Laser Ink,
 explaining how the major components relate to each other. For deep dives into
 specific areas, please refer to the linked documents.
 
@@ -62,18 +62,18 @@ block
 
 ## Code Architecture
 
-Rayforge is a GTK4/Libadwaita application with a modular, pipeline-driven
+Laser Ink is a GTK4/Libadwaita application with a modular, pipeline-driven
 architecture.
 
-- **`rayforge/core/`**: Document model and geometry handling.
-- **`rayforge/pipeline/`**: The core processing pipeline for generating
+- **`Laser Ink/core/`**: Document model and geometry handling.
+- **`Laser Ink/pipeline/`**: The core processing pipeline for generating
   machine operations from the document model.
-- **`rayforge/machine/`**: Hardware interface layer, including device
+- **`Laser Ink/machine/`**: Hardware interface layer, including device
   drivers, transport protocols, and machine models.
-- **`rayforge/doceditor/`**: The main document editor controller and its UI.
-- **`rayforge/workbench/`**: The 2D/3D canvas and visualization systems.
-- **`rayforge/image/`**: Importers for various file formats (SVG, DXF, etc.).
-- **`rayforge/shared/`**: Common utilities, including the `tasker` for
+- **`Laser Ink/doceditor/`**: The main document editor controller and its UI.
+- **`Laser Ink/workbench/`**: The 2D/3D canvas and visualization systems.
+- **`Laser Ink/image/`**: Importers for various file formats (SVG, DXF, etc.).
+- **`Laser Ink/shared/`**: Common utilities, including the `tasker` for
   background job management.
 
 ---
@@ -97,3 +97,4 @@ system for high-performance data transfer between processes. The pipeline is
 composed of stages: **Modifiers → Producers → Transformers → Encoders**.
 
 **[See Pipeline Architecture for details](./pipeline.md)**
+

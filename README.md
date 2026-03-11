@@ -7,9 +7,9 @@
 [![Get it from the Snap Store](https://snapcraft.io/en/light/install.svg)](https://snapcraft.io/rayforge)
 <a href="https://flathub.org/apps/org.rayforge.rayforge"><img alt="Get it from Flathub" src="website/content/docs/images/flathub-badge.svg" height="55"/></a>
 
-# Rayforge
+# Laser Ink
 
-Rayforge is a modern, cross-platform 2D CAD, G-code sender and control software for GRBL-based laser cutters and engravers.
+Laser Ink is a modern, cross-platform 2D CAD, G-code sender and control software for GRBL-based laser cutters and engravers.
 Built with Gtk4 and Libadwaita, it provides a clean, native interface for Linux and Windows, offering a full suite of tools
 for both hobbyists and professionals.
 
@@ -19,7 +19,7 @@ for both hobbyists and professionals.
 
 ![Screenshot](website/content/docs/images/ss-main.png)
 
-You can also check the [official Rayforge homepage](https://rayforge.org).
+You can also check the [official Laser Ink homepage](https://rayforge.org).
 We also have a [Discord](https://discord.gg/sTHNdTtpQJ).
 
 
@@ -62,10 +62,11 @@ For installation instructions [refer to our homepage](https://rayforge.org).
 
 ## Development
 
-For detailed information about developing for Rayforge, including setup instructions,
+For detailed information about developing for Laser Ink, including setup instructions,
 testing, and contribution guidelines, please see the
 [Developer Documentation](https://rayforge.org/docs/latest/developer/getting-started/).
 
 ## License
 
 This project is licensed under the **MIT License**. See the `LICENSE` file for details.
+

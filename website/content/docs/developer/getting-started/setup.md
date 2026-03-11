@@ -1,6 +1,6 @@
 # Setup
 
-This guide covers setting up your development environment for Rayforge.
+This guide covers setting up your development environment for Laser Ink.
 
 ## Linux
 
@@ -64,3 +64,4 @@ All commands are run via the `run.bat` script:
     -   Add `--loglevel=DEBUG` for more verbose output.
 -   `run test`: Run the full test suite using `pytest`.
 -   `run build`: Build the final Windows executable (`.exe`).
+

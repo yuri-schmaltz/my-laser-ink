@@ -1,6 +1,6 @@
 # Snap Permissions (Linux)
 
-This page explains how to configure permissions for Rayforge when installed as a Snap package on Linux.
+This page explains how to configure permissions for Laser Ink when installed as a Snap package on Linux.
 
 ## What are Snap Permissions?
 
@@ -8,7 +8,7 @@ Snaps are containerized applications that run in a sandbox for security. By defa
 
 ## Required Permissions
 
-Rayforge needs these Snap interfaces connected for full functionality:
+Laser Ink needs these Snap interfaces connected for full functionality:
 
 | Interface | Purpose | Required? |
 |-----------|---------|-----------|
@@ -21,12 +21,12 @@ Rayforge needs these Snap interfaces connected for full functionality:
 
 ## Granting Serial Port Access
 
-**This is the most important permission for Rayforge.**
+**This is the most important permission for Laser Ink.**
 
 ### Check Current Permissions
 
 ```bash
-# View all connections for Rayforge
+# View all connections for Laser Ink
 snap connections rayforge
 ```
 
@@ -50,7 +50,7 @@ snap connections rayforge | grep serial-port
 
 Expected output:
 ```
-serial-port     rayforge:serial-port     :serial-port     -
+serial-port     Laser Ink:serial-port     :serial-port     -
 ```
 
 If you see a plug/slot indicator, the connection is active.
@@ -81,15 +81,15 @@ Now you can access files in `/media` and `/mnt`.
    - Wait 5 seconds
    - Plug it back in
 
-2. **Restart Rayforge:**
-   - Close Rayforge completely
+2. **Restart Laser Ink:**
+   - Close Laser Ink completely
    - Relaunch from the application menu or:
      ```bash
      snap run rayforge
      ```
 
 3. **Check that the port appears:**
-   - Open Rayforge  Settings  Machine
+   - Open Laser Ink  Settings  Machine
    - Look for serial ports in the dropdown
    - Should see `/dev/ttyUSB0`, `/dev/ttyACM0`, or similar
 
@@ -121,7 +121,7 @@ This is rare but can happen if:
 3. **AppArmor denials:**
    ```bash
    # Check for AppArmor denials
-   sudo journalctl -xe | grep DENIED | grep rayforge
+   sudo journalctl -xe | grep DENIED | grep Laser Ink
    ```
 
    If you see denials for serial ports, there may be an AppArmor profile conflict.
@@ -187,7 +187,7 @@ cd rayforge
 # Install dependencies using pixi
 pixi install
 
-# Run Rayforge
+# Run Laser Ink
 pixi run rayforge
 ```
 
@@ -204,7 +204,7 @@ pixi run rayforge
 
 **Option 2: Use Flatpak (if available)**
 
-Flatpak has similar sandboxing but sometimes with different permission models. Check if Rayforge offers a Flatpak package.
+Flatpak has similar sandboxing but sometimes with different permission models. Check if Laser Ink offers a Flatpak package.
 
 ---
 
@@ -249,9 +249,9 @@ Look for:
 - System files
 - Other users' home directories
 
-### Why This Matters for Rayforge
+### Why This Matters for Laser Ink
 
-Rayforge needs:
+Laser Ink needs:
 
 1. **Home directory access** (auto-granted)
    - To save project files
@@ -283,7 +283,7 @@ exec rayforge
 ### Check Snap Logs
 
 ```bash
-# View Rayforge logs
+# View Laser Ink logs
 snap logs rayforge
 
 # Follow logs in real-time
@@ -294,7 +294,7 @@ snap logs -f rayforge
 
 ```bash
 # Look for AppArmor denials
-sudo journalctl -xe | grep DENIED | grep rayforge
+sudo journalctl -xe | grep DENIED | grep Laser Ink
 
 # Look for USB device events
 sudo journalctl -f -u snapd
@@ -316,7 +316,7 @@ If you're still having Snap-related issues:
    ```bash
    # If you have screen or minicom installed
    sudo snap connect rayforge:serial-port
-   # Then test in Rayforge
+   # Then test in Laser Ink
    ```
 
 3. **Report the issue with:**
@@ -344,10 +344,10 @@ sudo snap connect rayforge:removable-media
 # Check current connections
 snap connections rayforge
 
-# View Rayforge logs
+# View Laser Ink logs
 snap logs rayforge
 
-# Refresh/update Rayforge
+# Refresh/update Laser Ink
 sudo snap refresh rayforge
 
 # Remove and reinstall (last resort)
@@ -364,3 +364,4 @@ sudo snap connect rayforge:serial-port
 - [Common Problems](common.md) - General troubleshooting
 - [Installation](../getting-started/installation.md) - Installation guide
 - [Device Configuration](../machine/device-config.md) - Machine setup
+

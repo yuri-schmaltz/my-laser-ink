@@ -1,6 +1,6 @@
 # Submitting Changes
 
-This guide covers the process for contributing code improvements to Rayforge.
+This guide covers the process for contributing code improvements to Laser Ink.
 
 ## Create a Feature Branch
 

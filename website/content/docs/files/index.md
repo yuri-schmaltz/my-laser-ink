@@ -1,10 +1,10 @@
 # File Formats
 
-Rayforge supports a wide variety of file formats for importing designs and exporting G-code.
+Laser Ink supports a wide variety of file formats for importing designs and exporting G-code.
 
 ## Overview
 
-- **[Importing Files](importing.md)**: How to import designs into Rayforge
+- **[Importing Files](importing.md)**: How to import designs into Laser Ink
 - **[Supported Formats](formats.md)**: Complete list of supported file types
 - **[Exporting G-code](exporting.md)**: Generate and save G-code files
 
@@ -73,7 +73,7 @@ Raster (bitmap) images are best for engraving and photo reproduction:
 
 Import jobs created for Ruida controllers:
 
-- Operations converted to Rayforge operations
+- Operations converted to Laser Ink operations
 - Layer assignments preserved
 - Power and speed settings imported
 - May require adjustment for your specific machine
@@ -91,7 +91,7 @@ Import jobs created for Ruida controllers:
 
 ### G-code
 
-Rayforge generates standard G-code for GRBL and Smoothieware:
+Laser Ink generates standard G-code for GRBL and Smoothieware:
 
 - **GRBL**: Standard GRBL commands (G0, G1, M3, M5, etc.)
 - **Smoothieware**: Smoothieware-specific extensions
@@ -101,12 +101,13 @@ See [Exporting G-code](exporting.md) for details.
 
 ### Project Files
 
-Save your work as Rayforge project files:
+Save your work as Laser Ink project files:
 
-- **Extension**: `.rayforge` (coming soon)
+- **Extension**: `.Laser Ink` (coming soon)
 - **Contains**: All designs, operations, and settings
-- **Portable**: Share with other Rayforge users
+- **Portable**: Share with other Laser Ink users
 
 ---
 
 **Next**: [Importing Files →](importing.md) | [Supported Formats →](formats.md)
+

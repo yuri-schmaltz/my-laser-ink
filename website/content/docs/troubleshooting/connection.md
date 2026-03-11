@@ -1,6 +1,6 @@
 # Connection Issues
 
-This page helps you diagnose and resolve problems connecting Rayforge to your laser machine via serial connection.
+This page helps you diagnose and resolve problems connecting Laser Ink to your laser machine via serial connection.
 
 ## Quick Diagnosis
 
@@ -91,14 +91,14 @@ See the [Snap Permissions](snap-permissions.md) guide for more details.
 **On Windows:**
 
 Close any other applications that might be using the serial port (including:
-- Previous instances of Rayforge
+- Previous instances of Laser Ink
 - Serial monitor tools
 - Other laser software
 - Arduino IDE or similar tools
 
 ### Wrong Serial Port Selected
 
-**Problem:** Rayforge connects but the machine doesn't respond.
+**Problem:** Laser Ink connects but the machine doesn't respond.
 
 **Diagnosis:**
 
@@ -107,7 +107,7 @@ You might have selected the wrong port, especially if you have multiple USB devi
 **Solution:**
 
 1. Disconnect all other USB serial devices
-2. Note which ports are available in Rayforge
+2. Note which ports are available in Laser Ink
 3. Plug in your laser controller
 4. Refresh the port list - the new port is your laser
 5. On Linux, laser controllers typically appear as:
@@ -117,7 +117,7 @@ You might have selected the wrong port, especially if you have multiple USB devi
 7. Avoid ports named `/dev/ttyS*` on Linux - these are hardware serial ports, not USB
 
 !!! warning "Hardware Serial Ports"
-    Rayforge will warn you if you select `/dev/ttyS*` ports on Linux, as these are typically not USB-based GRBL devices. USB serial ports use `/dev/ttyUSB*` or `/dev/ttyACM*`.
+    Laser Ink will warn you if you select `/dev/ttyS*` ports on Linux, as these are typically not USB-based GRBL devices. USB serial ports use `/dev/ttyUSB*` or `/dev/ttyACM*`.
 
 ### Incorrect Baud Rate
 
@@ -131,11 +131,11 @@ GRBL controllers typically use one of these baud rates:
 - **9600** (older GRBL versions)
 - **250000** (less common, some custom firmware)
 
-Try different baud rates in Rayforge's device settings. The most common is **115200**.
+Try different baud rates in Laser Ink's device settings. The most common is **115200**.
 
 ### Connection Keeps Dropping
 
-**Problem:** Rayforge connects successfully but keeps disconnecting and reconnecting.
+**Problem:** Laser Ink connects successfully but keeps disconnecting and reconnecting.
 
 **Possible Causes:**
 
@@ -180,7 +180,7 @@ If there's no response, double-check baud rate and port selection.
 
 ## Connection Status Messages
 
-Rayforge shows different connection states:
+Laser Ink shows different connection states:
 
 | Status | Meaning | Action |
 |--------|---------|--------|
@@ -217,12 +217,12 @@ Rayforge shows different connection states:
 
 ### Using Debug Logs
 
-Rayforge includes detailed debug logging for connection issues.
+Laser Ink includes detailed debug logging for connection issues.
 
 To enable verbose logging:
 
 ```bash
-# Run Rayforge from terminal with debug logging
+# Run Laser Ink from terminal with debug logging
 RAYFORGE_LOG_LEVEL=DEBUG rayforge
 ```
 
@@ -263,7 +263,7 @@ Check the logs for:
 
 ### Firmware Compatibility
 
-Rayforge is designed for GRBL-compatible firmware. Ensure your controller runs:
+Laser Ink is designed for GRBL-compatible firmware. Ensure your controller runs:
 
 - **GRBL 1.1** (most common, recommended)
 - **GRBL 0.9** (older, may have limited features)
@@ -290,7 +290,7 @@ If you've tried everything above and still can't connect:
 1. **Check the GitHub issues** - Someone may have reported the same problem
 2. **Create a detailed issue report** with:
    - Operating system and version
-   - Rayforge version (Snap/Flatpak/AppImage/source)
+   - Laser Ink version (Snap/Flatpak/AppImage/source)
    - Controller board model and firmware version
    - USB chipset (check Device Manager on Windows or `lsusb` on Linux)
    - Full error messages and debug logs
@@ -304,3 +304,4 @@ If you've tried everything above and still can't connect:
 - [Common Problems](common.md) - Other common issues and solutions
 - [Device Configuration](../machine/device-config.md) - Machine setup guide
 - [GRBL Settings](../machine/grbl-settings.md) - GRBL configuration reference
+

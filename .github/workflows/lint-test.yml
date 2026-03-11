@@ -12,7 +12,7 @@ on:
 
 jobs:
   lint-test:
-    name: Lint and Test Rayforge
+    name: Lint and Test Laser Ink
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

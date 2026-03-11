@@ -1,15 +1,15 @@
 # Troubleshooting
 
-Having issues with Rayforge? This section covers common problems and their solutions.
+Having issues with Laser Ink? This section covers common problems and their solutions.
 
 ## Quick Fixes
 
 Before diving into specific issues, try these general troubleshooting steps:
 
-1. **Restart Rayforge**: Close and reopen the application
+1. **Restart Laser Ink**: Close and reopen the application
 2. **Check connections**: Ensure cables are firmly connected
 3. **Power cycle**: Turn your laser cutter off and on
-4. **Update software**: Check for the latest Rayforge version
+4. **Update software**: Check for the latest Laser Ink version
 5. **Check permissions**: Verify you have the necessary hardware access permissions
 
 ## Common Issues
@@ -58,7 +58,7 @@ If you can't find a solution here:
 2. **Report a new issue**: If your problem is not listed, [create a new issue](https://github.com/barebaric/rayforge/issues/new) with:
    - Detailed description of the problem
    - Steps to reproduce
-   - Your system information (OS, Rayforge version)
+   - Your system information (OS, Laser Ink version)
    - Any error messages
    - Screenshots if applicable
 
@@ -69,7 +69,7 @@ When reporting issues, include this information:
 ### System Information
 
 - **Operating System**: (e.g., Ubuntu 24.04, Windows 11)
-- **Rayforge Version**: Check Help → About
+- **Laser Ink Version**: Check Help → About
 - **Installation Method**: (PPA, Snap, pip, Windows installer)
 
 ### Machine Information
@@ -80,9 +80,9 @@ When reporting issues, include this information:
 
 ### Log Files
 
-Rayforge logs can help diagnose issues:
+Laser Ink logs can help diagnose issues:
 
-- **Linux**: `~/.local/share/rayforge/logs/`
+- **Linux**: `~/.local/share/Laser Ink/logs/`
 - **Windows**: `%APPDATA%\rayforge\logs\`
 
 Include relevant log entries when reporting issues.
@@ -95,3 +95,4 @@ Include relevant log entries when reporting issues.
 - **[Snap Permissions](snap-permissions.md)**: Permission problems with Snap package
 - **[Performance](performance.md)**: Slow operation or lag
 - **[Common Problems](common.md)**: Frequently reported issues and solutions
+

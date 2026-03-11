@@ -1,16 +1,16 @@
-# Rayforge Driver Development Guide
+# Laser Ink Driver Development Guide
 
-This guide provides a high-level overview of how to create a driver in Rayforge to add support for your laser cutter or engraver. By creating a driver, you integrate your machine's unique communication protocol and command language into the Rayforge ecosystem.
+This guide provides a high-level overview of how to create a driver in Laser Ink to add support for your laser cutter or engraver. By creating a driver, you integrate your machine's unique communication protocol and command language into the Laser Ink ecosystem.
 
 ## Driver Overview
 
-A driver is the bridge between Rayforge's core logic and your physical hardware. It is responsible for three main tasks:
+A driver is the bridge between Laser Ink's core logic and your physical hardware. It is responsible for three main tasks:
 
 1.  **Managing Connectivity:** Handling the low-level communication protocol (Serial, WebSocket, HTTP, etc.).
-2.  **Translating and Executing Jobs:** Converting Rayforge's internal representation of a job (`Ops`) into machine-specific commands (like G-code) and sending them to the device.
+2.  **Translating and Executing Jobs:** Converting Laser Ink's internal representation of a job (`Ops`) into machine-specific commands (like G-code) and sending them to the device.
 3.  **Reporting State:** Emitting signals to update the UI with the laser's real-time position, status (`IDLE`, `RUN`), and log messages.
 
-To simplify this, Rayforge provides an architecture based on composable parts:
+To simplify this, Laser Ink provides an architecture based on composable parts:
 
 ```mermaid
 graph TD;
@@ -19,7 +19,7 @@ graph TD;
         Driver-->OpsEncoder;
     end
 
-    subgraph Rayforge Core
+    subgraph Laser Ink Core
         OpsProducer --> Ops;
     end
 
@@ -35,7 +35,7 @@ All driver operations are **asynchronous** to ensure the user interface remains 
 
 ## The `Ops` Language
 
-Rayforge describes a laser job as a sequence of high-level operations, stored in an `Ops` object. This is the universal language within Rayforge for describing machine movements, independent of any specific hardware.
+Laser Ink describes a laser job as a sequence of high-level operations, stored in an `Ops` object. This is the universal language within Laser Ink for describing machine movements, independent of any specific hardware.
 
 | `Ops` Method         | Signature                      | Description                          |
 | :------------------- | :----------------------------- | :----------------------------------- |
@@ -51,7 +51,7 @@ Rayforge describes a laser job as a sequence of high-level operations, stored in
 Your driver receives an `Ops` object and must execute these operations on the device. Typically, this is done by passing the `Ops` object to an `OpsEncoder`.
 
 ```python
-# Example of how Rayforge builds an Ops object
+# Example of how Laser Ink builds an Ops object
 ops = Ops()
 ops.set_travel_speed(3000)
 ops.set_cut_speed(800)
@@ -66,7 +66,7 @@ ops.line_to(50, 50)       # Cut a line without air assist
 
 ## Driver Implementation
 
-All drivers MUST inherit from `rayforge.machine.drivers.Driver`.
+All drivers MUST inherit from `Laser Ink.machine.drivers.Driver`.
 
 ```python
 from rayforge.machine.driver.driver import Driver
@@ -89,7 +89,7 @@ Your driver class **MUST** implement the following methods. Note that most are *
 
 #### Configuration and Lifecycle
 
-- `get_setup_vars() -> VarSet`: **(Class Method)** Returns a `VarSet` object defining the parameters needed for connection (e.g., IP address, serial port). Rayforge uses this to automatically generate the setup form in the UI.
+- `get_setup_vars() -> VarSet`: **(Class Method)** Returns a `VarSet` object defining the parameters needed for connection (e.g., IP address, serial port). Laser Ink uses this to automatically generate the setup form in the UI.
 - `precheck(**kwargs)`: **(Class Method)** A non-blocking, static check of the configuration that can be run before driver instantiation. Should raise `DriverPrecheckError` on failure.
 - `setup(**kwargs)`: Called once with the values from the setup form. Use this to initialize your transports and internal state.
 - `async def connect()`: Establishes and maintains a persistent connection to the device. This method should contain auto-reconnection logic.
@@ -124,7 +124,7 @@ To communicate with the UI, your driver must emit signals. To ensure proper logg
 
 ## Have Questions?
 
-The best way to learn is to look at the existing drivers in `rayforge/machine/driver/`, such as:
+The best way to learn is to look at the existing drivers in `Laser Ink/machine/driver/`, such as:
 
 - `grbl.py` - GRBL-based machines
 - `grbl_serial.py` - Serial-based GRBL communication
@@ -132,3 +132,4 @@ The best way to learn is to look at the existing drivers in `rayforge/machine/dr
 - `dummy.py` - A test driver for development
 
 If you get stuck, please don't hesitate to open an issue on GitHub! We're happy to help.
+

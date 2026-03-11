@@ -1,6 +1,6 @@
 # Settings & Preferences
 
-Customize Rayforge to match your workflow and preferences.
+Customize Laser Ink to match your workflow and preferences.
 
 ## Accessing Settings
 
@@ -49,7 +49,7 @@ Configure machine profiles and hardware. See [Machine Setup](../machine/index.md
 
 ## Recipes and Presets
 
-Rayforge's recipe system allows you to create and manage reusable settings presets.
+Laser Ink's recipe system allows you to create and manage reusable settings presets.
 See [Recipes](../features/recipes.md) for comprehensive coverage of the recipe system.
 
 - **Recipe Library**: Access and manage your recipe collection
@@ -111,7 +111,7 @@ Customize keyboard shortcuts for common actions. See [Keyboard Shortcuts](../ref
 
 - **Log Level**: Debug, Info, Warning, Error
 - **Log Location**: View and change log file directory
-- **Enable Crash Reports**: Help improve Rayforge by sending anonymous crash reports
+- **Enable Crash Reports**: Help improve Laser Ink by sending anonymous crash reports
 
 ### Experimental Features
 
@@ -138,7 +138,7 @@ Restore all settings to default values:
 1. Open Preferences
 2. Click "Reset All Settings"
 3. Confirm the action
-4. Restart Rayforge
+4. Restart Laser Ink
 
 !!! caution
     This will reset all preferences, including machine profiles. Export your machine profiles first if you want to keep them.
@@ -154,3 +154,4 @@ Reset only certain settings:
 ---
 
 **Next**: [Features Overview →](../features/index.md)
+

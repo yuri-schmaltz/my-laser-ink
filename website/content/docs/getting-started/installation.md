@@ -1,10 +1,10 @@
 # Installation
 
-Rayforge is available for Linux and Windows. Choose your platform below and follow the installation instructions.
+Laser Ink is available for Linux and Windows. Choose your platform below and follow the installation instructions.
 
 ## :fontawesome-brands-linux: Linux
 
-Rayforge offers several installation methods for Linux users. Choose the one that best fits your distribution.
+Laser Ink offers several installation methods for Linux users. Choose the one that best fits your distribution.
 
 ### Ubuntu & Derivatives (Recommended)
 
@@ -13,14 +13,14 @@ For Ubuntu 24.04 LTS and newer, as well as derivatives like Linux Mint and Pop!\
 ```bash
 sudo add-apt-repository ppa:knipknap/rayforge
 sudo apt update
-sudo apt install rayforge
+sudo apt install Laser Ink
 ```
 
-Once installed, launch Rayforge from your application menu or by running `rayforge` in a terminal.
+Once installed, launch Laser Ink from your application menu or by running `Laser Ink` in a terminal.
 
 ### Flathub Package
 
-The Flathub package is the easiest way to get started with Rayforge on Linux.
+The Flathub package is the easiest way to get started with Laser Ink on Linux.
 
 <a href="https://flathub.org/apps/org.rayforge.rayforge"><img alt="Get it from Flathub" src="../images/flathub-badge.svg" height="55"/></a>
 
@@ -79,7 +79,7 @@ sudo apt install python3-pip python3-gi gir1.2-gtk-3.0 gir1.2-adw-1 \
   gir1.2-gdkpixbuf-2.0 libgirepository-1.0-dev libgirepository-2.0-0 \
   libvips42t64 libadwaita-1-0 libopencv-dev
 
-# Install Rayforge from PyPI
+# Install Laser Ink from PyPI
 pip3 install rayforge
 ```
 
@@ -92,33 +92,33 @@ pip3 install rayforge
 
 Download the latest installer from the **[Releases Page](https://github.com/barebaric/rayforge/releases/)**.
 
-1. Download `rayforge-x.x.x-installer.exe`
+1. Download `Laser Ink-x.x.x-installer.exe`
 2. Run the installer and follow the on-screen instructions
-3. Launch Rayforge from the Start Menu or Desktop shortcut
+3. Launch Laser Ink from the Start Menu or Desktop shortcut
 
 ---
 
 ## :fontawesome-brands-apple: macOS
 
-There are currently no official macOS builds. However, Rayforge may run from source using the pip installation method. Community contributions for macOS packaging are welcome!
+There are currently no official macOS builds. However, Laser Ink may run from source using the pip installation method. Community contributions for macOS packaging are welcome!
 
 ---
 
 ## Verifying Installation
 
-After installation, verify that Rayforge is working:
+After installation, verify that Laser Ink is working:
 
-1. Launch Rayforge from your application menu or terminal
+1. Launch Laser Ink from your application menu or terminal
 2. You should see the main window with the canvas and toolbar
 3. Check **Help → About** to confirm the installed version
 
-![Rayforge Main Window](../images/ss-main.png)
+![Laser Ink Main Window](../images/ss-main.png)
 
 ---
 
 ## Next Steps
 
-Now that Rayforge is installed, proceed to [First Time Setup](first-time-setup.md) to configure your machine.
+Now that Laser Ink is installed, proceed to [First Time Setup](first-time-setup.md) to configure your machine.
 
 ## Troubleshooting
 
@@ -130,3 +130,4 @@ If you encounter issues during installation:
 - **From source**: Ensure all system dependencies are installed
 
 For additional help, visit the [Troubleshooting](../troubleshooting/index.md) section or report an issue on [GitHub](https://github.com/barebaric/rayforge/issues).
+

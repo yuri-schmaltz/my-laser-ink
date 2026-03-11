@@ -56,7 +56,7 @@ With overscan:
 
 ## Configuring Overscan
 
-Overscan is a **transformer** in the Rayforge workflow pipeline.
+Overscan is a **transformer** in the Laser Ink workflow pipeline.
 
 **To enable:**
 
@@ -182,7 +182,7 @@ Too little overscan:     Correct overscan:
 
 **Out of bounds warning:**
 
-If overscan causes paths to exceed machine limits, Rayforge will warn you:
+If overscan causes paths to exceed machine limits, Laser Ink will warn you:
 
 ```
 Warning: Overscan extends beyond machine boundaries.
@@ -198,7 +198,7 @@ Reduce overscan distance or reposition the job.
 
 ## Technical Details
 
-**How Rayforge implements overscan:**
+**How Laser Ink implements overscan:**
 
 1. **Identifies raster sections** in the operation
 2. **For each raster line:**
@@ -297,7 +297,7 @@ Some advanced use cases may need different overscan distances:
 
 ### Overscan Causes Out-of-Bounds Error
 
-**Problem:** Rayforge reports job exceeds machine boundaries when overscan is enabled.
+**Problem:** Laser Ink reports job exceeds machine boundaries when overscan is enabled.
 
 **Diagnosis:**
 
@@ -387,3 +387,4 @@ Some advanced use cases may need different overscan distances:
 - [Multi-Layer Workflow](multi-layer.md) - Organizing layers with different overscan settings
 - [Kerf Compensation](kerf.md) - Related feature for cutting accuracy
 - [Power vs Speed](../concepts/power-vs-speed.md) - Understanding speed effects on quality
+

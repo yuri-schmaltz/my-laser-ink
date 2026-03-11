@@ -1,6 +1,6 @@
 # Reference
 
-Technical reference documentation for Rayforge.
+Technical reference documentation for Laser Ink.
 
 ## Quick Reference
 
@@ -10,7 +10,7 @@ Technical reference documentation for Rayforge.
 
 ## Keyboard Shortcuts
 
-Master Rayforge with keyboard shortcuts for faster workflow. See the complete [Keyboard Shortcuts](shortcuts.md) reference.
+Master Laser Ink with keyboard shortcuts for faster workflow. See the complete [Keyboard Shortcuts](shortcuts.md) reference.
 
 **Most Common:**
 
@@ -24,7 +24,7 @@ Master Rayforge with keyboard shortcuts for faster workflow. See the complete [K
 
 ## G-code Dialects
 
-Rayforge supports multiple G-code dialects:
+Laser Ink supports multiple G-code dialects:
 
 - **GRBL**: Standard GRBL 1.1+
 - **Smoothieware**: Smoothieware v1 and v2
@@ -106,3 +106,4 @@ See [Firmware Compatibility](firmware.md) for detailed version information and f
 ---
 
 **Explore:** [Keyboard Shortcuts →](shortcuts.md) | [G-code Dialects →](gcode-dialects.md) | [Firmware →](firmware.md)
+

@@ -1,6 +1,6 @@
 # Performance Optimization
 
-This page helps you diagnose and resolve performance issues in Rayforge, including slow UI, sluggish rendering, and long processing times.
+This page helps you diagnose and resolve performance issues in Laser Ink, including slow UI, sluggish rendering, and long processing times.
 
 ## Common Performance Issues
 
@@ -60,7 +60,7 @@ Large raster images impact performance:
 
 #### Reduce Preview Quality
 
-Rayforge may allow adjusting preview quality in preferences:
+Laser Ink may allow adjusting preview quality in preferences:
 
 1. Open Settings/Preferences
 2. Look for 3D Preview or Rendering settings
@@ -145,7 +145,7 @@ After (optimized):
 ### Application Startup Slow
 
 **Symptoms:**
-- Rayforge takes a long time to launch
+- Laser Ink takes a long time to launch
 - Splash screen visible for extended period
 
 **Solutions:**
@@ -190,7 +190,7 @@ After (optimized):
 
 #### Prepare Files in Design Software
 
-**Before exporting to Rayforge:**
+**Before exporting to Laser Ink:**
 
 1. **Simplify paths:**
    - Inkscape: `Path  Simplify`
@@ -267,7 +267,7 @@ sudo apt install libadwaita-1-0 libgtk-4-1
 
 === "Linux"
     ```bash
-    # Monitor CPU and memory while running Rayforge
+    # Monitor CPU and memory while running Laser Ink
     htop
 
     # Check GPU usage (if NVIDIA)
@@ -288,10 +288,10 @@ To identify bottlenecks:
 
 ```bash
 # Run with debug logging
-RAYFORGE_LOG_LEVEL=DEBUG rayforge 2>&1 | tee rayforge.log
+RAYFORGE_LOG_LEVEL=DEBUG rayforge 2>&1 | tee Laser Ink.log
 
 # Look for slow operations in the log
-grep -i "slow\|delay\|timeout" rayforge.log
+grep -i "slow\|delay\|timeout" Laser Ink.log
 ```
 
 ---
@@ -369,7 +369,7 @@ Some users report better performance on X11:
 
 Real-time scanning can slow file operations:
 
-- Add Rayforge installation directory to antivirus exclusions
+- Add Laser Ink installation directory to antivirus exclusions
 - Add temporary directory to exclusions
 - Don't disable antivirus entirely - use targeted exclusions
 
@@ -393,7 +393,7 @@ If performance is still poor after optimization:
 3. **Include benchmarks:**
    ```bash
    # Example timing information
-   time rayforge --import test.svg --export test.gcode
+   time Laser Ink --import test.svg --export test.gcode
    ```
 
 4. **Attach debug log:**
@@ -409,3 +409,4 @@ If performance is still poor after optimization:
 - [Connection Issues](connection.md) - Serial connection performance
 - [3D Preview](../ui/3d-preview.md) - Preview settings
 - [Operations](../features/operations/index.md) - Operation optimization
+

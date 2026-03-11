@@ -1,10 +1,10 @@
 # Firmware Compatibility
 
-This page documents firmware compatibility for laser controllers used with Rayforge.
+This page documents firmware compatibility for laser controllers used with Laser Ink.
 
 ## Overview
 
-Rayforge is designed primarily for **GRBL-based controllers** but has experimental support for other firmware types.
+Laser Ink is designed primarily for **GRBL-based controllers** but has experimental support for other firmware types.
 
 ### Compatibility Matrix
 
@@ -31,7 +31,7 @@ Rayforge is designed primarily for **GRBL-based controllers** but has experiment
 
 GRBL 1.1 is the most common firmware for hobby CNC and laser machines. Released in 2017, it's stable, well-documented, and widely supported.
 
-**Features supported by Rayforge:**
+**Features supported by Laser Ink:**
 
 -  Serial communication (USB)
 -  Real-time status reporting
@@ -107,20 +107,20 @@ grblHAL is a modern fork of GRBL with enhanced features:
 - More I/O pins
 - Enhanced laser support
 
-**Compatibility with Rayforge:**
+**Compatibility with Laser Ink:**
 
 -  **Fully compatible** - grblHAL maintains GRBL 1.1 protocol
 -  All GRBL features work
--  Additional features (networking, SD) not yet supported by Rayforge
+-  Additional features (networking, SD) not yet supported by Laser Ink
 -  Status reporting identical to GRBL
 
 **Using grblHAL:**
 
-1. Select "GRBL Serial" driver in Rayforge
+1. Select "GRBL Serial" driver in Laser Ink
 2. Connect via USB serial (just like GRBL)
 3. All features work as documented for GRBL
 
-**Future:** Rayforge may add support for grblHAL-specific features (networking, etc.)
+**Future:** Laser Ink may add support for grblHAL-specific features (networking, etc.)
 
 ---
 
@@ -142,7 +142,7 @@ Smoothieware uses different G-code syntax:
 | **Power Range** | 0-1000 | 0.0-1.0 (float) |
 | **Status** | `<...>` format | Different format |
 
-**Using Smoothieware with Rayforge:**
+**Using Smoothieware with Laser Ink:**
 
 1. **Select Smoothieware dialect** in machine settings
 2. **Test with low power** first
@@ -191,7 +191,7 @@ Marlin 2.0+ can control lasers when properly configured.
 -  Settings commands different
 -  Air assist (M8/M9) may not work
 
-**Using Marlin with Rayforge:**
+**Using Marlin with Laser Ink:**
 
 1. **Select Marlin dialect** in machine settings
 2. **Configure Marlin** for laser use
@@ -211,7 +211,7 @@ Marlin 2.0+ can control lasers when properly configured.
 - Laser mode (M4) for constant power
 - Better status reporting
 - More reliable
-- Better Rayforge support
+- Better Laser Ink support
 
 **How to upgrade:**
 
@@ -265,7 +265,7 @@ Marlin 2.0+ can control lasers when properly configured.
 
 ### Common Controllers
 
-| Board | Typical Firmware | Rayforge Support |
+| Board | Typical Firmware | Laser Ink Support |
 |-------|------------------|------------------|
 | **Arduino CNC Shield** | GRBL 1.1 |  Excellent |
 | **MKS DLC32** | grblHAL |  Excellent |
@@ -277,7 +277,7 @@ Marlin 2.0+ can control lasers when properly configured.
 
 ### Recommended Controllers
 
-For best Rayforge compatibility:
+For best Laser Ink compatibility:
 
 1. **Arduino Nano + CNC Shield** (GRBL 1.1)
    - Cheap (~$10-20)
@@ -389,7 +389,7 @@ $22=1       ; Homing enabled
 3. **Check port:**
    - Linux: `/dev/ttyUSB0` or `/dev/ttyACM0`
    - Windows: COM3, COM4, etc.
-   - Correct port selected in Rayforge
+   - Correct port selected in Laser Ink
 
 4. **Test with terminal:**
    - Use screen, minicom, or PuTTY
@@ -426,7 +426,7 @@ $22=1       ; Homing enabled
 **Solution:**
 
 1. Query firmware version: `$I`
-2. Compare with Rayforge expectations
+2. Compare with Laser Ink expectations
 3. Upgrade or select correct dialect
 
 ---
@@ -448,8 +448,8 @@ Users have requested support for:
 
 To add firmware support:
 
-1. Implement driver in `rayforge/machine/driver/`
-2. Define G-code dialect in `rayforge/machine/models/dialect.py`
+1. Implement driver in `Laser Ink/machine/driver/`
+2. Define G-code dialect in `Laser Ink/machine/models/dialect.py`
 3. Test thoroughly on real hardware
 4. Submit pull request with documentation
 
@@ -461,3 +461,4 @@ To add firmware support:
 - [GRBL Settings](../machine/grbl-settings.md) - GRBL configuration
 - [Connection Issues](../troubleshooting/connection.md) - Connection troubleshooting
 - [Device Configuration](../machine/device-config.md) - Machine setup
+

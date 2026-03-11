@@ -1,5 +1,5 @@
-### Rayforge Flatpak
-This is Flathub package of [Rayforge](https://github.com/barebaric/rayforge).
+### Laser Ink Flatpak
+This is Flathub package of [Laser Ink](https://github.com/barebaric/rayforge).
 
 ## Building
 This package can be built locally by running
@@ -12,3 +12,4 @@ flatpak build-bundle repo rayforge.flatpak org.rayforge.rayforge
 ```
 flatpak --user install repo rayforge.flatpak
 ```
+

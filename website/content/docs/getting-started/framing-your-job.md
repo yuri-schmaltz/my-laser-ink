@@ -19,7 +19,7 @@ Framing allows you to preview the exact boundaries of your laser job by tracing 
 
 Trace the job boundary without turning on the laser:
 
-1. **Load your design** in Rayforge
+1. **Load your design** in Laser Ink
 2. **Position material** on the laser bed
 3. **Click the Frame button** in the toolbar
 4. **Watch the laser head** trace the boundary rectangle
@@ -94,3 +94,4 @@ See [Camera Integration](../features/camera.md) for details.
 - [Camera Integration](../features/camera.md)
 - [Machine Profiles](../machine/profiles.md)
 - [Quick Start Guide](quick-start.md)
+

@@ -1,10 +1,10 @@
 # Getting Started
 
-Welcome to Rayforge! This section will help you install, configure, and run your first laser job.
+Welcome to Laser Ink! This section will help you install, configure, and run your first laser job.
 
 ## Installation Steps
 
-1. **[Install Rayforge](installation.md)** - Choose your platform and follow the installation guide
+1. **[Install Laser Ink](installation.md)** - Choose your platform and follow the installation guide
 2. **[First Time Setup](first-time-setup.md)** - Configure your machine profile and test the connection
 3. **[Quick Start Guide](quick-start.md)** - Run your first laser job
 
@@ -12,7 +12,7 @@ Welcome to Rayforge! This section will help you install, configure, and run your
 
 By the end of this section, you'll be able to:
 
-- ✓ Install Rayforge on your system
+- ✓ Install Laser Ink on your system
 - ✓ Connect to your laser cutter
 - ✓ Create a machine profile
 - ✓ Import a design file
@@ -30,3 +30,4 @@ If you encounter any issues during setup:
 ---
 
 **Next:** [Installation Guide →](installation.md)
+

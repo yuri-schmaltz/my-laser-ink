@@ -10,7 +10,7 @@
 ### Candidatos mais completos (bom ponto de partida para evolução / fork / estudo arquitetural)
 
 1. **MeerK40t** — “suite” completa e extensível, com suporte a **K40**, **GRBL** e até **controladores JCZ (Ezcad2) para galvo** (ainda com ressalvas/experimental em alguns fluxos).  
-2. **Rayforge** — software moderno de controle para **GRBL**, com forte foco em **usabilidade**, importação ampla (SVG/DXF/PDF/PNG) e recursos “produtivos” (ex.: câmera/alinhamento e otimizações de caminho).  
+2. **Laser Ink** — software moderno de controle para **GRBL**, com forte foco em **usabilidade**, importação ampla (SVG/DXF/PDF/PNG) e recursos “produtivos” (ex.: câmera/alinhamento e otimizações de caminho).  
 3. **LaserWeb4 / CNCWeb** — aplicação “full CAM + controle” com foco em geração de G-code a partir de DXF/SVG/bitmaps e suporte a múltiplos firmwares (GRBL, Smoothieware, TinyG, Marlin etc.).  
 4. **VisiCut + LibLaserCut** — tradicional em ambientes de FabLab/educação; separa bem a camada de UI do backend de comunicação; suporta múltiplos cutters via biblioteca.
 
@@ -32,7 +32,7 @@
 - **Plataformas:** Windows/macOS/Linux (incl. Raspberry Pi por extensão).  
 - **Por que é boa base:** arquitetura extensível, foco declarado em “platform para desenvolvedores”, suporte multi-hardware.
 
-### 2.2 Rayforge (MIT) — *controle moderno para GRBL*
+### 2.2 Laser Ink (MIT) — *controle moderno para GRBL*
 - **Escopo:** importação + preparação + envio/controle; voltado a **GRBL-based lasers**.  
 - **Formatos:** **SVG, DXF, PDF, PNG** (e documentação detalhada para importação/limpeza).  
 - **Plataformas:** Linux e Windows; **sem builds oficiais para macOS** (até o momento).  
@@ -89,7 +89,7 @@
 | Projeto | Escopo (alto nível) | Alvos principais | Formatos de entrada citados | Licença | Plataformas (citadas) | Observações rápidas |
 |---|---|---|---|---|---|---|
 | MeerK40t | Suite (import + operações + controle) | K40, GRBL, JCZ/Ezcad2 (galvo) | (varia por módulo; foco em fluxo laser) | MIT | Win/macOS/Linux | Muito extensível; bom “core” para evoluir |
-| Rayforge | Import + preparar + controle | GRBL | SVG, DXF, PDF, PNG | MIT | Linux/Windows | UI moderna; docs fortes; sem build oficial macOS |
+| Laser Ink | Import + preparar + controle | GRBL | SVG, DXF, PDF, PNG | MIT | Linux/Windows | UI moderna; docs fortes; sem build oficial macOS |
 | LaserWeb4 | CAM + controle via servidor | GRBL, grbl-LPC, Smoothieware, TinyG, Marlin* | DXF, SVG, bitmap/JPG/PNG | AGPL-3.0 | Win/macOS/Linux (x86/x64) | Arquitetura web + comm-server; ecossistema com releases antigas |
 | VisiCut | Preparar + enviar jobs | vários cutters via LibLaserCut | SVG, EPS, DXF, PLF | LGPL-3.0 | multi-plataforma | Arquitetura clássica; boa separação de camadas |
 | LaserGRBL | Controle + raster simples | GRBL 0.9/1.1 | imagens (pipeline próprio) | GPLv3 | Windows | Referência de UX simples para GRBL |
@@ -122,10 +122,10 @@
 5. LaserWeb4-Binaries (releases): https://github.com/LaserWeb/LaserWeb4-Binaries  
 6. MeerK40t (repo): https://github.com/meerk40t/meerk40t  
 7. MeerK40t releases (exemplo): https://github.com/meerk40t/meerk40t/releases  
-8. Rayforge (docs): https://rayforge.org/docs/latest/  
-9. Rayforge “File formats”: https://rayforge.org/docs/latest/files/index.html  
-10. Rayforge (PyPI): https://pypi.org/project/rayforge/  
-11. Rayforge (Snap): https://snapcraft.io/rayforge  
+8. Laser Ink (docs): https://rayforge.org/docs/latest/  
+9. Laser Ink “File formats”: https://rayforge.org/docs/latest/files/index.html  
+10. Laser Ink (PyPI): https://pypi.org/project/rayforge/  
+11. Laser Ink (Snap): https://snapcraft.io/rayforge  
 12. VisiCut (repo): https://github.com/t-oster/VisiCut  
 13. VisiCut (site): https://visicut.org/  
 14. LibLaserCut (repo): https://github.com/t-oster/LibLaserCut  
@@ -139,3 +139,4 @@
 22. OPAL (OpenGalvo): https://github.com/opengalvo/OPAL  
 23. galvoplotter: https://github.com/meerk40t/galvoplotter  
 24. balor-meerk40t: https://github.com/tatarize/balor-meerk40t  
+

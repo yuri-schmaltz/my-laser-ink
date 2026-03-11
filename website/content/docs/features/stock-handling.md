@@ -1,6 +1,6 @@
 # Stock Handling Workflow
 
-Stock handling in Rayforge is a sequential process that allows you to define the physical material you'll be working with, assign properties to it, and then organize your design elements on it. This guide walks you through the complete workflow from adding stock to auto-layouting your design.
+Stock handling in Laser Ink is a sequential process that allows you to define the physical material you'll be working with, assign properties to it, and then organize your design elements on it. This guide walks you through the complete workflow from adding stock to auto-layouting your design.
 
 ## 1. Adding Stock
 
@@ -69,7 +69,7 @@ The auto-layout feature helps you efficiently arrange your design elements:
 
 1. Select the items you want to arrange (or leave nothing selected to arrange all items in the active layer)
 2. Click the **Arrange** button in the toolbar and select **Auto Layout (pack workpieces)**
-3. Rayforge will automatically arrange the items to optimize material usage
+3. Laser Ink will automatically arrange the items to optimize material usage
 
 ### Auto-Layout Behavior
 
@@ -86,7 +86,7 @@ The algorithm considers:
 
 ### Manual Layout Alternatives
 
-If you prefer more control, Rayforge also offers manual layout tools:
+If you prefer more control, Laser Ink also offers manual layout tools:
 - **Alignment tools**: Align left, right, center, top, bottom
 - **Distribution tools**: Spread items horizontally or vertically
 - **Individual positioning**: Click and drag items to place them manually
@@ -107,3 +107,4 @@ If you prefer more control, Rayforge also offers manual layout tools:
 - Make sure items are not grouped (ungroup them first)
 - Try reducing the number of items selected at once
 - Verify that items fit within the boundaries (stock or whole surface)
+

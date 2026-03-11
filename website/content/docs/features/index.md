@@ -1,10 +1,10 @@
 # Features Overview
 
-Rayforge provides a comprehensive set of features for laser cutting and engraving. This section covers all the major capabilities and how to use them effectively.
+Laser Ink provides a comprehensive set of features for laser cutting and engraving. This section covers all the major capabilities and how to use them effectively.
 
 ## Operations
 
-Operations define how Rayforge processes your designs. Each operation type is optimized for specific tasks:
+Operations define how Laser Ink processes your designs. Each operation type is optimized for specific tasks:
 
 - **[Contour Cutting](operations/contour.md)**: Cut along the outline of shapes
 - **[Raster Engraving](operations/raster.md)**: Fill shapes with engraving patterns
@@ -93,4 +93,5 @@ Always test on scrap material first!
 
 ---
 
-Explore each feature section to learn how to get the most out of Rayforge.
+Explore each feature section to learn how to get the most out of Laser Ink.
+

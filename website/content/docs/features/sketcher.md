@@ -1,6 +1,6 @@
 # Parametric 2D Sketcher
 
-The Parametric 2D Sketcher is a powerful feature in Rayforge that allows you to create
+The Parametric 2D Sketcher is a powerful feature in Laser Ink that allows you to create
 and edit precise, constraint-based 2D designs directly within the application. This
 feature enables you to design custom parts from scratch without needing external CAD
 software.
@@ -162,3 +162,4 @@ dimensional relationships.
 - **Parametric Expressions**: Dimensional constraints support expressions, allowing values to be
   calculated from other parameters (e.g., `width/2` for a radius that's half the
   width)
+

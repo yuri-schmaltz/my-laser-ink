@@ -144,13 +144,13 @@ task_mgr.run_process(my_cpu_task, 10, when_done=on_task_finished)
 - `send_event("name", data)`: (Process-only) Send custom data back to the UI
 - `flush()`: Immediately send any pending updates to the UI
 
-## Usage in Rayforge
+## Usage in Laser Ink
 
-The tasker is used throughout Rayforge for:
+The tasker is used throughout Laser Ink for:
 
 - **Pipeline processing**: Running the document pipeline in the background
 - **File operations**: Importing and exporting files without blocking the UI
 - **Device communication**: Managing long-running operations with laser cutters
 - **Image processing**: Performing CPU-intensive image tracing and processing
 
-When working with the tasker in Rayforge, always ensure your background functions properly handle cancellation and provide meaningful progress updates to maintain a responsive user experience.
+When working with the tasker in Laser Ink, always ensure your background functions properly handle cancellation and provide meaningful progress updates to maintain a responsive user experience.

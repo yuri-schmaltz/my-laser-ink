@@ -1,6 +1,6 @@
 # Keyboard Shortcuts
 
-Complete reference of keyboard shortcuts in Rayforge.
+Complete reference of keyboard shortcuts in Laser Ink.
 
 !!! note "Platform Conventions"
     - **Linux/Windows:** `Ctrl` key
@@ -16,7 +16,7 @@ Complete reference of keyboard shortcuts in Rayforge.
 | `Ctrl+N` | New Sketch  | Create new sketch       |
 | `Ctrl+I` | Import      | Open file import dialog |
 | `Ctrl+E` | Export      | Export G-code           |
-| `Ctrl+Q` | Quit        | Exit Rayforge           |
+| `Ctrl+Q` | Quit        | Exit Laser Ink           |
 | `Ctrl+,` | Preferences | Open preferences dialog |
 
 ---
@@ -371,3 +371,4 @@ Some lesser-known shortcuts:
 - [Canvas Tools](../ui/canvas-tools.md) - Canvas interaction
 - [3D Preview](../ui/3d-preview.md) - 3D view controls
 - [Simulation Mode](../features/simulation-mode.md) - Simulation features
+

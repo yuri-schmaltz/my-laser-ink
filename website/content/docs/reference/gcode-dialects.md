@@ -1,10 +1,10 @@
 # G-code Dialect Support
 
-Rayforge supports multiple G-code dialects to work with different controller firmware.
+Laser Ink supports multiple G-code dialects to work with different controller firmware.
 
 ## Supported Dialects
 
-Rayforge currently supports these G-code dialects:
+Laser Ink currently supports these G-code dialects:
 
 | Dialect | Firmware | Common Use | Status |
 |---------|----------|------------|--------|
@@ -24,3 +24,4 @@ Rayforge currently supports these G-code dialects:
 - [Firmware Compatibility](firmware.md) - Firmware versions
 - [GRBL Settings](../machine/grbl-settings.md) - GRBL configuration
 - [Macros & Hooks](../features/macros-hooks.md) - Custom G-code injection
+

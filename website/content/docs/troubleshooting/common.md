@@ -1,6 +1,6 @@
 # Common Problems
 
-This page provides quick solutions to frequently encountered issues in Rayforge.
+This page provides quick solutions to frequently encountered issues in Laser Ink.
 
 ## File Import Issues
 
@@ -166,7 +166,7 @@ This is usually an origin or positioning issue.
 
 ### Slow UI Response
 
-**Problem:** Rayforge feels sluggish or unresponsive.
+**Problem:** Laser Ink feels sluggish or unresponsive.
 
 **Solutions:**
 
@@ -251,7 +251,7 @@ See [Overscan](../features/overscan.md) guide.
 
 ### Warning: Out of Bounds
 
-**Problem:** Rayforge warns that the job exceeds machine boundaries.
+**Problem:** Laser Ink warns that the job exceeds machine boundaries.
 
 **Solutions:**
 
@@ -364,7 +364,7 @@ See [Overscan](../features/overscan.md) guide.
 
 If you've tried the solutions above and still have issues, please file a bug report on GitHub with:
 
-1. **Rayforge version** and installation method (Snap, source, AppImage, etc.)
+1. **Laser Ink version** and installation method (Snap, source, AppImage, etc.)
 2. **Operating system** and version
 3. **Steps to reproduce** the issue
 4. **Expected vs actual behavior**
@@ -380,3 +380,4 @@ If you've tried the solutions above and still have issues, please file a bug rep
 - [Performance](performance.md) - Optimization and performance tuning
 - [Snap Permissions](snap-permissions.md) - Linux Snap-specific issues
 - [Machine Setup](../machine/index.md) - Machine configuration guide
+

@@ -1,6 +1,6 @@
 # Troubleshooting & Reporting Issues
 
-If you're experiencing problems with Rayforge, especially with connecting to or controlling your machine, we're here to help. The best way to get support is by providing a detailed debug report. Rayforge has a built-in tool that makes this easy.
+If you're experiencing problems with Laser Ink, especially with connecting to or controlling your machine, we're here to help. The best way to get support is by providing a detailed debug report. Laser Ink has a built-in tool that makes this easy.
 
 ## How to Create a Debug Report
 
@@ -33,10 +33,11 @@ Go to our [GitHub Issues page](https://github.com/barebaric/rayforge/issues/new/
 The generated `.zip` file contains technical information that helps us diagnose the problem quickly. It includes:
 
 - **Machine & Application Settings:** Your saved machine configurations and application preferences, which helps us reproduce your setup.
-- **Communication Logs:** A detailed record of the data sent between Rayforge and your laser.
-- **System Information:** Your operating system and the versions of Rayforge and key libraries installed.
+- **Communication Logs:** A detailed record of the data sent between Laser Ink and your laser.
+- **System Information:** Your operating system and the versions of Laser Ink and key libraries installed.
 - **Application State:** Other internal information that can help pinpoint the source of an error.
 
-> **Privacy Note:** The report **does not** include any of your design files (SVGs, DXFs, etc.) or personal operating system data. It only contains information directly related to the Rayforge application and its connection to your laser.
+> **Privacy Note:** The report **does not** include any of your design files (SVGs, DXFs, etc.) or personal operating system data. It only contains information directly related to the Laser Ink application and its connection to your laser.
 
-Thank you for helping us improve Rayforge
+Thank you for helping us improve Laser Ink
+

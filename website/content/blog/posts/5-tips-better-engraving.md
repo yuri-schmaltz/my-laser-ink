@@ -12,11 +12,11 @@ tags:
   - workflow
 ---
 
-# 5 Tips for Better Laser Engraving Results with Rayforge
+# 5 Tips for Better Laser Engraving Results with Laser Ink
 
 ![Image title](../../{{ latest_docs }}/images/3d-preview.png){align=left width="200px"}
 
-Getting professional-quality laser engraving results requires more than just good hardware—your software settings and workflow matter too. Here are five tips to help you get the most out of Rayforge.
+Getting professional-quality laser engraving results requires more than just good hardware—your software settings and workflow matter too. Here are five tips to help you get the most out of Laser Ink.
 
 <!-- more -->
 
@@ -42,9 +42,9 @@ Learn more in our [Overscan guide](../../{{ latest_docs }}/features/overscan.md)
 
 For contour operations with many separate paths, the order in which the laser visits each shape can significantly impact total job time.
 
-**Solution**: Use Rayforge's built-in **travel time optimization**.
+**Solution**: Use Laser Ink's built-in **travel time optimization**.
 
-Rayforge can automatically reorder paths to minimize non-cutting travel time. This is especially useful for jobs with many small objects or text with multiple letters.
+Laser Ink can automatically reorder paths to minimize non-cutting travel time. This is especially useful for jobs with many small objects or text with multiple letters.
 
 The path optimization is typically enabled by default, but you can verify and adjust it in the Contour operation settings.
 
@@ -56,16 +56,16 @@ Nothing is more frustrating than having a nearly-finished cut job ruined because
 
 Holding tabs are small uncut sections that keep your part connected to the surrounding material. After the job completes, you can easily remove the part and clean up the tabs with a knife or sandpaper.
 
-Rayforge supports both manual and automatic tab placement:
+Laser Ink supports both manual and automatic tab placement:
 
 - **Manual**: Click exactly where you want tabs in the canvas
-- **Automatic**: Specify the number of tabs and let Rayforge distribute them evenly
+- **Automatic**: Specify the number of tabs and let Laser Ink distribute them evenly
 
 Check out the [Holding Tabs documentation](../../{{ latest_docs }}/features/holding-tabs.md) for a complete guide.
 
 ## 4. Preview Your Job in 3D Before Running
 
-One of Rayforge's most valuable features is the 3D G-code preview. It's tempting to skip this step and send the job directly to the machine, but taking a moment to preview can save you time and materials.
+One of Laser Ink's most valuable features is the 3D G-code preview. It's tempting to skip this step and send the job directly to the machine, but taking a moment to preview can save you time and materials.
 
 **What to look for in the preview**:
 
@@ -104,8 +104,9 @@ See our [G-code Macros & Hooks guide](../../{{ latest_docs }}/features/macros-ho
 
 ## Bonus Tip: Test on Scrap Material First
 
-While this isn't specific to Rayforge, it's worth repeating: always test new settings, operations, or materials on scrap first. Use Rayforge's material profiles and operation presets to save your tested settings for future use.
+While this isn't specific to Laser Ink, it's worth repeating: always test new settings, operations, or materials on scrap first. Use Laser Ink's material profiles and operation presets to save your tested settings for future use.
 
 ---
 
-_Have your own Rayforge tips and tricks? Share them with the community on [GitHub Discussions](https://github.com/barebaric/rayforge/discussions)!_
+_Have your own Laser Ink tips and tricks? Share them with the community on [GitHub Discussions](https://github.com/barebaric/rayforge/discussions)!_
+

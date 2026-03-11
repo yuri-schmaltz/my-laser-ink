@@ -1,6 +1,6 @@
 # Machine Setup
 
-Configure your laser cutter or engraver to work with Rayforge. This section covers machine profiles, device connections, and hardware configuration.
+Configure your laser cutter or engraver to work with Laser Ink. This section covers machine profiles, device connections, and hardware configuration.
 
 ## Quick Start
 
@@ -11,7 +11,7 @@ Configure your laser cutter or engraver to work with Rayforge. This section cove
 
 ## Supported Devices
 
-Rayforge supports a wide range of GRBL and Smoothieware-based laser cutters:
+Laser Ink supports a wide range of GRBL and Smoothieware-based laser cutters:
 
 ### GRBL Devices
 
@@ -161,3 +161,4 @@ Common machine setup issues:
 ---
 
 **Next**: [Machine Profiles →](profiles.md) | [Device Configuration →](device-config.md)
+

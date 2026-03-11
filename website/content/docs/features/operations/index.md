@@ -1,6 +1,6 @@
 # Operations
 
-Operations define how Rayforge processes your designs. Each operation type converts vector paths or raster images into toolpaths optimized for specific laser tasks.
+Operations define how Laser Ink processes your designs. Each operation type converts vector paths or raster images into toolpaths optimized for specific laser tasks.
 
 ## Operation Workflow
 
@@ -31,7 +31,7 @@ graph TB
 
 ## Operation Types
 
-Rayforge supports four main operation types:
+Laser Ink supports four main operation types:
 
 ### [Contour Cutting](contour.md)
 
@@ -204,3 +204,4 @@ Explore each operation type for detailed information and examples:
 - **[Raster Engraving →](raster.md)**
 - **[Depth Engraving →](depth.md)**
 - **[Shrink Wrap →](shrink-wrap.md)**
+

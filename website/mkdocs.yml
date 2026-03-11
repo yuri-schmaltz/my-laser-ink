@@ -1,13 +1,13 @@
-site_name: Rayforge
+site_name: Laser Ink
 docs_dir: .
 site_dir: ../build/website
 site_url: https://rayforge.org/
 use_directory_urls: false
 site_description: Modern G-code sender and control software for GRBL-based laser cutters and engravers
-site_author: Rayforge Contributors
+site_author: Laser Ink Contributors
 repo_url: https://github.com/barebaric/rayforge
 repo_name: barebaric/rayforge
-copyright: Copyright &copy; 2024-2025 Rayforge
+copyright: Copyright &copy; 2024-2025 Laser Ink
 docs_dir: content
 site_dir: ../build/website
 
@@ -160,7 +160,7 @@ extra:
 
   # Coverpage configuration
   home_cover_image: assets/screenshot.png
-  home_tagline: Rayforge
+  home_tagline: Laser Ink
   home_description: |
     Modern G-code sender and control software for GRBL-based laser cutters and engravers
   home_button1_name: Features

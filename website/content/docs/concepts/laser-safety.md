@@ -15,7 +15,7 @@ Laser cutting and engraving equipment poses serious safety risks including fire,
 - Maintenance and inspection schedules
 - Warranty and liability information
 
-Rayforge is control software - it cannot override the physical safety requirements of your laser hardware.
+Laser Ink is control software - it cannot override the physical safety requirements of your laser hardware.
 
 ## Essential Safety Principles
 
@@ -82,9 +82,9 @@ Most enclosed laser systems don't require goggles during normal operation **if t
 
 **Always check your manufacturer's requirements** - they vary by machine design and laser type.
 
-## Rayforge Safety Features
+## Laser Ink Safety Features
 
-Rayforge provides tools to help operate safely:
+Laser Ink provides tools to help operate safely:
 
 - **[Simulation Mode](../features/simulation-mode.md)** - Preview jobs before running to identify issues
 - **[Material Test Grid](../features/operations/material-test-grid.md)** - Find safe settings for new materials
@@ -196,3 +196,4 @@ Before every job:
 ---
 
 **Remember:** Safe laser operation requires constant vigilance, proper equipment, and strict adherence to safety procedures. When in doubt, refer to your manufacturer's documentation and err on the side of caution.
+

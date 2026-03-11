@@ -1,6 +1,6 @@
-# Rayforge Package Developer Guide
+# Laser Ink Package Developer Guide
 
-Rayforge uses a package system based on [pluggy](https://pluggy.readthedocs.io/)
+Laser Ink uses a package system based on [pluggy](https://pluggy.readthedocs.io/)
 to allow developers to extend functionality, add new machine drivers, or
 integrate custom logic without modifying the core codebase.
 
@@ -32,7 +32,7 @@ my-rayforge-package/
 
 ## 3. The Manifest (`rayforge_package.yaml`)
 
-This file tells Rayforge how to load your package.
+This file tells Laser Ink how to load your package.
 
 ```yaml
 # rayforge_package.yaml
@@ -63,7 +63,7 @@ url: https://github.com/username/my-custom-package
 
 ## 4. Writing the Package Code
 
-Rayforge uses `pluggy` hooks. To hook into Rayforge, define functions decorated
+Laser Ink uses `pluggy` hooks. To hook into Laser Ink, define functions decorated
 with `@pluggy.HookimplMarker("rayforge")`.
 
 ### Basic Boilerplate (`package.py`)
@@ -80,7 +80,7 @@ logger = logging.getLogger(__name__)
 @hookimpl
 def rayforge_init(context: RayforgeContext):
     """
-    Called when Rayforge is fully initialized.
+    Called when Laser Ink is fully initialized.
     This is your main entry point to access managers.
     """
     logger.info("My Custom Package has started!")
@@ -114,7 +114,7 @@ Defined in `rayforge/core/hooks.py`:
 : Called early in the boot process. Use this to register new hardware
   classes/drivers.
 
-## 5. Accessing Rayforge Data
+## 5. Accessing Laser Ink Data
 
 The `rayforge_init` hook provides the **`RayforgeContext`**. Through this object,
 you can access:
@@ -130,24 +130,24 @@ you can access:
 To test your package locally without publishing it:
 
 1.  **Locate your Configuration Directory:**
-    Rayforge uses `platformdirs`.
+    Laser Ink uses `platformdirs`.
 
-    - **Windows:** `C:\Users\<User>\AppData\Local\rayforge\rayforge\packages`
-    - **macOS:** `~/Library/Application Support/rayforge/packages`
+    - **Windows:** `C:\Users\<User>\AppData\Local\Laser Ink\Laser Ink\packages`
+    - **macOS:** `~/Library/Application Support/Laser Ink/packages`
     - **Linux:** `~/.config/rayforge/packages`
       _(Check the logs on startup for `Config dir is ...`)_
 
 2.  **Symlink your package:**
     Instead of copying files back and forth, create a symbolic link from your dev
-    folder to the Rayforge packages folder.
+    folder to the Laser Ink packages folder.
 
     _Linux/macOS:_
 
     ```bash
-    ln -s /path/to/my-rayforge-package ~/.config/rayforge/packages/my-rayforge-package
+    ln -s /path/to/my-Laser Ink-package ~/.config/rayforge/packages/my-Laser Ink-package
     ```
 
-3.  **Restart Rayforge:**
+3.  **Restart Laser Ink:**
     The application scans the directory on startup. Check the console logs for:
     > `Loaded package: my_custom_package`
 
@@ -158,10 +158,11 @@ To share your package with the community:
 1.  **Host on Git:** Push your code to a public Git repository (GitHub, GitLab,
     etc.).
 2.  **Submit to Registry:**
-    - Go to [rayforge-registry](https://github.com/barebaric/rayforge-registry).
+    - Go to [Laser Ink-registry](https://github.com/barebaric/rayforge-registry).
     - Fork the repository.
     - Add your package's Git URL and metadata to the registry list.
     - Submit a Pull Request.
 
-Once accepted, users can install your package directly via the Rayforge UI or by
+Once accepted, users can install your package directly via the Laser Ink UI or by
 using the Git URL.
+

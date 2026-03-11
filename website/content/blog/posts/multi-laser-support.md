@@ -17,13 +17,13 @@ tags:
 ![Image title](../../{{ latest_docs }}/images/camera-overlay.png){align=left width="200px"}
 
 
-One of the most powerful features in Rayforge is the ability to assign different lasers to different operations within a single job. This opens up exciting possibilities for multi-tool setups and specialized workflows.
+One of the most powerful features in Laser Ink is the ability to assign different lasers to different operations within a single job. This opens up exciting possibilities for multi-tool setups and specialized workflows.
  
 <!-- more -->
 
 ## What is Multi-Laser Support?
 
-If your machine is equipped with multiple laser modules—say, a diode laser for engraving and a CO2 laser for cutting, or different power diode lasers optimized for different materials—Rayforge lets you take full advantage of this setup.
+If your machine is equipped with multiple laser modules—say, a diode laser for engraving and a CO2 laser for cutting, or different power diode lasers optimized for different materials—Laser Ink lets you take full advantage of this setup.
 
 With multi-laser support, you can:
 
@@ -40,7 +40,7 @@ Imagine you're working on a wooden sign project:
 1. **Operation 1**: Use a low-power diode laser to engrave fine text and detailed graphics
 2. **Operation 2**: Switch to a higher-power CO2 laser to cut out the sign shape
 
-With Rayforge, you simply assign each operation to the appropriate laser in your machine profile, and the software handles the rest.
+With Laser Ink, you simply assign each operation to the appropriate laser in your machine profile, and the software handles the rest.
 
 ### Material-Specific Optimization
 
@@ -50,7 +50,7 @@ Different laser types excel at different materials:
 - **CO2 lasers**: Excellent for cutting acrylic, wood, and other organic materials
 - **Fiber lasers**: Perfect for marking metals
 
-If you have multiple laser types on a gantry system, Rayforge's multi-laser support lets you use the optimal tool for each part of your project.
+If you have multiple laser types on a gantry system, Laser Ink's multi-laser support lets you use the optimal tool for each part of your project.
 
 ## How to Set It Up
 
@@ -74,11 +74,11 @@ When creating operations in your project:
 
 ### 3. Preview and Run
 
-Use the 3D preview to verify your toolpaths, then send the job to your machine. Rayforge will automatically generate the appropriate G-code commands to switch between lasers as needed.
+Use the 3D preview to verify your toolpaths, then send the job to your machine. Laser Ink will automatically generate the appropriate G-code commands to switch between lasers as needed.
 
 ## Technical Details
 
-Under the hood, Rayforge uses G-code commands to switch between laser modules. The exact implementation depends on your firmware and hardware setup, but common approaches include:
+Under the hood, Laser Ink uses G-code commands to switch between laser modules. The exact implementation depends on your firmware and hardware setup, but common approaches include:
 
 - **M3/M4 with tool offsets**: Switch between lasers using tool change commands
 - **GPIO control**: Use firmware-supported GPIO pins to enable/disable different laser modules
@@ -86,7 +86,7 @@ Under the hood, Rayforge uses G-code commands to switch between laser modules. T
 
 ## Getting Started
 
-Multi-laser support is available in Rayforge 0.15 and later. To get started:
+Multi-laser support is available in Laser Ink 0.15 and later. To get started:
 
 1. Update to the latest version
 2. Configure your machine profile with multiple lasers
@@ -97,3 +97,4 @@ Check out the [Machine Profiles documentation](../../{{ latest_docs }}/machine/p
 ---
 
 *Have a multi-laser setup? We'd love to hear about your experience! Share your projects and feedback on [GitHub](https://github.com/barebaric/rayforge).*
+

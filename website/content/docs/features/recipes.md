@@ -1,6 +1,6 @@
 # Recipes and Settings
 
-Rayforge provides a powerful recipe system that allows you to create, manage, and apply
+Laser Ink provides a powerful recipe system that allows you to create, manage, and apply
 consistent settings across your laser cutting projects. This guide covers the complete
 user journey from creating recipes in the general settings to applying them to operations
 and managing settings at the step level.
@@ -49,7 +49,7 @@ Click "Add New Recipe". Fill in the basic information:
 
 ### Recipe Matching System
 
-Rayforge automatically suggests the most appropriate recipes based on:
+Laser Ink automatically suggests the most appropriate recipes based on:
 
 - **Machine compatibility**: Recipes can be machine-specific
 - **Material matching**: Recipes can target specific materials
@@ -71,3 +71,4 @@ The system uses a specificity scoring algorithm to prioritize the most relevant 
 - [Stock Handling](stock-handling.md) - Working with stock materials
 - [Machine Setup](../machine/index.md) - Configuring machines and laser heads
 - [Operations Overview](operations/index.md) - Understanding different operation types
+

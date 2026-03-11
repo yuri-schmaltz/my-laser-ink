@@ -347,7 +347,7 @@ For photo engraving:
 
 ### Scan Pattern Generation
 
-Rayforge converts filled shapes to scan lines:
+Laser Ink converts filled shapes to scan lines:
 
 1. Determine bounding box
 2. Calculate scan lines at specified angle and interval
@@ -396,3 +396,4 @@ M5                  ; Laser off
 - **[Overscan](../overscan.md)** - Improving engraving quality
 - **[Material Test Grid](material-test-grid.md)** - Finding optimal settings
 - **[Multi-Layer Workflow](../multi-layer.md)** - Combining raster with other operations
+

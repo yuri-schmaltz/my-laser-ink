@@ -1,6 +1,6 @@
 # G-code Macros & Hooks
 
-Rayforge provides two powerful automation features for customizing your workflow: **Macros** and **Hooks**. Both allow you to inject custom G-code into your jobs, but they serve different purposes.
+Laser Ink provides two powerful automation features for customizing your workflow: **Macros** and **Hooks**. Both allow you to inject custom G-code into your jobs, but they serve different purposes.
 
 ---
 
@@ -129,7 +129,7 @@ Hooks are **automatic G-code injections** triggered by specific events during jo
 
 ### Hook Triggers
 
-Rayforge supports these hook triggers:
+Laser Ink supports these hook triggers:
 
 | Trigger | When It Runs | Common Uses |
 |---------|--------------|-------------|
@@ -347,7 +347,7 @@ M9  ; Air assist OFF (prevents dust scattering for engraving)
 ```
 
 !!! note "Layer-Specific Hooks"
-    Rayforge doesn't currently support per-layer hook customization. To achieve this, use conditional G-code or separate machine profiles.
+    Laser Ink doesn't currently support per-layer hook customization. To achieve this, use conditional G-code or separate machine profiles.
 
 ---
 
@@ -457,3 +457,4 @@ M9  ; Air assist OFF (prevents dust scattering for engraving)
 - [G-code Dialects](../reference/gcode-dialects.md) - G-code compatibility
 - [Machine Setup](../machine/index.md) - Machine configuration
 - [Multi-Layer Workflow](multi-layer.md) - Using hooks with layers
+

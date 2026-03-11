@@ -15,7 +15,7 @@ GRBL settings control:
 - **Electrical configuration**: Pin inversions, pullups
 - **Reporting**: Status message format and frequency
 
-These settings are stored on your controller (not in Rayforge) and persist across power cycles.
+These settings are stored on your controller (not in Laser Ink) and persist across power cycles.
 
 <!-- SCREENSHOT
 id: ui-grbl-settings-panel
@@ -49,10 +49,10 @@ alt: "GRBL settings configuration panel"
 
 ## Accessing GRBL Settings
 
-### From Rayforge
+### From Laser Ink
 
 1. **Menu:** Preferences  Machine  GRBL Settings
-2. Rayforge reads settings from device automatically
+2. Laser Ink reads settings from device automatically
 3. Edit values in the interface
 4. Click "Apply" to write changes to controller
 
@@ -134,8 +134,8 @@ $30=1000.0    ; Maximum S value = 100% power
 $31=0.0       ; Minimum S value = 0% power
 ```
 
-!!! tip "Matching Rayforge Configuration"
-    The "Max Power" setting in your [Machine Profile](profiles.md) should match your $30 value. If $30=1000, set max power to 1000 in Rayforge.
+!!! tip "Matching Laser Ink Configuration"
+    The "Max Power" setting in your [Machine Profile](profiles.md) should match your $30 value. If $30=1000, set max power to 1000 in Laser Ink.
 
 ### $130 & $131 - Maximum Travel
 
@@ -467,7 +467,7 @@ $132=0.0
 
 ### Backup Procedure
 
-1. **Via Rayforge:**
+1. **Via Laser Ink:**
    - Open GRBL Settings panel
    - Click "Export Settings"
    - Save file as `grbl-backup-YYYY-MM-DD.txt`
@@ -484,7 +484,7 @@ $132=0.0
    - Send each line (`$100=80.0`, etc.) via console
    - Verify with `$$` command
 
-2. **Via Rayforge:**
+2. **Via Laser Ink:**
    - Open GRBL Settings panel
    - Click "Import Settings"
    - Select backup file
@@ -623,3 +623,4 @@ Some settings use bitmasks (multiple flags in one number):
 - [GRBL v1.1 Configuration](https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration)
 - [GRBL v1.1 Commands](https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands)
 - [Grbl_ESP32 Documentation](https://github.com/bdring/Grbl_Esp32/wiki)
+

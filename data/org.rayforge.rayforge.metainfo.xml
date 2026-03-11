@@ -8,7 +8,7 @@
   <url type="homepage">https://github.com/barebaric/rayforge</url>
   <url type="bugtracker">https://github.com/barebaric/rayforge/issues</url>
   
-  <name>Rayforge</name>
+  <name>Laser Ink</name>
   <summary>A desktop application for laser cutting and engraving</summary>
 
   <categories>
@@ -21,11 +21,11 @@
 
   <description>
     <p>
-      Rayforge is a desktop application for laser cutting and engraving.
+      Laser Ink is a desktop application for laser cutting and engraving.
       It provides an intuitive interface to create and manage laser
       cutting projects.
-      Rayforge support communicating with GRBL based laser cutters.
-      Rayforge supports importing SVG, DXF, PDF, and PNGs, and provides
+      Laser Ink support communicating with GRBL based laser cutters.
+      Laser Ink supports importing SVG, DXF, PDF, and PNGs, and provides
       advanced features such as multi step jobs, automatic path
       optimization, interpolation based on laser dot size, and much more.
     </p>
@@ -48,7 +48,7 @@
 
   <screenshots>
     <screenshot type="default">
-      <caption>The main window of Rayforge.</caption>
+      <caption>The main window of Laser Ink.</caption>
       <image type="source" width="1462" height="1209">https://raw.githubusercontent.com/barebaric/rayforge/main/website/content/docs/images/ss-main.png</image>
     </screenshot>
   </screenshots>
@@ -61,3 +61,4 @@
     </release>
   </releases>
 </component>
+

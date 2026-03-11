@@ -1,10 +1,10 @@
 # Coordinate Systems and Origins
 
-Understanding how Rayforge handles coordinate systems is essential for positioning your work correctly and avoiding common mistakes.
+Understanding how Laser Ink handles coordinate systems is essential for positioning your work correctly and avoiding common mistakes.
 
 ## Overview
 
-Rayforge uses multiple coordinate systems and origin points to manage positioning. This can seem confusing at first, but each serves a specific purpose.
+Laser Ink uses multiple coordinate systems and origin points to manage positioning. This can seem confusing at first, but each serves a specific purpose.
 
 **Key concepts:**
 
@@ -37,7 +37,7 @@ Rayforge uses multiple coordinate systems and origin points to manage positionin
   Y
 ```
 
-Canvas coordinates are what you see and interact with in the Rayforge interface.
+Canvas coordinates are what you see and interact with in the Laser Ink interface.
 
 ---
 
@@ -83,7 +83,7 @@ Canvas coordinates are what you see and interact with in the Rayforge interface.
 
 **Setting job origin:**
 
-1. **Design your work** in Rayforge
+1. **Design your work** in Laser Ink
 2. **Position the job** on the canvas
 3. **Set the origin mode** (absolute, current position, etc.)
 4. **Frame the job** to verify position on the machine
@@ -111,7 +111,7 @@ Canvas coordinates are what you see and interact with in the Rayforge interface.
 
 If you import an SVG logo:
 - The logo has its own internal coordinate system
-- Rayforge places it on the canvas
+- Laser Ink places it on the canvas
 - You can move/rotate/scale it
 - The logo's local coordinates remain consistent
 
@@ -128,7 +128,7 @@ If you import an SVG logo:
 1. **Set machine origin** to top-left (if not already)
 2. **Set job origin mode** to "Absolute"
 3. **Position your job** at canvas coordinates (50, 100)
-4. **Export G-code** - Rayforge generates commands like:
+4. **Export G-code** - Laser Ink generates commands like:
    ```gcode
    G0 X50 Y100   ; Move to job start position
    ```
@@ -160,7 +160,7 @@ If you import an SVG logo:
 
 **Solution:**
 
-1. **Design one part** in Rayforge
+1. **Design one part** in Laser Ink
 2. **Duplicate the workpiece** 10 times
 3. **Arrange in a grid** using alignment tools
 4. **Set job origin** to absolute mode
@@ -179,7 +179,7 @@ If you import an SVG logo:
 **Cause:** Machine origin configuration doesn't match actual machine.
 
 **Example:**
-- Rayforge configured for top-left origin
+- Laser Ink configured for top-left origin
 - Machine actually has bottom-left origin
 - Y-coordinates are inverted
 
@@ -209,7 +209,7 @@ If you import an SVG logo:
   G0 X20 Y20  ; Move another 20mm right, 20mm down
   ```
 
-**Rayforge default:** G90 (absolute mode) for predictable positioning.
+**Laser Ink default:** G90 (absolute mode) for predictable positioning.
 
 **Solution:** Check generated G-code preamble - should include `G90` command.
 
@@ -230,7 +230,7 @@ If you import an SVG logo:
 **Prevention:**
 
 1. Configure correct work area in **Settings > Machine > Profile**
-2. Rayforge will warn if job exceeds bounds
+2. Laser Ink will warn if job exceeds bounds
 3. Use **Frame Job** feature to verify before cutting
 
 ---
@@ -273,7 +273,7 @@ Usable area: 290mm (300 - 5 - 5)
 - Move by: (5, -3)
 - New position: (15, 17)
 
-**In Rayforge:** Drag workpieces to move them, or use arrow keys for precise nudging.
+**In Laser Ink:** Drag workpieces to move them, or use arrow keys for precise nudging.
 
 ---
 
@@ -286,10 +286,10 @@ Usable area: 290mm (300 - 5 - 5)
 - Rotate 45 degrees around center
 - Corners move to new positions
 
-**In Rayforge:** Select workpiece and use rotation handles or transform tools.
+**In Laser Ink:** Select workpiece and use rotation handles or transform tools.
 
 **G-code impact:**
-- Rayforge pre-computes rotated coordinates
+- Laser Ink pre-computes rotated coordinates
 - G-code contains final absolute positions (no rotation commands)
 
 ---
@@ -303,7 +303,7 @@ Usable area: 290mm (300 - 5 - 5)
 - Scale by 2x
 - New size: 100mm x 100mm
 
-**In Rayforge:** Select workpiece and use scale handles or specify dimensions.
+**In Laser Ink:** Select workpiece and use scale handles or specify dimensions.
 
 ---
 
@@ -324,7 +324,7 @@ Usable area: 290mm (300 - 5 - 5)
 - Switch between them with G-code commands
 - Run same job at different locations
 
-**Rayforge support:** Limited. Primarily uses G54 (default). Advanced users can inject other coordinate systems via macros.
+**Laser Ink support:** Limited. Primarily uses G54 (default). Advanced users can inject other coordinate systems via macros.
 
 ---
 
@@ -338,7 +338,7 @@ Usable area: 290mm (300 - 5 - 5)
   G92 X0 Y0  ; Define current position as (0,0)
   ```
 
-**Caution:** Offsets can be confusing and lead to positioning errors. Rayforge avoids them in favor of explicit absolute positioning.
+**Caution:** Offsets can be confusing and lead to positioning errors. Laser Ink avoids them in favor of explicit absolute positioning.
 
 ---
 
@@ -376,7 +376,7 @@ Usable area: 290mm (300 - 5 - 5)
 6. **Set job origin** to absolute
 7. **Frame and run**
 
-**Shortcut:** Rayforge has alignment tools - select logo and use "Align Center" commands.
+**Shortcut:** Laser Ink has alignment tools - select logo and use "Align Center" commands.
 
 ---
 
@@ -394,7 +394,7 @@ Usable area: 290mm (300 - 5 - 5)
 
 **Alternative (camera-based):**
 1. **Use camera** to see material
-2. **Align design** visually in Rayforge
+2. **Align design** visually in Laser Ink
 3. **Set job origin** based on camera reference
 4. **Run job**
 
@@ -500,3 +500,4 @@ G0 X70 Y10
 - [GRBL Settings](../machine/grbl-settings.md) - Firmware coordinate settings
 - [Exporting G-code](../files/exporting.md) - Job positioning options
 - [Understanding Operations](understanding-operations.md) - How operations use coordinates
+

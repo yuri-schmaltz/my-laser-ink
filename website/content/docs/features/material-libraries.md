@@ -1,6 +1,6 @@
 # Managing Material Libraries
 
-Material libraries in Rayforge allow you to organize and manage collections
+Material libraries in Laser Ink allow you to organize and manage collections
 of materials for your laser cutting and engraving projects. This guide
 explains the difference between core and user libraries, and how to create
 your own libraries and add materials to them.
@@ -68,3 +68,4 @@ not affect the laser path in any way.
 
 !!! warning
     Deleting a material is permanent and cannot be undone.
+
