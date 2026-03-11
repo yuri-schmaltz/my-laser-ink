@@ -397,14 +397,29 @@ class SmoothieDriver(Driver):
                 self.state_changed.send(self, state=self.state)
 
     async def read_settings(self) -> None:
-        raise NotImplementedError(
-            "Device settings not implemented for this driver"
+        """
+        Reading device settings is not supported for Smoothieware.
+        Smoothie does not provide a reliable method to query all
+        settings over Telnet protocol.
+        """
+        msg = (
+            "Device settings are not available for Smoothieware. "
+            "Use the web interface to configure parameters."
         )
+        logger.warning(msg)
+        raise NotImplementedError(msg)
 
     async def write_setting(self, key: str, value: Any) -> None:
-        raise NotImplementedError(
-            "Device settings not implemented for this driver"
+        """
+        Writing device settings is not supported for Smoothieware.
+        Settings must be configured via the device's web interface.
+        """
+        msg = (
+            f"Setting '{key}' cannot be written via this interface. "
+            "Use the device's web interface to configure parameters."
         )
+        logger.warning(msg)
+        raise NotImplementedError(msg)
 
     async def set_wcs_offset(
         self, wcs_slot: str, x: float, y: float, z: float
@@ -419,22 +434,34 @@ class SmoothieDriver(Driver):
         await self._send_and_wait(cmd.encode("utf-8"))
 
     async def read_wcs_offsets(self) -> Dict[str, Pos]:
-        """Reading all WCS offsets is not supported by Smoothie."""
-        raise NotImplementedError(
-            "Reading all WCS offsets is not reliably supported "
-            "by Smoothieware."
+        """
+        Reading WCS offsets via Telnet is not reliably supported.
+        Returns empty dict and logs a warning.
+        For Smoothieware, use the web interface to manage offsets.
+        """
+        msg = (
+            "Reading WCS offsets is not reliably supported "
+            "via Telnet. Use the device web interface or "
+            "set offsets manually."
         )
+        logger.warning(msg)
+        return {}
 
     async def run_probe_cycle(
         self, axis: Axis, max_travel: float, feed_rate: int
     ) -> Optional[Pos]:
         """
-        Probing is not implemented due to difficulty in reliably capturing
-        real-time probe position feedback over the standard Telnet protocol.
+        Probing is not supported via Telnet connection.
+        Real-time probe feedback cannot be reliably captured over
+        the standard Telnet protocol due to latency and buffering.
         """
-        raise NotImplementedError(
-            "Probing is not implemented for the Smoothie driver via Telnet."
+        msg = (
+            "Probing is not supported via Telnet. "
+            "Use the device's native interface or a direct serial "
+            "connection for probe operations."
         )
+        logger.error(msg)
+        raise NotImplementedError(msg)
 
     def can_g0_with_speed(self) -> bool:
         """Smoothie supports speed parameter in G0 commands."""

@@ -1,6 +1,7 @@
 import asyncio
 import logging
-from typing import List, Optional, Tuple
+from typing import List, Optional, Tuple, Deque
+from collections import deque
 from .interfaces import ISpooler, IConnection, TransportStatus
 
 logger = logging.getLogger(__name__)
@@ -11,15 +12,15 @@ class GCodeSpooler(ISpooler):
     Implements 'Character Counting' flow control (common in GRBL).
     """
     
-    RX_BUFFER_SIZE = 127 # GRBL 1.1 max buffer is 127/128 depending on config
+    RX_BUFFER_SIZE = 127
 
     def __init__(self, connection: IConnection):
         self.connection = connection
-        # Queue for run_command (sequences that expect a response like 'ok')
-        self._command_queue: asyncio.Queue[Tuple[str, asyncio.Future]] = asyncio.Queue()
+        self._command_queue: asyncio.Queue[Tuple[str, asyncio.Future]] = (
+            asyncio.Queue()
+        )
         
-        # State for streaming
-        self._sent_lines: asyncio.Queue[int] = asyncio.Queue() # Stores lengths of sent lines
+        self._sent_lines: asyncio.Queue[int] = asyncio.Queue()
         self._rx_buffer_count = 0
         self._buffer_has_space = asyncio.Event()
         self._buffer_has_space.set()
@@ -27,12 +28,17 @@ class GCodeSpooler(ISpooler):
         self._is_streaming = False
         self._streaming_task: Optional[asyncio.Task] = None
         
-        self._command_processor_task = asyncio.create_task(self._process_command_queue())
+        self._command_processor_task = asyncio.create_task(
+            self._process_command_queue()
+        )
         
-        # Buffer for incoming data
         self._receive_buffer = b''
         
-        # Hook into connection
+        self._pending_responses: Deque[Tuple[asyncio.Future, List[str]]] = (
+            deque()
+        )
+        self._response_lock = asyncio.Lock()
+        
         self.connection.on_received = self._on_data_received
 
     async def send_command(self, command: str, priority: bool = False) -> List[str]:
@@ -96,72 +102,86 @@ class GCodeSpooler(ISpooler):
 
     async def _process_command_queue(self):
         """
-        Processes non-streaming commands one by one.
-        This is a simplified version. Real world implementations need to pause streaming 
-        to inject these commands if they're not real-time.
-        For now, let's assume Mixed usage is handled carefully.
+        Processes non-streaming commands sequentially.
+        Sent commands are tracked and responses resolve futures.
         """
         while True:
             cmd, future = await self._command_queue.get()
             try:
-                # Naive implementation: Send and wait for 'ok' logic would be here
-                # But since we use a shared connection, the _on_data_received 
-                # needs to know who is waiting for what.
-                # In this simplified spooler, we rely on the fact that GRBL is request-response
-                # except for async status reports.
-                
-                # We need a lock mechanism to not interleave with streaming?
-                # Actually GRBL says: send command, wait for ok.
-                full_cmd = cmd + "\n"
-                await self.connection.send(full_cmd.encode('utf-8'))
-                
-                # Wait for response (handled by on_data logic resolving the future)
-                # This is complex in a generic class.
-                # For this step, I'll focus on the Structure.
-                # I'll implement a basic "wait for buffer" logic in on_data.
-                
-                # To make this robust, we need to track if we are expecting an 'ok' for a command
-                # or for a streamed line.
-                pass
+                async with self._response_lock:
+                    response_lines: List[str] = []
+                    self._pending_responses.append((future, response_lines))
+                    
+                    full_cmd = cmd + "\n"
+                    await self.connection.send(full_cmd.encode('utf-8'))
+                    
+                    while not future.done():
+                        await asyncio.sleep(0.01)
+            except asyncio.CancelledError:
+                if not future.done():
+                    future.cancel()
             except Exception as e:
-                future.set_exception(e)
+                if not future.done():
+                    future.set_exception(e)
             finally:
                 self._command_queue.task_done()
 
     def _on_data_received(self, data: bytes):
         """
-        Parses incoming data. 
-        - If 'ok', decrements buffer count.
-        - If 'error', logs it.
-        - If '<...>', it's status.
+        Parses incoming data and updates buffer/command responses.
+        Handles 'ok', 'error', and status reports.
         """
         self._receive_buffer += data
         
         while b'\n' in self._receive_buffer:
-            line_data, self._receive_buffer = self._receive_buffer.split(b'\n', 1)
+            line_data, self._receive_buffer = (
+                self._receive_buffer.split(b'\n', 1)
+            )
             line = line_data.decode('utf-8', errors='ignore').strip()
             
-            if not line: 
+            if not line:
                 continue
-                
+            
             if line == 'ok':
-                if not self._sent_lines.empty():
-                    # It was a streaming response
-                    sent_len = self._sent_lines.get_nowait()
-                    self._rx_buffer_count -= sent_len
-                    if self._rx_buffer_count < self.RX_BUFFER_SIZE:
-                        self._buffer_has_space.set()
-                # Else: it might be response to manual command?
-                
+                self._handle_ok_response()
             elif line.startswith('error'):
-                logger.error(f"Device error: {line}")
-                # Treat as ok for flow control purpose
-                if not self._sent_lines.empty():
-                    sent_len = self._sent_lines.get_nowait()
-                    self._rx_buffer_count -= sent_len
-                    if self._rx_buffer_count < self.RX_BUFFER_SIZE:
-                        self._buffer_has_space.set()
-
+                self._handle_error_response(line)
             elif line.startswith('<'):
-                # Status report
-                pass
+                self._handle_status_report(line)
+    
+    def _handle_ok_response(self) -> None:
+        """
+        Handles 'ok' response: either for streaming or command.
+        """
+        if self._pending_responses and not self._pending_responses[0][0].done():
+            future, response_lines = self._pending_responses.popleft()
+            response_lines.append('ok')
+            if not future.done():
+                future.set_result(response_lines)
+        elif not self._sent_lines.empty():
+            sent_len = self._sent_lines.get_nowait()
+            self._rx_buffer_count -= sent_len
+            if self._rx_buffer_count < self.RX_BUFFER_SIZE:
+                self._buffer_has_space.set()
+    
+    def _handle_error_response(self, line: str) -> None:
+        """
+        Handles error response: logs and either resolves future or updates buffer.
+        """
+        logger.error(f"Device error: {line}")
+        if self._pending_responses and not self._pending_responses[0][0].done():
+            future, response_lines = self._pending_responses.popleft()
+            response_lines.append(line)
+            if not future.done():
+                future.set_exception(RuntimeError(line))
+        elif not self._sent_lines.empty():
+            sent_len = self._sent_lines.get_nowait()
+            self._rx_buffer_count -= sent_len
+            if self._rx_buffer_count < self.RX_BUFFER_SIZE:
+                self._buffer_has_space.set()
+    
+    def _handle_status_report(self, line: str) -> None:
+        """
+        Handles status report (format: <Idle|Run|Hold|Door|Home|...|...>).
+        Can be emitted asynchronously and should not consume a response.
+        """
