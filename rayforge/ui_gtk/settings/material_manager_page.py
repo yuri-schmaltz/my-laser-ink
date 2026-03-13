@@ -37,6 +37,7 @@ class MaterialManagerPage(Adw.PreferencesPage):
         self.material_list_editor = MaterialListWidget(
             title=_("Materials"),
             description=_("Materials in the selected library."),
+            margin_top=24,
         )
         self.add(self.material_list_editor)
 

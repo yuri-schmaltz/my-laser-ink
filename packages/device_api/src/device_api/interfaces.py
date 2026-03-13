@@ -16,7 +16,7 @@ class IConnection(ABC):
     @property
     @abstractmethod
     def is_connected(self) -> bool:
-        pass
+        ...
         
     @abstractmethod
     async def connect(self) -> None:
@@ -34,7 +34,7 @@ class IConnection(ABC):
     @abstractmethod
     def on_received(self) -> Callable[[bytes], None]:
         """Callback for received data."""
-        pass
+        ...
 
     @on_received.setter
     @abstractmethod
@@ -44,7 +44,7 @@ class IConnection(ABC):
     @property
     @abstractmethod
     def on_status_changed(self) -> Callable[[TransportStatus, Optional[str]], None]:
-        pass
+        ...
 
     @on_status_changed.setter
     @abstractmethod
@@ -67,7 +67,7 @@ class ISpooler(ABC):
         If priority is True, it bypasses the queue (immediate execution).
         Returns the response lines.
         """
-        pass
+        ...
     
     @abstractmethod
     async def stream_gcode(self, gcode: str) -> None:
@@ -77,6 +77,11 @@ class ISpooler(ABC):
     @abstractmethod
     async def cancel(self) -> None:
         """Cancels current operations."""
+        pass
+
+    @abstractmethod
+    def resume_job(self) -> None:
+        """Resumes a job that was paused on error or disconnection."""
         pass
 
 

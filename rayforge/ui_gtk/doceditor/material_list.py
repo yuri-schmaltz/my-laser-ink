@@ -44,14 +44,30 @@ class MaterialRow(Gtk.Box):
         color_box.set_valign(Gtk.Align.CENTER)
         color_box.add_css_class("material-color")
         color_provider = Gtk.CssProvider()
-        color_data = (".material-color {{ background-color: {}; }}").format(
-            self.material.get_display_color()
-        )
+        color_data = (
+            ".material-color { "
+            "  border-radius: 50%; "
+            "  border: 1px solid rgba(0,0,0,0.1); "
+            "  background-color: %s; "
+            "}"
+        ) % self.material.get_display_color()
         color_provider.load_from_string(color_data)
         color_box.get_style_context().add_provider(
             color_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
         )
         self.prepend(color_box)
+
+        # Tooltip for easy preview of parameters
+        tooltip = _(
+            "Thickness: {thickness}mm\n"
+            "Speed: {speed}mm/min\n"
+            "Power: {power}%"
+        ).format(
+            thickness=self.material.thickness,
+            speed=self.material.speed,
+            power=self.material.power,
+        )
+        self.set_tooltip_text(tooltip)
 
         labels_box = Gtk.Box(
             orientation=Gtk.Orientation.VERTICAL, spacing=0, hexpand=True
@@ -107,13 +123,26 @@ class MaterialListWidget(PreferencesGroupWithButton):
         super().__init__(button_label=_("Add New Material"), **kwargs)
         self.material_added = Signal()
         self.material_deleted = Signal()
+        self._filter_text = ""
         self._setup_ui()
         self._current_library: Optional[MaterialLibrary] = None
 
     def _setup_ui(self):
         """Configures the widget's list box and placeholder."""
+        container = self.get_first_child()
+        if isinstance(container, Gtk.Box):
+            self.search_entry = Gtk.SearchEntry(
+                placeholder_text=_("Search materials..."),
+                margin_start=12,
+                margin_end=12,
+                margin_top=8,
+                margin_bottom=0,
+            )
+            container.prepend(self.search_entry)
+            self.search_entry.connect("search-changed", self._on_search_changed)
+
         placeholder = Gtk.Label(
-            label=_("No materials in selected library."),
+            label=_("No materials found."),
             halign=Gtk.Align.CENTER,
             margin_top=12,
             margin_bottom=12,
@@ -121,6 +150,18 @@ class MaterialListWidget(PreferencesGroupWithButton):
         placeholder.add_css_class("dim-label")
         self.list_box.set_placeholder(placeholder)
         self.list_box.set_show_separators(True)
+        self.list_box.connect("row-activated", self._on_row_activated)
+
+    def _on_search_changed(self, entry: Gtk.SearchEntry):
+        """Update filter text and refresh list."""
+        self._filter_text = entry.get_text().lower().strip()
+        self._populate_materials()
+
+    def _on_row_activated(self, listbox: Gtk.ListBox, row: Gtk.ListBoxRow):
+        """Handle double-click (or Enter) to edit material."""
+        child = row.get_child()
+        if isinstance(child, MaterialRow):
+            self._on_edit_material(child.material)
 
     def set_library(self, library: Optional[MaterialLibrary]):
         """Set the current library and update the materials list."""
@@ -143,6 +184,15 @@ class MaterialListWidget(PreferencesGroupWithButton):
         materials = sorted(
             self._current_library.get_all_materials(), key=lambda m: m.name
         )
+
+        if self._filter_text:
+            materials = [
+                m
+                for m in materials
+                if self._filter_text in m.name.lower()
+                or self._filter_text in m.category.lower()
+            ]
+
         self.set_items(materials)
 
     def create_row_widget(self, item: Material) -> Gtk.Widget:

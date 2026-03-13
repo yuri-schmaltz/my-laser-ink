@@ -198,7 +198,8 @@ def create_depth_engrave_step(
     return step
 
 
-def create_raster_step(
+def create_shrinkwrap_step(
+    context: RayforgeContext, name: Optional[str] = None
 ) -> Step:
     """Factory to create and configure a Shrinkwrap (concave hull) step."""
     machine = context.machine

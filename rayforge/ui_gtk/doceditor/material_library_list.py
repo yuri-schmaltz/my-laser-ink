@@ -39,6 +39,16 @@ class LibraryRow(Gtk.Box):
         self.set_margin_start(12)
         self.set_margin_end(6)
 
+        icon_name = (
+            "material-symbolic"
+            if self.library.source == "core"
+            else "folder-symbolic"
+        )
+        icon = get_icon(icon_name)
+        icon.set_margin_start(6)
+        icon.set_valign(Gtk.Align.CENTER)
+        self.prepend(icon)
+
         labels_box = Gtk.Box(
             orientation=Gtk.Orientation.VERTICAL, spacing=0, hexpand=True
         )

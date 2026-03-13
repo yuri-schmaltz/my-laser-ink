@@ -19,7 +19,11 @@ class MultiPassTransformer(OpsTransformer):
     """
 
     def __init__(
-        self, enabled: bool = True, passes: int = 1, z_step_down: float = 0.0
+        self,
+        enabled: bool = True,
+        passes: int = 1,
+        z_step_down: float = 0.0,
+        finish_object_first: bool = False,
     ):
         """
         Initializes the MultiPassTransformer.
@@ -33,10 +37,12 @@ class MultiPassTransformer(OpsTransformer):
         super().__init__(enabled=enabled)
         self._passes: int = 1
         self._z_step_down: float = 0.0
+        self._finish_object_first: bool = False
 
         # Use property setters to ensure validation logic is applied
         self.passes = passes
         self.z_step_down = z_step_down
+        self.finish_object_first = finish_object_first
 
     @property
     def execution_phase(self) -> ExecutionPhase:
@@ -70,6 +76,22 @@ class MultiPassTransformer(OpsTransformer):
             self.changed.send(self)
 
     @property
+    def finish_object_first(self) -> bool:
+        """
+        Whether to finish all passes for each object before moving to
+        the next.
+        """
+        return self._finish_object_first
+
+    @finish_object_first.setter
+    def finish_object_first(self, value: bool):
+        """Sets the finish_object_first mode."""
+        new_value = bool(value)
+        if self._finish_object_first != new_value:
+            self._finish_object_first = new_value
+            self.changed.send(self)
+
+    @property
     def label(self) -> str:
         return _("Multi-Pass")
 
@@ -100,6 +122,13 @@ class MultiPassTransformer(OpsTransformer):
         if ops.is_empty():
             return
 
+        if self._finish_object_first:
+            self._run_optimized(ops)
+        else:
+            self._run_global(ops)
+
+    def _run_global(self, ops: Ops) -> None:
+        """Repeats the entire sequence of operations multiple times."""
         # Make a pristine copy of the original commands for subsequent passes.
         original_ops = ops.copy()
 
@@ -116,12 +145,43 @@ class MultiPassTransformer(OpsTransformer):
 
             ops.extend(pass_ops)
 
+    def _run_optimized(self, ops: Ops) -> None:
+        """
+        Repeats each object/segment multiple times before moving to the next.
+        """
+        # 1. Break down into segments (contours)
+        segments = list(ops.segments())
+        if not segments:
+            return
+
+        # 2. Reconstruct Ops with repeated segments
+        new_ops = Ops()
+        for segment in segments:
+            # Create a localized Ops container for this segment
+            seg_ops = Ops()
+            seg_ops.commands = segment
+
+            # Add the first pass
+            new_ops.extend(seg_ops)
+
+            # Add subsequent passes for THIS segment
+            for i in range(1, self.passes):
+                pass_ops = seg_ops.copy()
+                if self._z_step_down != 0.0:
+                    z_offset = i * self._z_step_down
+                    pass_ops.translate(0, 0, -abs(z_offset))
+                new_ops.extend(pass_ops)
+
+        # 3. Update original ops in-place
+        ops.commands = new_ops.commands
+
     def to_dict(self) -> Dict[str, Any]:
         """Serializes the transformer's configuration to a dictionary."""
         return {
             **super().to_dict(),
             "passes": self.passes,
             "z_step_down": self.z_step_down,
+            "finish_object_first": self.finish_object_first,
         }
 
     @classmethod
@@ -136,4 +196,5 @@ class MultiPassTransformer(OpsTransformer):
             enabled=data.get("enabled", True),
             passes=data.get("passes", 1),
             z_step_down=data.get("z_step_down", 0.0),
+            finish_object_first=data.get("finish_object_first", False),
         )

@@ -62,6 +62,17 @@ class MultiPassSettingsWidget(DebounceMixin, StepComponentSettingsWidget):
         z_step_adj.set_value(transformer.z_step_down)
         self.add(z_step_row)
 
+        # Finish Object First toggle
+        self.optimize_row = Adw.SwitchRow(
+            title=_("Finish Objects First"),
+            subtitle=_(
+                "Completes all passes for each object before moving to "
+                "the next. Better for thick materials."
+            ),
+        )
+        self.optimize_row.set_active(transformer.finish_object_first)
+        self.add(self.optimize_row)
+
         # Connect signals with debouncing
         passes_row.connect(
             "changed",
@@ -70,6 +81,10 @@ class MultiPassSettingsWidget(DebounceMixin, StepComponentSettingsWidget):
         z_step_row.connect(
             "changed",
             lambda r: self._debounce(self._on_z_step_down_changed, r),
+        )
+        self.optimize_row.connect(
+            "notify::active",
+            lambda r, _: self._on_optimized_changed(r),
         )
 
         # Set initial sensitivity
@@ -100,6 +115,20 @@ class MultiPassSettingsWidget(DebounceMixin, StepComponentSettingsWidget):
             key="z_step_down",
             new_value=new_value,
             name=_("Change Z Step-Down"),
+            on_change_callback=self.step.per_step_transformer_changed.send,
+        )
+        self.history_manager.execute(command)
+
+    def _on_optimized_changed(self, switch_row):
+        new_value = switch_row.get_active()
+        if new_value == self.target_dict.get("finish_object_first"):
+            return
+
+        command = DictItemCommand(
+            target_dict=self.target_dict,
+            key="finish_object_first",
+            new_value=new_value,
+            name=_("Toggle finish object first"),
             on_change_callback=self.step.per_step_transformer_changed.send,
         )
         self.history_manager.execute(command)

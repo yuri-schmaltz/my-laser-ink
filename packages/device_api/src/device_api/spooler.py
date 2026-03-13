@@ -26,6 +26,7 @@ class GCodeSpooler(ISpooler):
         self._buffer_has_space.set()
         
         self._is_streaming = False
+        self._is_paused_on_error = False
         self._streaming_task: Optional[asyncio.Task] = None
         
         self._command_processor_task = asyncio.create_task(
@@ -40,6 +41,7 @@ class GCodeSpooler(ISpooler):
         self._response_lock = asyncio.Lock()
         
         self.connection.on_received = self._on_data_received
+        self.connection.on_status_changed = self._on_connection_status_changed
 
     async def send_command(self, command: str, priority: bool = False) -> List[str]:
         """
@@ -79,26 +81,62 @@ class GCodeSpooler(ISpooler):
             
             cmd = line + "\n"
             cmd_len = len(cmd)
+            logger.debug(f"Streaming line: {line.strip()} (len: {cmd_len})")
             
-            # Wait for space
-            while self._rx_buffer_count + cmd_len > self.RX_BUFFER_SIZE:
-                self._buffer_has_space.clear()
-                await self._buffer_has_space.wait()
+            # Wait for space or pause
+            await self._wait_for_space(cmd_len)
             
+            # Re-check if we are still streaming/not paused after wait
+            if not self._is_streaming and not self._is_paused_on_error:
+                logger.debug("Breaking stream loop: not streaming and not paused")
+                break
+
             # Send
             await self.connection.send(cmd.encode('utf-8'))
             self._rx_buffer_count += cmd_len
             await self._sent_lines.put(cmd_len)
 
+            # Check if we should pause immediately (race condition mitigation)
+            if self._is_paused_on_error:
+                logger.debug("Pausing stream_gcode immediately after sending command")
+                await self._wait_for_space(0)
+
     async def cancel(self) -> None:
         """Soft reset."""
         # Send Ctrl-x (0x18)
-        await self.connection.send(b'\x18')
+        try:
+            await self.connection.send(b'\x18')
+        except Exception:
+            logger.warning("Failed to send cancel command (not connected?)")
+        
         # Clear internal state
         self._rx_buffer_count = 0
         while not self._sent_lines.empty():
             self._sent_lines.get_nowait()
         self._buffer_has_space.set()
+        self._is_paused_on_error = False
+        self._is_streaming = False
+
+    def resume_job(self) -> None:
+        """Resumes a job that was paused on error or disconnection."""
+        if not self._is_paused_on_error:
+            logger.warning("resume_job called but not in paused-on-error state.")
+            return
+        
+        if not self.connection.is_connected:
+            logger.error("Cannot resume job: not connected.")
+            return
+
+        logger.info("Resuming job.")
+        self._is_paused_on_error = False
+        self._is_streaming = True
+        self._buffer_has_space.set()
+
+    async def _wait_for_space(self, cmd_len: int) -> None:
+        """Waits until there is enough space in the RX buffer AND we are not paused on error."""
+        while (self._rx_buffer_count + cmd_len > self.RX_BUFFER_SIZE or self._is_paused_on_error) and (self._is_streaming or self._is_paused_on_error):
+            self._buffer_has_space.clear()
+            await self._buffer_has_space.wait()
 
     async def _process_command_queue(self):
         """
@@ -185,3 +223,19 @@ class GCodeSpooler(ISpooler):
         Handles status report (format: <Idle|Run|Hold|Door|Home|...|...>).
         Can be emitted asynchronously and should not consume a response.
         """
+        pass
+
+    def _on_connection_status_changed(
+        self, status: TransportStatus, message: Optional[str] = None
+    ) -> None:
+        """
+        Handles connection status changes.
+        """
+        if status == TransportStatus.ERROR or status == TransportStatus.DISCONNECTED:
+            if self._is_streaming:
+                logger.error(f"Connection lost while streaming: {message}")
+                self._is_streaming = False
+                self._is_paused_on_error = True
+                # We don't clear _sent_lines here, because we want to be able to resume.
+                # However, since we don't know for sure if the last commands were received,
+                # the resume logic will need to be careful.
