@@ -5,7 +5,7 @@ import logging
 with warnings.catch_warnings():
     warnings.simplefilter("ignore", DeprecationWarning)
     try:
-        import pyvips
+        from rayforge.core.pyvips_safe import pyvips
     except ImportError:
         raise ImportError("The BMP importer requires the pyvips library.")
 
@@ -51,6 +51,9 @@ class BmpImporter(Importer):
         height_mm = float(height) * (25.4 / dpi_y)
 
         try:
+            if not pyvips:
+                logger.error("pyvips library not available.")
+                return None
             # Step 2: Create a clean pyvips image from the RGBA buffer.
             image = pyvips.Image.new_from_memory(
                 rgba_bytes, width, height, 4, "uchar"
@@ -61,7 +64,7 @@ class BmpImporter(Importer):
                 xres=dpi_x / 25.4,  # px/mm
                 yres=dpi_y / 25.4,
             )
-        except pyvips.Error as e:
+        except (pyvips.Error if pyvips else Exception) as e:
             logger.error(
                 "Failed to create pyvips image from parsed BMP data: %s", e
             )

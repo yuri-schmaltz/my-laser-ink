@@ -74,7 +74,7 @@ def get_dependency_info() -> dict:
         pass
 
     try:
-        import pyvips
+        from rayforge.core.pyvips_safe import pyvips
 
         pyvips_ver = _get_version("pyvips")
         graphics_deps.append(("pyvips", pyvips_ver))

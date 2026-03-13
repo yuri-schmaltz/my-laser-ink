@@ -6,6 +6,7 @@ from enum import Enum
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, Dict, List, Optional, Tuple, Type
 
+import gettext
 import numpy as np
 import yaml
 from blinker import Signal
@@ -31,6 +32,8 @@ from ..driver.dummy import NoDeviceDriver
 from ..transport import TransportStatus
 from .dialect import GcodeDialect, get_dialect
 from .laser import Laser
+
+_ = gettext.gettext
 from .machine_hours import MachineHours
 from .macro import Macro, MacroTrigger
 
@@ -139,6 +142,7 @@ class Machine:
         self.job_finished = Signal()
         self.command_status_changed = Signal()
         self.wcs_updated = Signal()
+        self.received = Signal()
 
         self._connect_driver_signals()
         self.add_head(Laser())
@@ -214,6 +218,7 @@ class Machine:
         )
         self.driver.job_finished.connect(self._on_driver_job_finished)
         self.driver.wcs_updated.connect(self._on_driver_wcs_updated)
+        self.driver.received.connect(self._on_driver_received)
         self._on_driver_state_changed(self.driver, self.driver.state)
         self._reset_status()
 
@@ -229,6 +234,7 @@ class Machine:
         )
         self.driver.job_finished.disconnect(self._on_driver_job_finished)
         self.driver.wcs_updated.disconnect(self._on_driver_wcs_updated)
+        self.driver.received.disconnect(self._on_driver_received)
 
     def _on_dialects_changed(self, sender=None, **kwargs):
         """
@@ -357,8 +363,9 @@ class Machine:
         """Updates internal WCS state from driver updates."""
         self.wcs_offsets.update(offsets)
         self._scheduler(self.wcs_updated.send, self)
-        # Also notify general change so views update
-        self._scheduler(self.changed.send, self)
+    def _on_driver_received(self, driver: Driver, data: bytes):
+        """Proxies raw data received signal from the active driver."""
+        self._scheduler(self.received.send, self, data=data)
 
     def is_connected(self) -> bool:
         """

@@ -3,7 +3,7 @@ import logging
 import math
 from typing import TYPE_CHECKING, Any, Dict, List, Optional, Tuple
 
-from .base import OpsProducer, ExecutionPhase
+from .base import OpsProducer
 from ...core.geo.constants import (
     CMD_TYPE_MOVE,
     CMD_TYPE_LINE,

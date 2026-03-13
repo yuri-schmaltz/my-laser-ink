@@ -1,13 +1,16 @@
 import logging
 import asyncio
-from typing import Any, List, Optional, Dict, Union, Callable, Awaitable
+from typing import Any, List, Optional, Dict, Union, Callable, Awaitable, TYPE_CHECKING
 from ...context import RayforgeContext
 from ...core.ops import Ops
 from ...core.doc import Doc
 from ...core.varset import VarSet, Var, ChoiceVar, IntVar
-from ..models.machine import Machine, Axis
-from ..models.laser import Laser
-from .driver import Driver, DriverSetupError, DeviceState, DeviceStatus, TransportStatus
+from .driver import Driver, DriverSetupError, DeviceState, DeviceStatus, Axis
+from ..transport import TransportStatus
+
+if TYPE_CHECKING:
+    from ..models.machine import Machine
+    from ..models.laser import Laser
 
 try:
     from meerk40t.kernel import Kernel
@@ -29,7 +32,7 @@ class Meerk40tAdapter(Driver):
     supports_settings = True
     reports_granular_progress = True
 
-    def __init__(self, context: RayforgeContext, machine: Machine):
+    def __init__(self, context: RayforgeContext, machine: "Machine"):
         super().__init__(context, machine)
         self.kernel: Optional[Kernel] = None
         self.device_path: str = "0" # MeerK40t uses paths like '0', '1' for devices
@@ -192,13 +195,13 @@ class Meerk40tAdapter(Driver):
     async def cancel(self) -> None:
         await self.run_raw("estop")
 
-    async def home(self, axes: Optional[Axis] = None) -> None:
+    async def home(self, axes: Optional["Axis"] = None) -> None:
         await self.run_raw("home")
 
     async def move_to(self, pos_x: float, pos_y: float) -> None:
         await self.run_raw(f"move {pos_x}mm {pos_y}mm")
 
-    async def jog(self, axis: Axis, distance: float, speed: int) -> None:
+    async def jog(self, axis: "Axis", distance: float, speed: int) -> None:
         # Simple jog implementation via console
         axis_name = "x" if axis & Axis.X else "y" if axis & Axis.Y else "z"
         await self.run_raw(f"jog {axis_name} {distance}mm")

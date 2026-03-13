@@ -5,7 +5,7 @@ from .parser import parse_bmp
 
 with warnings.catch_warnings():
     warnings.simplefilter("ignore", DeprecationWarning)
-    import pyvips
+    from rayforge.core.pyvips_safe import pyvips
 if TYPE_CHECKING:
     pass
 
@@ -19,8 +19,8 @@ class BmpRenderer(Renderer):
         width: int,
         height: int,
         **kwargs,
-    ) -> Optional[pyvips.Image]:
-        if not data:
+    ) -> Optional["pyvips.Image"]:
+        if not data or not pyvips:
             return None
         parsed_data = parse_bmp(data)
         if not parsed_data:

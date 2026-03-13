@@ -4,7 +4,7 @@ import logging
 
 with warnings.catch_warnings():
     warnings.simplefilter("ignore", DeprecationWarning)
-    import pyvips
+    from rayforge.core.pyvips_safe import pyvips
 
 from ...core.source_asset import SourceAsset
 from ...core.vectorization_spec import TraceSpec, VectorizationSpec
@@ -33,6 +33,9 @@ class PngImporter(Importer):
             return None
 
         try:
+            if not pyvips:
+                logger.error("pyvips library not available.")
+                return None
             image = pyvips.Image.pngload_buffer(
                 self.raw_data, access=pyvips.Access.RANDOM
             )
@@ -41,7 +44,7 @@ class PngImporter(Importer):
                 f"{image.width}x{image.height}, "
                 f"{image.bands} bands, format {image.format}"
             )
-        except pyvips.Error as e:
+        except (pyvips.Error if pyvips else Exception) as e:
             logger.error(
                 f"pyvips failed to load PNG buffer: {e}", exc_info=True
             )

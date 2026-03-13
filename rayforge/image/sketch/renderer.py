@@ -13,7 +13,7 @@ from ..base_renderer import Renderer
 
 with warnings.catch_warnings():
     warnings.simplefilter("ignore", DeprecationWarning)
-    import pyvips
+    from rayforge.core.pyvips_safe import pyvips
 
 if TYPE_CHECKING:
     pass
@@ -96,12 +96,15 @@ class SketchRenderer(Renderer):
         width: int,
         height: int,
         **kwargs,
-    ) -> Optional[pyvips.Image]:
+    ) -> Optional["pyvips.Image"]:
         """
         Renders the sketch's vector data to a pyvips Image.
         It expects 'boundaries' (strokes) and optionally 'fills'
         (solid regions) in kwargs, as Geometry objects.
         """
+        if not pyvips:
+            return None
+
         logger.debug(
             f"SketchRenderer.render_base_image called. "
             f"width={width}, height={height}"

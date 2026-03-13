@@ -6,7 +6,7 @@ from .svgutil import filter_svg_layers
 
 with warnings.catch_warnings():
     warnings.simplefilter("ignore", DeprecationWarning)
-    import pyvips
+    from rayforge.core.pyvips_safe import pyvips
 
 if TYPE_CHECKING:
     pass
@@ -23,7 +23,7 @@ class SvgRenderer(Renderer):
         visible_layer_ids: Optional[List[str]] = None,
         viewbox: Optional[Tuple[float, float, float, float]] = None,
         **kwargs,
-    ) -> Optional[pyvips.Image]:
+    ) -> Optional["pyvips.Image"]:
         """
         Renders raw SVG data to a pyvips Image by setting its pixel dimensions.
         Expects data to be pre-trimmed for content.
@@ -31,7 +31,7 @@ class SvgRenderer(Renderer):
         Can optionally override the viewBox if 'viewbox' is passed
         (x, y, w, h).
         """
-        if not data:
+        if not data or not pyvips:
             return None
 
         render_data = data

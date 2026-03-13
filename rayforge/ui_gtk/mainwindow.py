@@ -1,4 +1,5 @@
 import asyncio
+import gettext
 import os
 import logging
 from concurrent.futures import Future
@@ -61,6 +62,8 @@ from .view_mode_cmd import ViewModeCmd
 
 
 logger = logging.getLogger(__name__)
+
+_ = gettext.gettext
 
 
 css = """

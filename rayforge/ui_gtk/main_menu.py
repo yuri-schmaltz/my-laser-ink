@@ -1,6 +1,9 @@
+import gettext
 from gi.repository import Gio
 from typing import List
 from ..machine.models.macro import Macro
+
+_ = gettext.gettext
 
 
 class MainMenu(Gio.Menu):
@@ -178,13 +181,12 @@ class MainMenu(Gio.Menu):
         job_group.append(_("Clear Alarm"), "win.machine-clear-alarm")
         machine_menu.append_section(None, job_group)
 
-        machine_settings_group.append(
-            _("Macro Editor..."), "win.macro-editor"
-        )
-        machine_settings_group.append(
-            _("Machine Settings"), "win.machine-settings"
-        )
-        machine_menu.append_section(None, machine_settings_group)
+        # Machine settings section (Macro Editor, Machine Settings)
+        mch_settings_node = Gio.Menu()
+        mch_settings_node.append(_("Macro Editor..."), "win.macro-editor")
+        mch_settings_node.append(_("Machine Settings"), "win.machine-settings")
+        machine_menu.append_section(None, mch_settings_node)
+
         self.append_submenu(_("_Machine"), machine_menu)
 
         # Help Menu

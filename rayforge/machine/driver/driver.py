@@ -1,3 +1,4 @@
+import gettext
 import logging
 from abc import ABC, abstractmethod
 from typing import (
@@ -11,6 +12,9 @@ from typing import (
     Awaitable,
     Dict,
 )
+
+_ = gettext.gettext
+
 from blinker import Signal
 from dataclasses import dataclass
 from enum import Enum, auto, IntFlag
@@ -168,6 +172,7 @@ class Driver(ABC):
         self.job_finished = Signal()
         self.probe_status_changed = Signal()
         self.wcs_updated = Signal()
+        self.received = Signal()
         self.did_setup = False
         self.state: DeviceState = DeviceState()
 
@@ -231,7 +236,7 @@ class Driver(ABC):
         Returns a VarSet defining the parameters needed for setup().
         This is used to dynamically generate the user interface.
         """
-        pass
+        raise NotImplementedError()
 
     @abstractmethod
     def get_encoder(self) -> "OpsEncoder":
@@ -247,7 +252,7 @@ class Driver(ABC):
         Returns a VarSet defining the device's settings.
         The VarSet should define the settings but may have empty values.
         """
-        pass
+        raise NotImplementedError()
 
     async def connect(self) -> None:
         """
@@ -485,7 +490,7 @@ class Driver(ABC):
             A dictionary where keys are WCS slot names (e.g., "G54") and
             values are (x, y, z) offset tuples.
         """
-        pass
+        raise NotImplementedError()
 
     @abstractmethod
     async def run_probe_cycle(

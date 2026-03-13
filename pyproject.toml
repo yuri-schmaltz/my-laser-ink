@@ -52,6 +52,11 @@ quote-style = "double"
 stubPath = "typings"
 reportMissingModuleSource = false
 include = ["rayforge", "tests/**/test_*.py"]
+venvPath = "."
+venv = "venv"
+pythonVersion = "3.12"
+extraPaths = ["."]
+typeCheckingMode = "off"
 
 [tool.mypy]
 mypy_path = "stubs"

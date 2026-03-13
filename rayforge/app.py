@@ -6,6 +6,7 @@ import mimetypes
 import argparse
 import sys
 import os
+import rayforge
 import gettext
 import asyncio
 from pathlib import Path
@@ -42,6 +43,7 @@ locale_dir = base_dir / "rayforge" / "locale"
 logging.getLogger().setLevel(logging.DEBUG)
 logger.debug(f"Loading locales from {locale_dir}")
 gettext.install("rayforge", locale_dir)
+_ = gettext.gettext
 
 # --------------------------------------------------------
 # GObject Introspection Repository (gi)
@@ -99,10 +101,12 @@ def main():
             self.win = None
 
         def do_activate(self):
+            logger.debug("App.do_activate called")
             # Import the window here to avoid module-level side-effects
             from rayforge.ui_gtk.mainwindow import MainWindow
 
             self.win = MainWindow(application=self)
+            logger.debug(f"MainWindow created: {self.win}")
 
             if self.args.output or self.args.headless:
                 # Non-interactive path: skip window presentation and
@@ -315,8 +319,7 @@ def main():
 
     # Run application
     app = App(args)
-    exit_code = app.run(None)
-    assert app.win is not None
+    exit_code = app.run(sys.argv)
 
     # ===================================================================
     # SECTION 4: SHUTDOWN SEQUENCE

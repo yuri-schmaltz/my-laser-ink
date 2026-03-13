@@ -5,7 +5,7 @@ import logging
 
 with warnings.catch_warnings():
     warnings.simplefilter("ignore", DeprecationWarning)
-    import pyvips
+    from rayforge.core.pyvips_safe import pyvips
 
 from ..util import parse_length, to_mm
 
@@ -44,6 +44,8 @@ def _get_margins_from_data(
         return 0.0, 0.0, 0.0, 0.0
 
     try:
+        if not pyvips:
+            return 0.0, 0.0, 0.0, 0.0
         root = ET.fromstring(data)
 
         # 1. Get original dimensions to determine aspect ratio.

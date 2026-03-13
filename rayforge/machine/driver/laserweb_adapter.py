@@ -1,13 +1,16 @@
 import logging
 import asyncio
-from typing import Any, List, Optional, Dict, Union, Callable, Awaitable
+from typing import Any, List, Optional, Dict, Union, Callable, Awaitable, TYPE_CHECKING
 from ...context import RayforgeContext
 from ...core.ops import Ops
 from ...core.doc import Doc
 from ...core.varset import VarSet, HostnameVar
-from ..models.machine import Machine, Axis
-from ..models.laser import Laser
-from .driver import Driver, DriverSetupError, DeviceState, DeviceStatus, TransportStatus
+from .driver import Driver, DriverSetupError, DeviceState, DeviceStatus, Axis
+from ..transport import TransportStatus
+
+if TYPE_CHECKING:
+    from ..models.machine import Machine
+    from ..models.laser import Laser
 from ..transport.laserweb import LaserWebTransport
 
 logger = logging.getLogger(__name__)
@@ -21,7 +24,7 @@ class LaserWebAdapter(Driver):
     supports_settings = False # Let LaserWeb handle machine settings
     reports_granular_progress = True
 
-    def __init__(self, context: RayforgeContext, machine: Machine):
+    def __init__(self, context: RayforgeContext, machine: "Machine"):
         super().__init__(context, machine)
         self.transport: Optional[LaserWebTransport] = None
         
@@ -99,13 +102,13 @@ class LaserWebAdapter(Driver):
         if self.transport:
             await self.transport.send_command("abort")
 
-    async def home(self, axes: Optional[Axis] = None) -> None:
+    async def home(self, axes: Optional["Axis"] = None) -> None:
         await self.run_raw("$H")
 
     async def move_to(self, pos_x: float, pos_y: float) -> None:
         await self.run_raw(f"G0 X{pos_x} Y{pos_y}")
 
-    async def jog(self, axis: Axis, distance: float, speed: int) -> None:
+    async def jog(self, axis: "Axis", distance: float, speed: int) -> None:
         axis_str = "X" if axis & Axis.X else "Y" if axis & Axis.Y else "Z"
         if self.transport:
              await self.transport.jog(axis_str, distance, speed)

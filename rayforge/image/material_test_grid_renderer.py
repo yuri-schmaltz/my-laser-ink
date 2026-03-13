@@ -15,7 +15,7 @@ import warnings
 
 with warnings.catch_warnings():
     warnings.simplefilter("ignore", DeprecationWarning)
-    import pyvips
+    from rayforge.core.pyvips_safe import pyvips
 
 if TYPE_CHECKING:
     pass
@@ -112,9 +112,9 @@ class MaterialTestRenderer(Renderer):
         width: int,
         height: int,
         **kwargs,
-    ) -> Optional[pyvips.Image]:
+    ) -> Optional["pyvips.Image"]:
         params = self._get_params_from_data(data)
-        if not params:
+        if not params or not pyvips:
             return None
 
         surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, width, height)

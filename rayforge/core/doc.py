@@ -8,6 +8,7 @@ from .item import DocItem
 from .layer import Layer
 from .source_asset import SourceAsset
 from .workpiece import WorkPiece
+from .asset import IAsset
 
 if TYPE_CHECKING:
     from .sketcher.sketch import Sketch

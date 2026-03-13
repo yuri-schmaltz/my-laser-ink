@@ -8,7 +8,7 @@ import warnings
 
 with warnings.catch_warnings():
     warnings.simplefilter("ignore", DeprecationWarning)
-    import pyvips
+    from rayforge.core.pyvips_safe import pyvips
 
 if TYPE_CHECKING:
     pass
@@ -66,7 +66,10 @@ class ProceduralRenderer(Renderer):
         width: int,
         height: int,
         **kwargs,
-    ) -> Optional[pyvips.Image]:
+    ) -> Optional["pyvips.Image"]:
+        if not pyvips:
+            return None
+
         _, params, draw_func = self._get_recipe_and_func_internal(
             data, "drawing_function_path"
         )

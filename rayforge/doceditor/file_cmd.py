@@ -18,7 +18,7 @@ from typing import (
 
 with warnings.catch_warnings():
     warnings.simplefilter("ignore", DeprecationWarning)
-    import pyvips
+    from rayforge.core.pyvips_safe import pyvips
 
 from ..context import get_context
 from ..core.item import DocItem

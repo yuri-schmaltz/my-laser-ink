@@ -2,7 +2,7 @@ from typing import Optional, Tuple, Dict, Any, List, TYPE_CHECKING
 import logging
 import cairo
 import numpy
-import pyvips
+from ..core.pyvips_safe import pyvips
 
 from ..core.source_asset_segment import SourceAssetSegment
 from ..core.item import DocItem
@@ -18,11 +18,11 @@ logger = logging.getLogger(__name__)
 
 
 def resize_and_crop_from_full_image(
-    full_image: pyvips.Image,
+    full_image: "pyvips.Image",
     target_w: int,
     target_h: int,
     crop_window_px: Tuple[float, float, float, float],
-) -> Optional[pyvips.Image]:
+) -> Optional["pyvips.Image"]:
     """
     Scales a full source image up to a high resolution and then crops a
     window from it. This preserves maximum detail in the final cropped image.
@@ -39,7 +39,9 @@ def resize_and_crop_from_full_image(
     """
     crop_x, crop_y, crop_w, crop_h = map(int, crop_window_px)
     if crop_w <= 0 or crop_h <= 0:
-        return pyvips.Image.black(target_w, target_h, bands=4)
+        if pyvips:
+            return pyvips.Image.black(target_w, target_h, bands=4)
+        return None
 
     # 1. Calculate scaling factors to determine how large the full image
     #    needs to be so that the cropped section matches the target size.
@@ -67,8 +69,8 @@ def resize_and_crop_from_full_image(
 
 
 def safe_crop(
-    image: pyvips.Image, x: int, y: int, w: int, h: int
-) -> Optional[pyvips.Image]:
+    image: "pyvips.Image", x: int, y: int, w: int, h: int
+) -> Optional["pyvips.Image"]:
     """
     Crops a pyvips image, safely handling cases where the crop window is
     partially or completely outside the image bounds by calculating the
@@ -91,7 +93,7 @@ def safe_crop(
     return None
 
 
-def extract_vips_metadata(image: pyvips.Image) -> Dict[str, Any]:
+def extract_vips_metadata(image: "pyvips.Image") -> Dict[str, Any]:
     """
     Extracts file-based and content-based metadata from a pyvips Image.
     """
@@ -130,7 +132,7 @@ def extract_vips_metadata(image: pyvips.Image) -> Dict[str, Any]:
     return metadata
 
 
-def get_mm_per_pixel(image: pyvips.Image) -> Tuple[float, float]:
+def get_mm_per_pixel(image: "pyvips.Image") -> Tuple[float, float]:
     """
     Determines mm per pixel from a vips image metadata. Falls back to 96 DPI.
     """
@@ -157,7 +159,7 @@ def get_mm_per_pixel(image: pyvips.Image) -> Tuple[float, float]:
         return (mm_per_inch / dpi), (mm_per_inch / dpi)
 
 
-def get_physical_size_mm(image: pyvips.Image) -> Tuple[float, float]:
+def get_physical_size_mm(image: "pyvips.Image") -> Tuple[float, float]:
     """
     Determines the physical size of a vips image in mm.
     """
@@ -167,7 +169,7 @@ def get_physical_size_mm(image: pyvips.Image) -> Tuple[float, float]:
     return width_mm, height_mm
 
 
-def normalize_to_rgba(image: pyvips.Image) -> Optional[pyvips.Image]:
+def normalize_to_rgba(image: "pyvips.Image") -> Optional["pyvips.Image"]:
     """
     Normalizes a pyvips image to a 4-band, 8-bit sRGB format (uchar RGBA).
     """
@@ -189,7 +191,7 @@ def normalize_to_rgba(image: pyvips.Image) -> Optional[pyvips.Image]:
         return None
 
 
-def vips_rgba_to_cairo_surface(image: pyvips.Image) -> cairo.ImageSurface:
+def vips_rgba_to_cairo_surface(image: "pyvips.Image") -> cairo.ImageSurface:
     """
     Converts a 4-band RGBA pyvips image to a Cairo ARGB32 ImageSurface.
     """
@@ -225,8 +227,10 @@ def vips_rgba_to_cairo_surface(image: pyvips.Image) -> cairo.ImageSurface:
 
 def _render_geometry_to_vips_mask(
     geometry: Geometry, width: int, height: int
-) -> pyvips.Image:
+) -> Optional["pyvips.Image"]:
     """Renders a Geometry object to a single-band 8-bit vips mask image."""
+    if not pyvips:
+        return None
     surface = cairo.ImageSurface(cairo.FORMAT_A8, width, height)
     ctx = cairo.Context(surface)
     ctx.set_source_rgba(0, 0, 0, 0)
@@ -256,8 +260,8 @@ def _render_geometry_to_vips_mask(
 
 
 def apply_mask_to_vips_image(
-    full_image: pyvips.Image, mask_geo: Geometry
-) -> Optional[pyvips.Image]:
+    full_image: "pyvips.Image", mask_geo: Geometry
+) -> Optional["pyvips.Image"]:
     """
     Masks a vips image using a geometry mask, making areas outside the
     geometry transparent. Does NOT crop the image.
@@ -281,6 +285,8 @@ def apply_mask_to_vips_image(
     mask_vips = _render_geometry_to_vips_mask(
         scaled_mask, rgba_image.width, rgba_image.height
     )
+    if not mask_vips:
+        return None
 
     # Intersect the mask with the original alpha channel.
     # mask_vips is 255 inside the geometry, 0 outside.
@@ -295,7 +301,7 @@ def apply_mask_to_vips_image(
 def create_single_workpiece_from_trace(
     geometries: List[Geometry],
     source: "SourceAsset",
-    image: pyvips.Image,
+    image: "pyvips.Image",
     vectorization_spec: "TraceSpec",
     name_stem: str,
 ) -> List[DocItem]:

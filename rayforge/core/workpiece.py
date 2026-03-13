@@ -20,13 +20,7 @@ from copy import deepcopy
 import math
 import numpy as np
 logger = logging.getLogger(__name__)
-with warnings.catch_warnings():
-    warnings.simplefilter("ignore", DeprecationWarning)
-    try:
-        import pyvips
-    except ImportError:
-        pyvips = None
-        logger.warning("pyvips library not found; image processing features will be disabled.")
+from .pyvips_safe import pyvips
 
 from ..context import get_context
 from .geo import Geometry
@@ -85,7 +79,7 @@ class WorkPiece(DocItem):
         self._edited_boundaries: Optional[Geometry] = None
 
         # The cache for rendered vips images. Key is (width, height).
-        self._render_cache: Dict[Tuple[int, int], pyvips.Image] = {}
+        self._render_cache: Dict[Tuple[int, int], "pyvips.Image"] = {}
 
         # Transient attributes for deserialized instances in subprocesses
         self._data: Optional[bytes] = None
@@ -777,11 +771,11 @@ class WorkPiece(DocItem):
 
     def _process_rendered_image(
         self,
-        image: pyvips.Image,
+        image: "pyvips.Image",
         crop_rect_hint: Optional[Tuple[int, int, int, int]],
         target_size: Tuple[int, int],
         source_px_dims: Optional[Tuple[int, int]],
-    ) -> Optional[pyvips.Image]:
+    ) -> Optional["pyvips.Image"]:
         """
         Applies post-processing steps: cropping, masking, and final resizing.
         """
@@ -862,7 +856,7 @@ class WorkPiece(DocItem):
 
     def get_vips_image(
         self, width: int, height: int
-    ) -> Optional[pyvips.Image]:
+    ) -> Optional["pyvips.Image"]:
         """
         The central hub for rendering a vips image for this workpiece.
         Orchestrates data retrieval, rendering, cropping, and masking.
@@ -1169,7 +1163,7 @@ class WorkPiece(DocItem):
             )
 
         vips_image = self.get_vips_image(round(width_px), round(height_px))
-        if not vips_image or not isinstance(vips_image, pyvips.Image):
+        if not vips_image or (pyvips and not isinstance(vips_image, pyvips.Image)):
             logger.warning("Failed to load image for chunking.")
             return
 
@@ -1198,7 +1192,7 @@ class WorkPiece(DocItem):
                 if width <= 0 or height <= 0:
                     continue
 
-                chunk: pyvips.Image = vips_image.crop(left, top, width, height)
+                chunk: "pyvips.Image" = vips_image.crop(left, top, width, height)
 
                 normalized_chunk = image_util.normalize_to_rgba(chunk)
                 if not normalized_chunk:

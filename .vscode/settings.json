@@ -1,5 +1,7 @@
 {
-  "python.defaultInterpreterPath": ".pixi/envs/default/bin/python",
+  "python.defaultInterpreterPath": "venv/bin/python",
   "python-envs.defaultEnvManager": "ms-python.python:system",
-  "python-envs.pythonProjects": []
+  "python-envs.pythonProjects": [],
+  "python.analysis.extraPaths": ["."],
+  "python.analysis.typeCheckingMode": "off"
 }

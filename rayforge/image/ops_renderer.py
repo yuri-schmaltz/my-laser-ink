@@ -11,7 +11,7 @@ import warnings
 
 with warnings.catch_warnings():
     warnings.simplefilter("ignore", DeprecationWarning)
-    import pyvips
+    from rayforge.core.pyvips_safe import pyvips
 
 # Cairo has a hard limit on surface dimensions, often 32767.
 # We use a slightly more conservative value to be safe.
@@ -127,11 +127,11 @@ class OpsRenderer(Renderer):
         width: int,
         height: int,
         **kwargs,
-    ) -> Optional[pyvips.Image]:
+    ) -> Optional["pyvips.Image"]:
         boundaries = kwargs.get("boundaries")
-        if not boundaries or boundaries.is_empty():
+        if not boundaries or boundaries.is_empty() or not pyvips:
             logger.warning(
-                "OpsRenderer: No boundaries provided or boundaries are empty."
+                "OpsRenderer: Missing boundaries, empty boundaries, or pyvips missing."
             )
             return None
 

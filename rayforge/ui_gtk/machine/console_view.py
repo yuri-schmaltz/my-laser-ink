@@ -1,5 +1,6 @@
 import logging
 import asyncio
+from typing import Optional
 from gi.repository import Gtk, Adw, Pango, GLib, Gdk
 from ...context import get_context
 from ...machine.models.machine import Machine

@@ -75,24 +75,24 @@ class RasterizerSettingsWidget(DebounceMixin, StepComponentSettingsWidget):
         )
         self.add(self.cross_hatch_row)
 
-            self.grayscale_row = Adw.SwitchRow(
-                title=_("Grayscale Power"),
-                subtitle=_(
-                    "Map pixel brightness to laser S-value instead of on/off"
-                ),
-            )
-            self.grayscale_row.set_active(
-                params.get("power_mode", "threshold") == "grayscale"
-            )
-            self.grayscale_row.connect(
-                "notify::active",
-                lambda w, pspec: self._on_param_changed(
-                    "power_mode",
-                    "grayscale" if w.get_active() else "threshold",
-                    _("Toggle Grayscale Power"),
-                ),
-            )
-            self.add(self.grayscale_row)
+        self.grayscale_row = Adw.SwitchRow(
+            title=_("Grayscale Power"),
+            subtitle=_(
+                "Map pixel brightness to laser S-value instead of on/off"
+            ),
+        )
+        self.grayscale_row.set_active(
+            params.get("power_mode", "threshold") == "grayscale"
+        )
+        self.grayscale_row.connect(
+            "notify::active",
+            lambda w, pspec: self._on_param_changed(
+                "power_mode",
+                "grayscale" if w.get_active() else "threshold",
+                _("Toggle Grayscale Power"),
+            ),
+        )
+        self.add(self.grayscale_row)
 
     def _on_param_changed(self, key: str, new_value: Any, name: str):
         params_dict = self.target_dict.setdefault("params", {})

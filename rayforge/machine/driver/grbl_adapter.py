@@ -1,13 +1,16 @@
 import logging
 import asyncio
-from typing import Any, List, Optional, Dict, Union, Callable, Awaitable
+from typing import Any, List, Optional, Dict, Union, Callable, Awaitable, TYPE_CHECKING
 from ...context import RayforgeContext
 from ...core.ops import Ops
 from ...core.doc import Doc
 from ...core.varset import VarSet, SerialPortVar, Var
-from ..models.machine import Machine, Axis
-from ..models.laser import Laser
-from .driver import Driver, DriverSetupError, DeviceState, DeviceStatus, TransportStatus
+from .driver import Driver, DriverSetupError, DeviceState, DeviceStatus, Axis
+from ..transport import TransportStatus
+
+if TYPE_CHECKING:
+    from ..models.machine import Machine
+    from ..models.laser import Laser
 
 # Try importing the new driver package
 try:
@@ -42,7 +45,7 @@ class GrblAdapter(Driver):
     supports_settings = False
     reports_granular_progress = True
 
-    def __init__(self, context: RayforgeContext, machine: Machine):
+    def __init__(self, context: RayforgeContext, machine: "Machine"):
         super().__init__(context, machine)
         self.device: Optional[GrblDevice] = None
         self.port: Optional[str] = None
@@ -143,7 +146,7 @@ class GrblAdapter(Driver):
          # GRBL Soft Reset
         await self.run_raw("\x18")
 
-    async def home(self, axes: Optional[Axis] = None) -> None:
+    async def home(self, axes: Optional["Axis"] = None) -> None:
         cmd = "$H"
         # If axes specified (e.g. only X), GRBL specific?? 
         # Standard GRBL $H is all axes. 
@@ -153,7 +156,7 @@ class GrblAdapter(Driver):
     async def move_to(self, pos_x: float, pos_y: float) -> None:
         await self.device.move_to(pos_x, pos_y)
 
-    async def jog(self, axis: Axis, distance: float, speed: int) -> None:
+    async def jog(self, axis: "Axis", distance: float, speed: int) -> None:
         # G91 (Relative) -> Move -> G90 (Absolute)
         # Or $J= (Jog command)
         # GRBL 1.1 Standard: $J=G91 X10 F1000
@@ -181,7 +184,7 @@ class GrblAdapter(Driver):
     async def clear_alarm(self) -> None:
         await self.run_raw("$X")
 
-    async def set_power(self, head: Laser, percent: float) -> None:
+    async def set_power(self, head: "Laser", percent: float) -> None:
         s_val = int(percent * 1000) # Assuming S_MAX=1000
         await self.run_raw(f"M3 S{s_val}") # or M4? 
 

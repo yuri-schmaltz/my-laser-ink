@@ -486,9 +486,9 @@ class WorkSurface(WorldSurface):
         if self.machine:
             self.machine.changed.disconnect(self._on_machine_changed)
             self.machine.wcs_updated.disconnect(self._on_wcs_updated)
-                self.machine.state_changed.disconnect(
-                    self._on_machine_state_changed
-                )
+            self.machine.state_changed.disconnect(
+                self._on_machine_state_changed
+            )
 
         # Update the machine reference
         self.machine = machine
@@ -497,28 +497,28 @@ class WorkSurface(WorldSurface):
         if self.machine:
             self.machine.changed.connect(self._on_machine_changed)
             self.machine.wcs_updated.connect(self._on_wcs_updated)
-                self.machine.state_changed.connect(self._on_machine_state_changed)
+            self.machine.state_changed.connect(self._on_machine_state_changed)
             self.reset_view()
             self._on_wcs_updated(self.machine)
-                self._on_machine_state_changed(self.machine)
+            self._on_machine_state_changed(self.machine)
 
         # Synchronize camera elements to match the new machine. This is called
         # after the machine is set (or cleared) to ensure the view is correct.
         self._sync_camera_elements()
 
+    def _on_machine_state_changed(self, machine, **kwargs):
+        """Update the laser-head cursor position from live machine state."""
+        pos = machine.get_current_position()
+        x, y, _ = pos
+        if x is not None and y is not None:
+            self.set_laser_dot_visible(True)
+            self.set_laser_dot_position(x, y)
+        else:
+            self.set_laser_dot_visible(False)
+
     def _on_wcs_updated(self, machine: Machine):
         """Handles updates to the machine's WCS state."""
         offset = machine.get_active_wcs_offset()
-
-        def _on_machine_state_changed(self, machine, **kwargs):
-            """Update the laser-head cursor position from live machine state."""
-            pos = machine.get_current_position()
-            x, y, _ = pos
-            if x is not None and y is not None:
-                self.set_laser_dot_visible(True)
-                self.set_laser_dot_position(x, y)
-            else:
-                self.set_laser_dot_visible(False)
 
         offset_x, offset_y, _ = offset
 
