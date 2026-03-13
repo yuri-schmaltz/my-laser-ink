@@ -1,14 +1,26 @@
 import asyncio
 import logging
 from typing import Optional
-from device_api import IDevice, SerialConnection, GCodeSpooler
+from device_api import IDevice, IConnection, SerialConnection, TCPConnection, GCodeSpooler
 
 logger = logging.getLogger(__name__)
 
 class GrblDevice(IDevice):
-    def __init__(self, port: str):
-        self.connection = SerialConnection(port, 115200)
+    def __init__(self, connection: IConnection):
+        self.connection = connection
         self.spooler = GCodeSpooler(self.connection)
+
+    @classmethod
+    def create_serial(cls, port: str, baudrate: int = 115200) -> "GrblDevice":
+        """Factory method to create a serial-connected GRBL device."""
+        connection = SerialConnection(port, baudrate)
+        return cls(connection)
+
+    @classmethod
+    def create_tcp(cls, host: str, port: int = 8888) -> "GrblDevice":
+        """Factory method to create a network-connected (TCP) GRBL device."""
+        connection = TCPConnection(host, port)
+        return cls(connection)
     
     async def connect(self) -> None:
         await self.connection.connect()
